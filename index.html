@@ -8,6 +8,10 @@
             display: flex;
             justify-content: center;
             align-items: center;
+            background-image: url('graphic/grass.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
             height: 100vh;
             margin: 0;
         }
@@ -29,21 +33,6 @@
     </style>
 </head>
 <body>
-   
-    <canvas id="canvas" style="display:none;"></canvas>
-    <script type="text/javascript">
-    var can = document.getElementById('canvas');
-    var ctx = can.getContext('2d');
-    var img = new Image();
-    img.onload = function()
-    {
-        can.width = screen.width; // pobieramy szerokość ekranu
-        can.height = screen.height;  // pobieramy wysokość ekranu
-        ctx.drawImage(img, 0, 0, can.width, can.height);
-        document.body.style.backgroundImage = 'url('+can.toDataURL('image/jpeg')+')';
-    }
-    img.src = 'graphic/grass.jpg'; // wczytanie grafiki
-    </script>
 
     <div class="icon-container">
         <div class="icon">❤️</div>
