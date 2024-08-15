@@ -19,10 +19,8 @@
             z-index: -1;                 
         }
         .icon-container {
-            display: grid;
-            grid-template-columns: 3fr;
-            grid-auto-rows: auto;
-            gap: 20px 20px;
+            display: flex;
+            gap: 20px;
         }
         .icon {
             width: 100px;
@@ -30,12 +28,14 @@
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
             background-color: #3498db;
             border-radius: 50%;
-            display: flex;
+            display: grid;
+            grid-template-columns: 3fr;
+            grid-auto-rows: auto;
             justify-content: center;
             align-items: center;
             font-size: 24px;
             color: white;
-            z-index: 1;
+            z-index: 1;            
         }
         body {
             display: flex;
