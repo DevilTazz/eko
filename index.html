@@ -10,7 +10,6 @@
             align-items: center;
             height: 100vh;
             margin: 0;
-            background-color: #f0f0f0;
         }
         .icon-container {
             display: flex;
@@ -30,7 +29,7 @@
     </style>
 </head>
 <body>
-    Full screen background image: <br> <img src="graphic/grass.jpg">
+   
     <canvas id="canvas" style="display:none;"></canvas>
     <script type="text/javascript">
     var can = document.getElementById('canvas');
@@ -43,7 +42,7 @@
         ctx.drawImage(img, 0, 0, can.width, can.height);
         document.body.style.backgroundImage = 'url('+can.toDataURL('image/jpeg')+')';
     }
-    img.src = 'graphic/gras.jpg'; // wczytanie grafiki
+    img.src = 'graphic/grass.jpg'; // wczytanie grafiki
     </script>
 
     <div class="icon-container">
