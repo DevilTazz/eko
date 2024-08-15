@@ -30,6 +30,22 @@
     </style>
 </head>
 <body>
+    Full screen background image: <br> <img src="graphic/grass.jpg">
+    <canvas id="canvas" style="display:none;"></canvas>
+    <script type="text/javascript">
+    var can = document.getElementById('canvas');
+    var ctx = can.getContext('2d');
+    var img = new Image();
+    img.onload = function()
+    {
+        can.width = screen.width; // pobieramy szerokość ekranu
+        can.height = screen.height;  // pobieramy wysokość ekranu
+        ctx.drawImage(img, 0, 0, can.width, can.height);
+        document.body.style.backgroundImage = 'url('+can.toDataURL('image/jpeg')+')';
+    }
+    img.src = 'graphic/gras.jpg'; // wczytanie grafiki
+    </script>
+
     <div class="icon-container">
         <div class="icon">❤️</div>
         <div class="icon">📷</div>
