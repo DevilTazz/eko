@@ -110,7 +110,7 @@
         <!-- Dodaj inne ikony -->
     </div>
 
-      <h1>Witamy na stronie!</h1>
+    <h1>Witamy na stronie!</h1>
     <p>Kliknij przycisk, aby otworzyć dymek.</p>
     
     <button id="open-popup-btn">Zobacz info</button>
@@ -126,16 +126,26 @@
 
     <script>
         // Pobieranie elementów
-        const popup = document.getElementById('popup');const openPopupBtn = document.getElementById('open-popup-btn');const closePopupBtn = document.getElementById('close-popup-btn');
+        const popup = document.getElementById('popup');
+        const openPopupBtn = document.getElementById('open-popup-btn');
+        const closePopupBtn = document.getElementById('close-popup-btn');
 
         // Funkcja otwierająca dymek
-        openPopupBtn.addEventListener('click', () => {  popup.classList.remove('hidden');});
+        openPopupBtn.addEventListener('click', () => {  
+            popup.classList.remove('hidden');
+        });
 
         // Funkcja zamykająca dymek
-        closePopupBtn.addEventListener('click', () => {  popup.classList.add('hidden');});
+        closePopupBtn.addEventListener('click', () => {
+            popup.classList.add('hidden');
+        });
 
         // Opcjonalnie: Zamknięcie dymka po kliknięciu poza jego treścią
-         window.addEventListener('click', (event) => {  if (event.target === popup) {    popup.classList.add('hidden');  }});
+         window.addEventListener('click', (event) => {
+             if (event.target === popup) {
+                 popup.classList.add('hidden');
+             }
+         });
     </script>
 </body>
 </html>
