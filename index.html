@@ -4,7 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
-        .hidden { display: none; }
+        .hidden {
+            visibility: hidden;
+            opacity: 0;
+            transition: visibility 0s, opacity 0.5s linear;
+        }
         .popup {
             position: fixed;
             top: 0;
@@ -16,7 +20,13 @@
             justify-content: center;
             align-items: center;
             z-index: 1000;
+            visibility: hidden;
+            opacity: 0;
         } 
+        .popup.show {
+            visibility: visible;
+            opacity: 1;
+        }
         .popup-content {
             background-color: white;
             padding: 20px;
@@ -126,28 +136,27 @@
                 // Funkcja otwierająca dymek
                 openPopupBtn.addEventListener("click", function() {
                     console.log("Otwieranie dymka");
-                    popup.classList.remove("hidden");
+                    popup.classList.add("show");
                 });
 
                 // Funkcja zamykająca dymek
                 closePopupBtn.addEventListener("click", function() {
                     console.log("Zamykanie dymka");
-                    popup.classList.add("hidden");
+                    popup.classList.remove("show");
                 });
 
                 // Opcjonalnie: Zamknięcie dymka po kliknięciu poza jego treścią
                 window.addEventListener("click", function(event) {
                     if (event.target === popup) {
-                    console.log("Kliknięto poza treścią, zamykanie dymka.");
-                    popup.classList.add("hidden");
+                        console.log("Kliknięto poza treścią, zamykanie dymka.");
+                        popup.classList.remove("show");
                 }
             });
             } else {
                 console.error("Jeden z elementów nie został znaleziony.");
             }
 
-            //Wymuszenie ukrycia popupu na starcie (opcjonalnie)
-            //popup.classList.add("hidden");
+          
          });
     </script>
 </body>
