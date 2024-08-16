@@ -125,28 +125,30 @@
      </div>
 
     <script>
-        // Pobieranie elementów
-        const popup = document.getElementById('popup');
-        const openPopupBtn = document.getElementById('open-popup-btn');
-        const closePopupBtn = document.getElementById('close-popup-btn');
+        document.addEventListener("DOMContentLoaded", function(){
+            // Pobieranie elementów
+            const popup = document.getElementById('popup');
+            const openPopupBtn = document.getElementById('open-popup-btn');
+            const closePopupBtn = document.getElementById('close-popup-btn');
+            
+            // Funkcja otwierająca dymek
+            openPopupBtn.addEventListener('click', () => {
+                console.log('Otwieranie dymka');
+                popup.classList.remove('hidden');
+            });
 
-        // Funkcja otwierająca dymek
-        openPopupBtn.addEventListener('click', () => {
-            console.log('Otwieranie dymka');
-            popup.classList.remove('hidden');
-        });
+            // Funkcja zamykająca dymek
+            closePopupBtn.addEventListener('click', () => {
+                console.log('Zamykanie dymka');
+                popup.classList.add('hidden');
+            });
 
-        // Funkcja zamykająca dymek
-        closePopupBtn.addEventListener('click', () => {
-            console.log('Zamykanie dymka');
-            popup.classList.add('hidden');
-        });
-
-        // Opcjonalnie: Zamknięcie dymka po kliknięciu poza jego treścią
-         window.addEventListener('click', (event) => {
-             if (event.target === popup) {
+            // Opcjonalnie: Zamknięcie dymka po kliknięciu poza jego treścią
+            window.addEventListener('click', (event) => {
+                if (event.target === popup) {
                  popup.classList.add('hidden');
-             }
+                }
+            });             
          });
     </script>
 </body>
