@@ -45,10 +45,77 @@
             background-color: #f0f0f0;
             height: 100vh;
         }
+        
+        /* Ukrywanie dymka */
+        .hidden {
+            display: none;
+        }
+        
+        /* Stylowanie dymka */
+        .popup {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5); /* Półprzezroczyste tło */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        
+        /* Stylowanie zawartości dymka */
+        .popup-content {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            width: 300px;
+            text-align: center;
+            position: relative;
+        }
+        
+        /* Przycisk zamykający */
+        .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 24px;
+            cursor: pointer;
+        }
+
     </style>
 </head>
 <body>
     <div class="blur-background"></div>
+    <h1>Witamy na stronie!</h1>
+    <p>Kliknij przycisk, aby otworzyć dymek.</p>
+    
+    <button id="open-popup-btn">Zobacz info</button>
+    
+    <!-- Popup -->
+    <div id="popup" class="popup hidden">
+        <div class="popup-content">
+            <span id="close-popup-btn" class="close-btn">&times;</span>
+            <h2>Witaj w NanoField!</h2>
+            <p>Strona z linkami do aplikacji w Ekosystemie Pi Network</p>
+        </div>
+
+        <script>
+            // Pobieranie elementów
+            const popup = document.getElementById('popup');const openPopupBtn = document.getElementById('open-popup-btn');const closePopupBtn = document.getElementById('close-popup-btn');
+
+            // Funkcja otwierająca dymek
+            openPopupBtn.addEventListener('click', () => {  popup.classList.remove('hidden');});
+
+            // Funkcja zamykająca dymek
+            closePopupBtn.addEventListener('click', () => {  popup.classList.add('hidden');});
+
+            // Opcjonalnie: Zamknięcie dymka po kliknięciu poza jego treścią
+            window.addEventListener('click', (event) => {  if (event.target === popup) {    popup.classList.add('hidden');  }});
+        </script>
+        
+  </div>
     <div class="icon-container">
         <div class="icon"><a href="pi://coinskro.com"><img src="icon/coinskro16x16.png"></a></div>
         <div class="icon">📷</div>
