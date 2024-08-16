@@ -130,6 +130,7 @@
             const popup = document.getElementById('popup');
             const openPopupBtn = document.getElementById('open-popup-btn');
             const closePopupBtn = document.getElementById('close-popup-btn');
+            console.log('DOM wczytany, inicjalizacja skryptu.');
             
             // Funkcja otwierająca dymek
             openPopupBtn.addEventListener('click', () => {
@@ -146,9 +147,13 @@
             // Opcjonalnie: Zamknięcie dymka po kliknięciu poza jego treścią
             window.addEventListener('click', (event) => {
                 if (event.target === popup) {
-                 popup.classList.add('hidden');
+                    console.log('Kliknięto poza dymkiem, zamykanie.');
+                    popup.classList.add('hidden');
                 }
-            });             
+            });
+
+            //Wymuszenie ukrycia popupu na starcie (opcjonalnie)
+            popup.classList.add('hidden');
          });
     </script>
 </body>
