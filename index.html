@@ -127,33 +127,33 @@
     <script>
         document.addEventListener("DOMContentLoaded", function(){
             // Pobieranie elementów
-            const popup = document.getElementById('popup');
-            const openPopupBtn = document.getElementById('open-popup-btn');
-            const closePopupBtn = document.getElementById('close-popup-btn');
-            console.log('DOM wczytany, inicjalizacja skryptu.');
+            const popup = document.getElementById("popup");
+            const openPopupBtn = document.getElementById("open-popup-btn");
+            const closePopupBtn = document.getElementById("close-popup-btn");
+            console.log("DOM wczytany, inicjalizacja skryptu.");
             
             // Funkcja otwierająca dymek
-            openPopupBtn.addEventListener('click', () => {
-                console.log('Otwieranie dymka');
-                popup.classList.remove('hidden');
+            openPopupBtn.addEventListener("click", () => {
+                console.log("Otwieranie dymka");
+                popup.classList.remove("hidden");
             });
 
             // Funkcja zamykająca dymek
-            closePopupBtn.addEventListener('click', () => {
-                console.log('Zamykanie dymka');
-                popup.classList.add('hidden');
+            closePopupBtn.addEventListener("click", () => {
+                console.log("Zamykanie dymka");
+                popup.classList.add("hidden");
             });
 
             // Opcjonalnie: Zamknięcie dymka po kliknięciu poza jego treścią
-            window.addEventListener('click', (event) => {
+            window.addEventListener("click", (event) => {
                 if (event.target === popup) {
-                    console.log('Kliknięto poza dymkiem, zamykanie.');
-                    popup.classList.add('hidden');
+                    console.log("Kliknięto poza dymkiem, zamykanie.");
+                    popup.classList.add("hidden");
                 }
             });
 
             //Wymuszenie ukrycia popupu na starcie (opcjonalnie)
-            popup.classList.add('hidden');
+            popup.classList.add("hidden");
          });
     </script>
 </body>
