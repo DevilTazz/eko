@@ -56,6 +56,9 @@
             opacity: 0.9;
             z-index: -1;                 
         }
+        .opis {
+            height: 100px;
+        }
         .icon-container {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -87,22 +90,25 @@
     </style>
 </head>
 <body>
+    <div class="blur-background"></div>   
 
- <h1>Witamy na stronie!</h1>
-    <p>Kliknij przycisk, aby otworzyć dymek.</p>
+    <div class="opis">
+        <h1>Witamy na stronie!</h1>
+        <p>Kliknij przycisk, aby otworzyć dymek.</p>
     
-    <button id="open-popup-btn">Zobacz info</button>
+        <button id="open-popup-btn">Zobacz info</button>
     
-    <div id="popup" class="popup hidden">
-        <div class="popup-content">
-            <span id="close-popup-btn" class="close-btn">&times;</span>
-            <h2>Witaj w NanoField!</h2>
-            <p>Spisie aplikacji w Ekosystemie Pi Network</p>
-        </div>
-     </div>
+        <div id="popup" class="popup hidden">
+            <div class="popup-content">
+                <span id="close-popup-btn" class="close-btn">&times;</span>
+                <h2>Witaj w NanoField!</h2>
+                <p>Spisie aplikacji w Ekosystemie Pi Network</p>
+            </div>
+         </div>
+    </div>
 
     
-    <div class="blur-background"></div>        
+     
   
     <div class="icon-container">
         <div class="icon"><a href="pi://coinskro.com"><img src="icon/coinskro16x16.png"></a></div>
