@@ -4,20 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
-        .blur-background {
-            background-image: url('graphic/grass.jpg');
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            filter: blur(1px); 
-            opacity: 0.9;
-            z-index: -1;                 
-        }
+        
         /* Ukrywanie dymka */
         .hidden {
             display: none;
@@ -54,6 +41,21 @@
             right: 10px;
             font-size: 24px;
             cursor: pointer;
+        }
+
+        .blur-background {
+            background-image: url('graphic/grass.jpg');
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            filter: blur(1px); 
+            opacity: 0.9;
+            z-index: -1;                 
         }
         .icon-container {
             display: grid;
@@ -99,22 +101,23 @@
             <h2>Witaj w NanoField!</h2>
             <p>Strona z linkami do aplikacji w Ekosystemie Pi Network</p>
         </div>
+     </div>
 
-        <script>
-            // Pobieranie elementów
-            const popup = document.getElementById('popup');const openPopupBtn = document.getElementById('open-popup-btn');const closePopupBtn = document.getElementById('close-popup-btn');
+    <script>
+        // Pobieranie elementów
+        const popup = document.getElementById('popup');const openPopupBtn = document.getElementById('open-popup-btn');const closePopupBtn = document.getElementById('close-popup-btn');
 
-            // Funkcja otwierająca dymek
-            openPopupBtn.addEventListener('click', () => {  popup.classList.remove('hidden');});
+        // Funkcja otwierająca dymek
+        openPopupBtn.addEventListener('click', () => {  popup.classList.remove('hidden');});
 
-            // Funkcja zamykająca dymek
-            closePopupBtn.addEventListener('click', () => {  popup.classList.add('hidden');});
+        // Funkcja zamykająca dymek
+        closePopupBtn.addEventListener('click', () => {  popup.classList.add('hidden');});
 
-            // Opcjonalnie: Zamknięcie dymka po kliknięciu poza jego treścią
-            window.addEventListener('click', (event) => {  if (event.target === popup) {    popup.classList.add('hidden');  }});
-        </script>
+        // Opcjonalnie: Zamknięcie dymka po kliknięciu poza jego treścią
+         window.addEventListener('click', (event) => {  if (event.target === popup) {    popup.classList.add('hidden');  }});
+    </script>
         
-  </div>
+  
     <div class="icon-container">
         <div class="icon"><a href="pi://coinskro.com"><img src="icon/coinskro16x16.png"></a></div>
         <div class="icon">📷</div>
