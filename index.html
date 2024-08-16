@@ -131,12 +131,14 @@
         const closePopupBtn = document.getElementById('close-popup-btn');
 
         // Funkcja otwierająca dymek
-        openPopupBtn.addEventListener('click', () => {  
+        openPopupBtn.addEventListener('click', () => {
+            console.log('Otwieranie dymka');
             popup.classList.remove('hidden');
         });
 
         // Funkcja zamykająca dymek
         closePopupBtn.addEventListener('click', () => {
+            console.log('Zamykanie dymka');
             popup.classList.add('hidden');
         });
 
