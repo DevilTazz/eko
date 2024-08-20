@@ -95,8 +95,14 @@
             background-color: #f0f0f0;
             height: 100vh;
         }
+        .sortable-ghost {
+            opacity: 0.4;
+            background-color: #3498db;
+        }
+
         
     </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.15.0/Sortable.min.js"></script>
 </head>
 <body>
     <div class="blur-background"></div>
@@ -183,6 +189,19 @@
                 console.error("Jeden z elementów nie został znaleziony.");
             }
 
+            // Inicjalizacja SortableJS
+            const iconContainer = document.querySelector('.icon-container');
+            if (iconContainer) {
+                Sortable.create(iconContainer, {
+                    animation: 150,
+                    ghostClass: 'sortable-ghost',
+                    onEnd: function(evt) {
+                        console.log('Element przeniesiony z indeksu', evt.oldIndex, 'na indeks', evt.newIndex);
+                    }
+                });
+            } else {
+                console.error("Kontener z ikonami nie został znaleziony.");
+            }
           
          });
     </script>
