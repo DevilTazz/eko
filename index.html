@@ -4,11 +4,24 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
+        body {
+            margin: 0;
+            background-color: #f0f0f0;
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            box-sizing: border-box;
+        }
         .button {
             font-size: 16px;
             background-color: #ccffcc;
             border-radius: 8px;
             padding: 15px 32px;
+            margin-top: 20px;
+            display: inline-block;
         }
         .hidden {
             visibility: hidden;
@@ -67,12 +80,14 @@
             align-items: center;
             justify-content: center;
             padding: 20px;
+            margin-bottom: 20px;
         }
         .icon-container {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
             gap: 20px;
             justify-content: center;
+            margin-top: 20px;
         }
         .icon {
             width: 100px;
@@ -85,113 +100,79 @@
             align-items: center;
             font-size: 24px;
             color: white;
-            z-index: 1;            
-        }
-        body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin: 0;
-            background-color: #f0f0f0;
-            height: 100vh;
+            z-index: 1;
         }
         .sortable-ghost {
             opacity: 0.4;
             background-color: #3498db;
         }
-
-        
     </style>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.15.0/Sortable.min.js"></script>
 </head>
 <body>
     <div class="blur-background"></div>
-
-    <div>
-
-    <div class="opis">
-           
-        <button id="open-popup-btn" class="button">Zobacz info</button>
-    
+    <div class="container">
+        <div class="opis">
+            <button id="open-popup-btn" class="button">Zobacz info</button>
+        </div>
         <div id="popup" class="popup hidden">
             <div class="popup-content">
                 <span id="close-popup-btn" class="close-btn">&times;</span>
                 <h2>Witaj w Eko!</h2>
                 <p>Spisie aplikacji w Ekosystemie<br>Pi Network</p>
             </div>
-         </div>
         </div>
-    
-
-    
-     
-  
-    <div class="icon-container">
-        <div class="icon"><a href="pi://coinskro.com"><img src="icon/coinskro32x32.png"></a></div>
-        <div class="icon"><a href="pi://pipcm.com"><img src="icon/pipcm.png"></a></div>
-        <div class="icon"><a href="pi://www.workforcepool.com"><img src="icon/work32x32.png"></a></div>
-        <div class="icon">📷</div>
-        <div class="icon">❤️</div>
-        <div class="icon">🌟</div>
-        <div class="icon">📷</div>
-        <div class="icon">🌟</div>
-        <div class="icon">❤️</div>
-        <div class="icon">📷</div>
-        <div class="icon">🌟</div>
-        <div class="icon">📷</div>
-        <div class="icon">🌟</div>
-        <div class="icon">📷</div>
-        <div class="icon">🌟</div>
-        <div class="icon">❤️</div>
-        <div class="icon">📷</div>
-        <div class="icon">🌟</div>
-        <!-- Dodaj inne ikony -->
+        <div class="icon-container">
+            <div class="icon"><a href="pi://coinskro.com"><img src="icon/coinskro32x32.png" alt="Coinskro"></a></div>
+            <div class="icon"><a href="pi://pipcm.com"><img src="icon/pipcm.png" alt="Pipcm"></a></div>
+            <div class="icon"><a href="pi://www.workforcepool.com"><img src="icon/work32x32.png" alt="Workforcepool"></a></div>
+            <div class="icon">📷</div>
+            <div class="icon">❤️</div>
+            <div class="icon">🌟</div>
+            <div class="icon">📷</div>
+            <div class="icon">🌟</div>
+            <div class="icon">❤️</div>
+            <div class="icon">📷</div>
+            <div class="icon">🌟</div>
+            <div class="icon">📷</div>
+            <div class="icon">🌟</div>
+            <div class="icon">📷</div>
+            <div class="icon">🌟</div>
+            <div class="icon">❤️</div>
+            <div class="icon">📷</div>
+            <div class="icon">🌟</div>
+            <!-- Dodaj inne ikony -->
+            <div class="icon" id="add-tile">+</div>
+        </div>
     </div>
-    </div>
-    
-        
-
-   
-
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             // Pobieranie elementów
             const popup = document.getElementById("popup");
             const openPopupBtn = document.getElementById("open-popup-btn");
             const closePopupBtn = document.getElementById("close-popup-btn");
-            console.log("popup", popup);
-            console.log("openPopupBtn", openPopupBtn);
-            console.log("closePopupBtn", closePopupBtn);
+            const addTileBtn = document.getElementById("add-tile");
+            const iconContainer = document.querySelector('.icon-container');
 
-            if (popup && openPopupBtn && closePopupBtn)
-            {
-            
+            if (popup && openPopupBtn && closePopupBtn && addTileBtn && iconContainer) {
                 // Funkcja otwierająca dymek
                 openPopupBtn.addEventListener("click", function() {
-                    console.log("Otwieranie dymka");
                     popup.classList.add("show");
                 });
 
                 // Funkcja zamykająca dymek
                 closePopupBtn.addEventListener("click", function() {
-                    console.log("Zamykanie dymka");
                     popup.classList.remove("show");
                 });
 
                 // Opcjonalnie: Zamknięcie dymka po kliknięciu poza jego treścią
                 window.addEventListener("click", function(event) {
                     if (event.target === popup) {
-                        console.log("Kliknięto poza treścią, zamykanie dymka.");
                         popup.classList.remove("show");
-                }
-            });
-            } else {
-                console.error("Jeden z elementów nie został znaleziony.");
-            }
+                    }
+                });
 
-            // Inicjalizacja SortableJS
-            const iconContainer = document.querySelector('.icon-container');
-            if (iconContainer) {
+                // Inicjalizacja SortableJS
                 Sortable.create(iconContainer, {
                     animation: 150,
                     ghostClass: 'sortable-ghost',
@@ -199,11 +180,16 @@
                         console.log('Element przeniesiony z indeksu', evt.oldIndex, 'na indeks', evt.newIndex);
                     }
                 });
+
+                // Dodaj funkcjonalność dodawania kafelków w popupie
+                addTileBtn.addEventListener('click', function() {
+                    // Kod do wyświetlenia dymka z możliwością dodania kafelków
+                    // ...
+                });
             } else {
-                console.error("Kontener z ikonami nie został znaleziony.");
+                console.error("Jeden z elementów nie został znaleziony.");
             }
-          
-         });
+        });
     </script>
 </body>
 </html>
