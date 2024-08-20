@@ -4,24 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
-        body {
-            margin: 0;
-            background-color: #f0f0f0;
-            font-family: Arial, sans-serif;
-        }
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-            box-sizing: border-box;
-        }
         .button {
             font-size: 16px;
             background-color: #ccffcc;
             border-radius: 8px;
             padding: 15px 32px;
             margin-top: 20px;
-            display: inline-block;
         }
         .hidden {
             visibility: hidden;
@@ -79,15 +67,17 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            flex-direction: column; /* Ensures the switch is centered above the button */
             padding: 20px;
-            margin-bottom: 20px;
         }
         .icon-container {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            grid-template-columns: repeat(3, 1fr);
             gap: 20px;
             justify-content: center;
-            margin-top: 20px;
+            margin-top: 20px; /* Adds margin to move the grid down from the switch */
+            max-height: 70vh; /* Limits the height to enable scrolling */
+            overflow-y: auto; /* Adds vertical scroll if content overflows */
         }
         .icon {
             width: 100px;
@@ -100,26 +90,83 @@
             align-items: center;
             font-size: 24px;
             color: white;
-            z-index: 1;
+            z-index: 1;            
+        }
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0;
+            background-color: #f0f0f0;
+            height: 100vh;
+            overflow: hidden; /* Hide overflow for the entire body */
         }
         .sortable-ghost {
             opacity: 0.4;
             background-color: #3498db;
+        }
+        /* Styles for the switch */
+        .switch-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            width: 250px; /* Width of the switch container */
+            position: relative;
+        }
+        .switch {
+            position: absolute;
+            width: 100px;
+            height: 34px;
+            background-color: #ccc;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .switch::before {
+            content: "";
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 30px;
+            height: 30px;
+            background-color: white;
+            border-radius: 50%;
+            transition: transform 0.3s;
+        }
+        .switch.on {
+            background-color: #4caf50;
+        }
+        .switch.on::before {
+            transform: translateX(66px);
+        }
+        .switch-label {
+            margin: 0 10px;
+            font-size: 16px;
         }
     </style>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.15.0/Sortable.min.js"></script>
 </head>
 <body>
     <div class="blur-background"></div>
-    <div class="container">
+   <div>
+
         <div class="opis">
+            <!-- Switch container -->
+            <div class="switch-container">
+                <span class="switch-label">Zablokuj</span>
+                <div id="switch" class="switch"></div>
+                <span class="switch-label">Odblokuj</span>
+            </div>
+
             <button id="open-popup-btn" class="button">Zobacz info</button>
-        </div>
-        <div id="popup" class="popup hidden">
-            <div class="popup-content">
-                <span id="close-popup-btn" class="close-btn">&times;</span>
-                <h2>Witaj w Eko!</h2>
-                <p>Spisie aplikacji w Ekosystemie<br>Pi Network</p>
+        
+            <div id="popup" class="popup hidden">
+                <div class="popup-content">
+                    <span id="close-popup-btn" class="close-btn">&times;</span>
+                    <h2>Witaj w Eko!</h2>
+                    <p>Spisie aplikacji w Ekosystemie<br>Pi Network</p>
+                </div>
             </div>
         </div>
         <div class="icon-container">
@@ -145,58 +192,60 @@
             <div class="icon" id="add-tile">+</div>
         </div>
     </div>
-     <!-- Dymek do wybierania kafelków -->
-    <div id="tile-popup" class="popup hidden">
-        <div class="popup-content">
-            <span id="close-popup-btn" class="close-btn">&times;</span>
-            <h2>Wybierz kafelek</h2>
-            <div id="available-tiles" class="icon-container"></div>
-        </div>
-    </div>
+  
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            // Pobieranie elementów
+      document.addEventListener("DOMContentLoaded", function() {
             const popup = document.getElementById("popup");
             const openPopupBtn = document.getElementById("open-popup-btn");
             const closePopupBtn = document.getElementById("close-popup-btn");
-            const addTileBtn = document.getElementById("add-tile");
-            const iconContainer = document.querySelector('.icon-container');
 
-            if (popup && openPopupBtn && closePopupBtn && addTileBtn && iconContainer) {
-                // Funkcja otwierająca dymek
+            if (popup && openPopupBtn && closePopupBtn) {
                 openPopupBtn.addEventListener("click", function() {
                     popup.classList.add("show");
                 });
 
-                // Funkcja zamykająca dymek
                 closePopupBtn.addEventListener("click", function() {
                     popup.classList.remove("show");
                 });
 
-                // Opcjonalnie: Zamknięcie dymka po kliknięciu poza jego treścią
                 window.addEventListener("click", function(event) {
                     if (event.target === popup) {
                         popup.classList.remove("show");
                     }
                 });
+            } else {
+                console.error("Jeden z elementów nie został znaleziony.");
+            }
 
-                // Inicjalizacja SortableJS
+            const iconContainer = document.querySelector('.icon-container');
+            if (iconContainer) {
                 Sortable.create(iconContainer, {
                     animation: 150,
                     ghostClass: 'sortable-ghost',
                     onEnd: function(evt) {
                         console.log('Element przeniesiony z indeksu', evt.oldIndex, 'na indeks', evt.newIndex);
+                    },
+                    // Disable dragging if switch is on
+                    onStart: function(evt) {
+                        if (document.getElementById("switch").classList.contains("on")) {
+                            evt.from.style.pointerEvents = 'none'; // Disable pointer events
+                        }
+                    },
+                    onEnd: function(evt) {
+                        if (document.getElementById("switch").classList.contains("on")) {
+                            evt.from.style.pointerEvents = 'auto'; // Re-enable pointer events
+                        }
                     }
                 });
-
-                // Dodaj funkcjonalność dodawania kafelków w popupie
-                addTileBtn.addEventListener('click', function() {
-                    // Kod do wyświetlenia dymka z możliwością dodania kafelków
-                    // ...
-                });
             } else {
-                console.error("Jeden z elementów nie został znaleziony.");
+                console.error("Kontener z ikonami nie został znaleziony.");
             }
+
+            // Switch functionality
+            const switchElement = document.getElementById("switch");
+            switchElement.addEventListener("click", function() {
+                switchElement.classList.toggle("on");
+            });
         });
     </script>
 </body>
