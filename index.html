@@ -107,13 +107,14 @@
             background-color: #3498db;
         }
         /* Styles for the modern switch */
+        
         .switch-container {
             display: flex;
             align-items: center;
             justify-content: center;
             margin-bottom: 20px;
             width: 250px; /* Width of the switch container */
-            position: relative;
+            /* position: relative; */
         }
         .switch {
             position: relative;
@@ -145,8 +146,8 @@
         .switch-icon {
             position: absolute;
             top: 0;
-            width: 20px;
-            height: 20px;
+            width: 24px;
+            height: 24px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -165,12 +166,12 @@
     <div class="container">
         <!-- Switch container -->
         <div class="switch-container">
-            <div class="switch-icon locked">
-                <img src="graphic/padlock_1.png" alt="Locked" width="16">
+            <div class="switch-icon unlocked">
+                <img src="graphic/unlock_1.png" alt="Unlocked" width="24">
             </div>
             <div id="switch" class="switch"></div>
-            <div class="switch-icon unlocked">
-                <img src="graphic/unlock_1.png" alt="Unlocked" width="16">
+            <div class="switch-icon locked">
+                <img src="graphic/padlock_1.png" alt="Locked" width="16">
             </div>
         </div>
 
