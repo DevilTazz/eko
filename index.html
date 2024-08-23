@@ -8,16 +8,12 @@
             margin: 0;
             background-color: #f0f0f0;
             font-family: Arial, sans-serif;
-            overflow-x: hidden; /* Zapobiega poziomemu przewijaniu */
-            overflow-y: auto; /* Umożliwia przewijanie w pionie */
         }
         .container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
             padding: 20px;
             box-sizing: border-box;
-            min-height: 100vh; /* Umożliwia przewijanie */
         }
         .button {
             font-size: 16px;
@@ -83,18 +79,15 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            flex-direction: column;
             padding: 20px;
             margin-bottom: 20px;
-            width: 100%;
         }
         .icon-container {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
             gap: 20px;
-            max-width: 100%;
-            overflow-y: auto;
-            max-height: calc(100vh - 150px); /* -150px dla przycisku, suwaka i marginesów */
+            justify-content: center;
+            margin-top: 20px;
         }
         .icon {
             width: 100px;
@@ -107,62 +100,11 @@
             align-items: center;
             font-size: 24px;
             color: white;
-            z-index: 1;            
+            z-index: 1;
         }
         .sortable-ghost {
             opacity: 0.4;
             background-color: #3498db;
-        }
-        /* Styles for the modern switch */
-        .switch-container {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 20px;
-            width: 250px; /* Width of the switch container */
-            position: relative;
-        }
-        .switch {
-            position: relative;
-            width: 60px;
-            height: 10px; /* Height of the switch */
-            background-color: #555; /* Steel color */
-            border-radius: 5px;
-            cursor: pointer;
-            box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.3);
-            transition: background-color 0.3s;
-        }
-        .switch::before {
-            content: "";
-            position: absolute;
-            top: -5px;
-            left: -5px;
-            width: 20px;
-            height: 20px;
-            background-color: #ddd;
-            border-radius: 50%;
-            transition: transform 0.3s;
-        }
-        .switch.on {
-            background-color: #4caf50;
-        }
-        .switch.on::before {
-            transform: translateX(50px);
-        }
-        .switch-icon {
-            position: absolute;
-            top: 0;
-            width: 20px;
-            height: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .switch-icon.locked {
-            left: 0;
-        }
-        .switch-icon.unlocked {
-            right: 0;
         }
     </style>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.15.0/Sortable.min.js"></script>
@@ -170,18 +112,6 @@
 <body>
     <div class="blur-background"></div>
     <div class="container">
-        <!-- Switch container -->
-        <div class="switch-container">
-            <div class="switch-icon locked">
-                <img src="graphic/padlock_1.png" alt="Locked" width="16">
-            </div>
-            <div id="switch" class="switch">
-                <div class="switch-icon unlocked">
-                    <img src="graphic/unlock_1.png" alt="Unlocked" width="16">
-                </div>
-            </div>
-        </div>
-
         <div class="opis">
             <button id="open-popup-btn" class="button">Zobacz info</button>
         </div>
@@ -215,59 +145,53 @@
             <div class="icon" id="add-tile">+</div>
         </div>
     </div>
+     <!-- Dymek do wybierania kafelków -->
+    <div id="tile-popup" class="popup hidden">
+        <div class="popup-content">
+            <span id="close-popup-btn" class="close-btn">&times;</span>
+            <h2>Wybierz kafelek</h2>
+            <div id="available-tiles" class="icon-container"></div>
+        </div>
+    </div>
     <script>
         document.addEventListener("DOMContentLoaded", function() {
+            // Pobieranie elementów
             const popup = document.getElementById("popup");
             const openPopupBtn = document.getElementById("open-popup-btn");
             const closePopupBtn = document.getElementById("close-popup-btn");
-            const switchElement = document.getElementById("switch");
-
-            if (popup && openPopupBtn && closePopupBtn) {
+            const addTileBtn = document.getElementById("add-tile");
+            const iconContainer = document.querySelector('.icon-container');
+            if (popup && openPopupBtn && closePopupBtn && addTileBtn && iconContainer) {
+                // Funkcja otwierająca dymek
                 openPopupBtn.addEventListener("click", function() {
                     popup.classList.add("show");
                 });
-
+                // Funkcja zamykająca dymek
                 closePopupBtn.addEventListener("click", function() {
                     popup.classList.remove("show");
                 });
-
+                // Opcjonalnie: Zamknięcie dymka po kliknięciu poza jego treścią
                 window.addEventListener("click", function(event) {
                     if (event.target === popup) {
                         popup.classList.remove("show");
                     }
                 });
-            } else {
-                console.error("Jeden z elementów nie został znaleziony.");
-            }
-
-            const iconContainer = document.querySelector('.icon-container');
-            if (iconContainer) {
+                // Inicjalizacja SortableJS
                 Sortable.create(iconContainer, {
                     animation: 150,
                     ghostClass: 'sortable-ghost',
-                    onStart: function(evt) {
-                        if (switchElement.classList.contains("on")) {
-                            evt.from.style.pointerEvents = 'none'; // Disable pointer events
-                        }
-                    },
                     onEnd: function(evt) {
-                        if (switchElement.classList.contains("on")) {
-                            evt.from.style.pointerEvents = 'auto'; // Re-enable pointer events
-                        }
+                        console.log('Element przeniesiony z indeksu', evt.oldIndex, 'na indeks', evt.newIndex);
                     }
                 });
-
-                document.getElementById("add-tile").addEventListener('click', function() {
+                // Dodaj funkcjonalność dodawania kafelków w popupie
+                addTileBtn.addEventListener('click', function() {
                     // Kod do wyświetlenia dymka z możliwością dodania kafelków
                     // ...
                 });
             } else {
-                console.error("Kontener z ikonami nie został znaleziony.");
+                console.error("Jeden z elementów nie został znaleziony.");
             }
-
-            switchElement.addEventListener("click", function() {
-                switchElement.classList.toggle("on");
-            });
         });
     </script>
 </body>
