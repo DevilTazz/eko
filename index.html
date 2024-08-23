@@ -115,7 +115,7 @@
             margin: auto;
             margin-bottom: 20px;
             width: 250px; /* Width of the switch container */
-            /* position: relative; */
+            position: relative;
         }
         .switch {
             position: relative;
@@ -146,7 +146,7 @@
         }
         .switch-icon {
             position: absolute;
-            top: 0;
+            top: -7px;
             width: 24px;
             height: 24px;
             display: flex;
@@ -154,10 +154,10 @@
             justify-content: center;
         }
         .switch-icon.locked {
-            left: 130px;
+            right: 10px;
         }
         .switch-icon.unlocked {
-            right: 130px;
+            left: 10px;
         }
     </style>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.15.0/Sortable.min.js"></script>
