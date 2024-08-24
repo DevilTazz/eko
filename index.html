@@ -261,15 +261,17 @@
                 });
             }
 
-            // Show tile selection popup
-            if (addTileBtn && tilePopup && closeTilePopupBtn) {
+            // Add tile popup functionality
+            if (addTileBtn) {
                 addTileBtn.addEventListener("click", function() {
-                    if (!switchElement.classList.contains("on")) {
+                    if (switchElement.classList.contains("on")) {
                         tilePopup.classList.add("show");
-                        loadAvailableTiles();
                     }
                 });
+            }
 
+            // Close tile popup
+            if (closeTilePopupBtn) {
                 closeTilePopupBtn.addEventListener("click", function() {
                     tilePopup.classList.remove("show");
                 });
@@ -281,62 +283,42 @@
                 });
             }
 
-            // Load available tiles
-            function loadAvailableTiles() {
-                fetch('/eko/assets/tiles.json')
-                    .then(response => response.json())
-                    .then(data => {
-                        availableTilesContainer.innerHTML = ''; // Clear existing tiles
-                        data.forEach(tile => {
-                            const tileElement = document.createElement('div');
-                            tileElement.className = 'icon';
-                            tileElement.innerHTML = `<img src="${tile.iconUrl}" alt="${tile.name}"><div>${tile.name}</div>`;
-                            tileElement.dataset.id = tile.id;
-                            tileElement.dataset.iconUrl = tile.iconUrl;
-                            tileElement.dataset.name = tile.name;
-                            tileElement.addEventListener('click', function() {
-                                addTileToList(tile);
-                                tilePopup.classList.remove('show');
-                            });
-                            availableTilesContainer.appendChild(tileElement);
-                        });
-                    })
-                    .catch(error => {
-                        console.error("Błąd podczas ładowania pliku tiles.json:", error);
-                    });
+            // Function to create a tile
+            function createTile(iconSrc, tileId) {
+                const tile = document.createElement("div");
+                tile.className = "icon";
+                tile.innerHTML = `<img src="${iconSrc}" alt="Tile">`;
+                tile.id = tileId;
+                return tile;
             }
 
-            // Add tile to the list
-            function addTileToList(tile) {
-                const newTileElement = document.createElement('div');
-                newTileElement.className = 'icon';
-                newTileElement.innerHTML = `<a href="${tile.link}" target="_blank"><img src="${tile.iconUrl}" alt="${tile.name}"><div>${tile.name}</div></a>`;
-                sortableContainer.insertBefore(newTileElement, addTileBtn);
-                initializeSortable();
-            }
+            // Load available tiles (this would be dynamic in a real application)
+            const tiles = [
+                { src: 'graphic/icon1.png', id: 'tile1' },
+                { src: 'graphic/icon2.png', id: 'tile2' },
+                { src: 'graphic/icon3.png', id: 'tile3' }
+            ];
 
-            // Initialize Sortable
-            function initializeSortable() {
-                if (sortableContainer) {
-                    Sortable.create(sortableContainer, {
-                        animation: 150,
-                        ghostClass: 'sortable-ghost',
-                        touchStartThreshold: 0, // Poprawia działanie na urządzeniach mobilnych
-                        onStart: function(evt) {
-                            if (switchElement.classList.contains("on")) {
-                                evt.from.style.pointerEvents = 'none'; // Disable pointer events
-                            }
-                        },
-                        onEnd: function(evt) {
-                            if (switchElement.classList.contains("on")) {
-                                evt.from.style.pointerEvents = 'auto'; // Re-enable pointer events
-                            }
-                        }
-                    });
-                }
-            }
+            tiles.forEach(tile => {
+                const tileElement = createTile(tile.src, tile.id);
+                availableTilesContainer.appendChild(tileElement);
 
-            initializeSortable(); // Initialize Sortable on page load
+                tileElement.addEventListener("click", function() {
+                    const newTile = createTile(tile.src, tile.id);
+                    sortableContainer.appendChild(newTile);
+                });
+            });
+
+            // Initialize sortable
+            if (sortableContainer) {
+                Sortable.create(sortableContainer, {
+                    animation: 150,
+                    ghostClass: 'sortable-ghost',
+                    onEnd: function(evt) {
+                        console.log('Element moved');
+                    }
+                });
+            }
         });
     </script>
 </body>
