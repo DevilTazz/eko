@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
-        /* Style CSS są bez zmian */
         body {
             margin: 0;
             background-color: #f0f0f0;
@@ -262,9 +261,8 @@
             // Toggle switch and icon
             if (switchElement && unlockedIcon && lockedIcon) {
                 switchElement.addEventListener("click", function() {
-                    const isLocked = switchElement.classList.contains("on");
-                    
-                    if (isLocked) {
+                    switchElement.classList.toggle("on");
+                    if (switchElement.classList.contains("on")) {
                         unlockedIcon.classList.remove("grayscale");
                         lockedIcon.classList.add("grayscale");
                         // Enable adding tiles
@@ -318,6 +316,8 @@
                                 const newTile = createTile(tile.iconUrl, tile.id, tile.name);
                                 sortableContainer.appendChild(newTile);
                                 // Move the add tile button to the end
+                                const addTileButton = document.getElementById("add-tile");
+                                sortableContainer.appendChild(addTileButton);
                                 sortableContainer.appendChild(addTileBtn);
                             }
                         });
@@ -342,36 +342,6 @@
                     }
                 });
             }
-            // Adjust icon grayscale based on switch position
-            function updateIconVisibility() {
-                const switchRect = switchElement.getBoundingClientRect();
-                const unlockedRect = unlockedIcon.getBoundingClientRect();
-                const lockedRect = lockedIcon.getBoundingClientRect();
-                if (switchRect.left < unlockedRect.right) {
-                    unlockedIcon.classList.remove("grayscale");
-                    lockedIcon.classList.add("grayscale");
-                } else if (switchRect.right > lockedRect.left) {
-                    unlockedIcon.classList.add("grayscale");
-                    lockedIcon.classList.remove("grayscale");
-                }
-            }
-            // Update icon visibility on switch movement
-            let isDragging = false;
-            switchElement.addEventListener("mousedown", () => isDragging = true);
-            switchElement.addEventListener("mouseup", () => isDragging = false);
-            switchElement.addEventListener("mousemove", function() {
-                if (isDragging) {
-                    updateIconVisibility();
-                }
-            });
-            // Handle touch events
-            switchElement.addEventListener("touchstart", () => isDragging = true);
-            switchElement.addEventListener("touchend", () => isDragging = false);
-            switchElement.addEventListener("touchmove", function() {
-                if (isDragging) {
-                    updateIconVisibility();
-                }
-            });
         });
     </script>
 </body>
