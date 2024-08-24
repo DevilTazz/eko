@@ -223,6 +223,9 @@
             grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
             gap: 20px;
         }
+        a:link {
+            text-decoration: none;
+        }
     </style>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.15.0/Sortable.min.js"></script>
 </head>
@@ -258,7 +261,7 @@
     <div id="tile-popup" class="popup hidden">
         <div class="popup-content">
             <span id="close-tile-popup" class="close-btn">&times;</span>
-            <h2>Wybierz kafelek</h2>
+            <h2>Dodaj kafelek</h2>
             <div id="available-tiles" class="icon-container"></div>
         </div>
     </div>
@@ -336,7 +339,7 @@
             function createTile(iconSrc, tileId, tileName, tileLink) {
                 const tile = document.createElement("div");
                 tile.className = "icon2";
-                tile.innerHTML = `<a href="${link}"><img src="${iconSrc}" alt="Tile"><div class="name">${tileName}</a></div>`;
+                tile.innerHTML = `<a href="${link}"><img src="${iconSrc}" alt="Tile"><div class="name">${tileName}</div></a>`;
                 tile.id = tileId;
                 return tile;
             }
