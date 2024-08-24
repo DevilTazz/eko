@@ -277,12 +277,12 @@
             function updateIcons() {
                 const isSwitchOn = switchElement.classList.contains("on");
                 if (isSwitchOn) {
-                    unlockedIcon.classList.remove("grayscale");
-                    lockedIcon.classList.add("grayscale");
-                    addTileBtn.classList.add("grayscale");
-                } else {
                     unlockedIcon.classList.add("grayscale");
                     lockedIcon.classList.remove("grayscale");
+                    addTileBtn.classList.add("grayscale");
+                } else {
+                    unlockedIcon.classList.remove("grayscale");
+                    lockedIcon.classList.add("grayscale");
                     addTileBtn.classList.remove("grayscale");
                 }
             }
