@@ -99,8 +99,7 @@
             font-size: 24px;
             color: white;
             z-index: 1;
-            /* Added to ensure that sorting works */
-            cursor: move;
+            cursor: move; /* Added to ensure that sorting works */
         }
         .sortable-ghost {
             opacity: 0.4;
@@ -190,15 +189,15 @@
             </div>
         </div>
         <div class="icon-container" id="sortable-container">
-            <div class="icon"><a href="pi://coinskro.com"><img src="icon/coinskro32x32.png" alt="Coinskro"></a></div>
-            <div class="icon"><a href="pi://pipcm.com"><img src="icon/pipcm.png" alt="Pipcm"></a></div>
-            <div class="icon"><a href="pi://www.workforcepool.com"><img src="icon/work32x32.png" alt="Workforcepool"></a></div>
+            <!-- Existing icons will be here initially -->
             <div class="icon">📷</div>
             <div class="icon">❤️</div>
             <div class="icon">🌟</div>
             <div class="icon">📷</div>
             <div class="icon">🌟</div>
             <div class="icon">❤️</div>
+            <div class="icon">📷</div>
+            <div class="icon">🌟</div>
             <div class="icon">📷</div>
             <div class="icon">🌟</div>
             <div class="icon">📷</div>
@@ -228,6 +227,7 @@
             const unlockedIcon = document.getElementById("icon-unlocked");
             const lockedIcon = document.getElementById("icon-locked");
 
+            // Otwórz popup
             if (popup && openPopupBtn && closePopupBtn) {
                 openPopupBtn.addEventListener("click", function() {
                     popup.classList.add("show");
@@ -244,6 +244,7 @@
                 });
             }
 
+            // Przełącznik
             if (switchElement) {
                 switchElement.addEventListener("click", function() {
                     switchElement.classList.toggle("on");
@@ -257,7 +258,7 @@
                 });
             }
 
-            // Initialize Sortable
+            // Inicjalizuj Sortable
             const sortableContainer = document.getElementById("sortable-container");
             if (sortableContainer) {
                 Sortable.create(sortableContainer, {
@@ -265,18 +266,58 @@
                     ghostClass: 'sortable-ghost',
                     onStart: function(evt) {
                         if (switchElement.classList.contains("on")) {
-                            evt.from.style.pointerEvents = 'none'; // Disable pointer events
+                            evt.from.style.pointerEvents = 'none'; // Wyłącz zdarzenia wskaźnika
                         }
                     },
                     onEnd: function(evt) {
                         if (switchElement.classList.contains("on")) {
-                            evt.from.style.pointerEvents = 'auto'; // Re-enable pointer events
+                            evt.from.style.pointerEvents = 'auto'; // Włącz zdarzenia wskaźnika
                         }
                     }
                 });
             } else {
                 console.error("Kontener sortowalny nie został znaleziony.");
             }
+
+            // Funkcja do tworzenia kafelka z danymi
+            function createTile(tile) {
+                const tileElement = document.createElement('div');
+                tileElement.className = 'icon';
+                
+                const link = document.createElement('a');
+                link.href = tile.link;
+                link.target = '_blank'; // Otwarcie linku w nowej karcie
+                
+                const iconImg = document.createElement('img');
+                iconImg.src = tile.iconUrl;
+                iconImg.alt = tile.name;
+                iconImg.style.width = '100%'; // Dostosowanie rozmiaru ikony
+                
+                link.appendChild(iconImg);
+                tileElement.appendChild(link);
+                
+                return tileElement;
+            }
+
+            // Funkcja do załadowania danych JSON i dodania kafelków do kontenera
+            function loadTiles() {
+                fetch('/assets/tiles.json')
+                    .then(response => response.json())
+                    .then(data => {
+                        const container = document.getElementById('sortable-container');
+                        if (container) {
+                            data.forEach(tile => {
+                                const tileElement = createTile(tile);
+                                container.appendChild(tileElement);
+                            });
+                        } else {
+                            console.error("Kontener sortowalny nie został znaleziony.");
+                        }
+                    })
+                    .catch(error => console.error('Błąd podczas ładowania pliku tiles.json:', error));
+            }
+
+            loadTiles();
         });
     </script>
 </body>
