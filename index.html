@@ -336,23 +336,38 @@
                 });
             }
             // Function to create a tile
-            function createTile(iconSrc, tileId, tileName, tileLink) {
-                const tile = document.createElement("div");
-                tile.className = "icon2";
-                tile.innerHTML = `<a href="${link}"><img src="${iconSrc}" alt="Tile"><div class="name">${tileName}</div></a>`;
-                tile.id = tileId;
-                return tile;
+           function createTile(iconSrc, tileId, tileName, tileLink) {
+               const tile = document.createElement("div");
+               tile.className = "icon2";
+               tile.id = tileId;
+
+               const link = document.createElement("a");
+               link.href = tileLink;
+               
+               const img = document.createElement("img");
+               img.src = iconSrc;
+               img.alt = "name";
+
+               const name = document.createElement("div");
+               name.className = "name";
+               name.textContent = tileName;
+
+               link.appendChild(img);
+               link.appendChild(name);
+               tile.appendChild(link);
+
+               return tile;
             }
             // Load available tiles from JSON
             fetch('/eko/assets/tiles.json')
                 .then(response => response.json())
                 .then(data => {
                     data.forEach(tile => {
-                        const tileElement = createTile(tile.iconUrl, tile.id, tile.name);
+                        const tileElement = createTile(tile.iconUrl, tile.id, tile.name, tile.link);
                         availableTilesContainer.appendChild(tileElement);
                         tileElement.addEventListener("click", function() {
                             if (!switchElement.classList.contains("on")) {
-                                const newTile = createTile(tile.iconUrl, tile.id, tile.name);
+                                const newTile = createTile(tile.iconUrl, tile.id, tile.name, tile.link);
                                 sortableContainer.appendChild(newTile);
                                 // Move the add tile button to the end
                                 const addTileButton = document.getElementById("add-tile");
