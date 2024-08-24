@@ -264,8 +264,10 @@
             // Show tile selection popup
             if (addTileBtn && tilePopup && closeTilePopupBtn) {
                 addTileBtn.addEventListener("click", function() {
-                    tilePopup.classList.add("show");
-                    loadAvailableTiles();
+                    if (!switchElement.classList.contains("on")) {
+                        tilePopup.classList.add("show");
+                        loadAvailableTiles();
+                    }
                 });
 
                 closeTilePopupBtn.addEventListener("click", function() {
@@ -281,7 +283,7 @@
 
             // Load available tiles
             function loadAvailableTiles() {
-                fetch('/eko/assets/tiles.json')  // Użyj poprawnej ścieżki
+                fetch('/eko/assets/tiles.json')
                     .then(response => response.json())
                     .then(data => {
                         availableTilesContainer.innerHTML = ''; // Clear existing tiles
@@ -309,7 +311,7 @@
                 const newTileElement = document.createElement('div');
                 newTileElement.className = 'icon';
                 newTileElement.innerHTML = `<a href="${tile.link}" target="_blank"><img src="${tile.iconUrl}" alt="${tile.name}"><div>${tile.name}</div></a>`;
-                sortableContainer.appendChild(newTileElement);
+                sortableContainer.insertBefore(newTileElement, addTileBtn);
                 initializeSortable();
             }
 
@@ -319,7 +321,7 @@
                     Sortable.create(sortableContainer, {
                         animation: 150,
                         ghostClass: 'sortable-ghost',
-                        touchStartThreshold: 3, // Dodano do lepszej obsługi urządzeń mobilnych
+                        touchStartThreshold: 0, // Poprawia działanie na urządzeniach mobilnych
                         onStart: function(evt) {
                             if (switchElement.classList.contains("on")) {
                                 evt.from.style.pointerEvents = 'none'; // Disable pointer events
