@@ -313,26 +313,6 @@
                 }
             }
 
-            /*
-            // Toggle switch and icon
-            if (switchElement && unlockedIcon && lockedIcon) {
-                switchElement.addEventListener("click", function() {
-                    switchElement.classList.toggle("on");
-                    if (switchElement.classList.contains("on")) {
-                        unlockedIcon.classList.add("grayscale");
-                        lockedIcon.classList.remove("grayscale");
-                        // Enable adding tiles
-                        addTileBtn.classList.add("disabled");
-                        sortableContainer.classList.add("disabled");
-                    } else {
-                        unlockedIcon.classList.remove("grayscale");
-                        lockedIcon.classList.add("grayscale");
-                        // Disable adding tiles
-                        addTileBtn.classList.remove("disabled");
-                        sortableContainer.classList.remove("disabled");
-                    }
-                });
-            } */
             // Add tile popup functionality
             if (addTileBtn) {
                 addTileBtn.addEventListener("click", function() {
@@ -353,10 +333,10 @@
                 });
             }
             // Function to create a tile
-            function createTile(iconSrc, tileId, tileName) {
+            function createTile(iconSrc, tileId, tileName, tileLink) {
                 const tile = document.createElement("div");
                 tile.className = "icon2";
-                tile.innerHTML = `<img src="${iconSrc}" alt="Tile"><div class="name">${tileName}</div>`;
+                tile.innerHTML = `<a href="${link}"><img src="${iconSrc}" alt="Tile"><div class="name">${tileName}</a></div>`;
                 tile.id = tileId;
                 return tile;
             }
