@@ -1,5 +1,5 @@
 [
-    { "id": 1, "name": "Tile 1", "link": "pi://coinskro.com", "iconUrl": "/path/to/icon1.png" },
+    { "id": 1, "name": "Tile 1", "link": "pi://coinskro.com", "iconUrl": "icon/coinskro32x32.png" },
     { "id": 2, "name": "Tile 2", "link": "https://example.com", "iconUrl": "/path/to/icon2.png" },
     { "id": 3, "name": "Tile 3", "link": "https://example.com", "iconUrl": "/path/to/icon3.png" }
 ]
