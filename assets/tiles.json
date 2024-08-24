@@ -1,5 +1,5 @@
 [
-    { "id": 1, "name": "Coinskro", "link": "pi://coinskro.com", "iconUrl": "/icon/coinskro32x32.png" },
-    { "id": 2, "name": "Chain Mall for Pi", "link": "pi://pipcm.com", "iconUrl": "/icon/pipcm.png" },
-    { "id": 3, "name": "WorkforcePool", "link": "pi://workforcepool.com", "iconUrl": "/icon/work32x32.png" }
+    { "id": 1, "name": "Coinskro", "link": "pi://coinskro.com", "iconUrl": "icon/coinskro32x32.png" },
+    { "id": 2, "name": "Chain Mall for Pi", "link": "pi://pipcm.com", "iconUrl": "icon/pipcm.png" },
+    { "id": 3, "name": "WorkforcePool", "link": "pi://workforcepool.com", "iconUrl": "icon/work32x32.png" }
 ]
