@@ -99,6 +99,8 @@
             font-size: 24px;
             color: white;
             z-index: 1;
+            /* Added to ensure that sorting works */
+            cursor: move;
         }
         .sortable-ghost {
             opacity: 0.4;
@@ -187,7 +189,7 @@
                 <p>Spisie aplikacji w Ekosystemie<br>Pi Network</p>
             </div>
         </div>
-        <div class="icon-container">
+        <div class="icon-container" id="sortable-container">
             <div class="icon"><a href="pi://coinskro.com"><img src="icon/coinskro32x32.png" alt="Coinskro"></a></div>
             <div class="icon"><a href="pi://pipcm.com"><img src="icon/pipcm.png" alt="Pipcm"></a></div>
             <div class="icon"><a href="pi://www.workforcepool.com"><img src="icon/work32x32.png" alt="Workforcepool"></a></div>
@@ -253,6 +255,27 @@
                         unlockedIcon.classList.remove("grayscale");
                     }
                 });
+            }
+
+            // Initialize Sortable
+            const sortableContainer = document.getElementById("sortable-container");
+            if (sortableContainer) {
+                Sortable.create(sortableContainer, {
+                    animation: 150,
+                    ghostClass: 'sortable-ghost',
+                    onStart: function(evt) {
+                        if (switchElement.classList.contains("on")) {
+                            evt.from.style.pointerEvents = 'none'; // Disable pointer events
+                        }
+                    },
+                    onEnd: function(evt) {
+                        if (switchElement.classList.contains("on")) {
+                            evt.from.style.pointerEvents = 'auto'; // Re-enable pointer events
+                        }
+                    }
+                });
+            } else {
+                console.error("Kontener sortowalny nie został znaleziony.");
             }
         });
     </script>
