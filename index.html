@@ -261,7 +261,7 @@
 
             // Load tiles from JSON
             function loadTiles() {
-                fetch('/assets/tiles.json') // Ensure this path is correct
+                fetch('/eko/assets/tiles.json') // Ensure this path is correct
                     .then(response => {
                         if (!response.ok) {
                             throw new Error('Sieciowy błąd: ' + response.status);
