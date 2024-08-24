@@ -262,76 +262,79 @@
             }
 
             // Show tile selection popup
-            addTileBtn.addEventListener("click", function() {
-                tilePopup.classList.add("show");
-            });
+            if (addTileBtn && tilePopup && closeTilePopupBtn) {
+                addTileBtn.addEventListener("click", function() {
+                    tilePopup.classList.add("show");
+                    loadAvailableTiles();
+                });
 
-            closeTilePopupBtn.addEventListener("click", function() {
-                tilePopup.classList.remove("show");
-            });
-
-            document.addEventListener("click", function(event) {
-                if (event.target === tilePopup) {
-                    tilePopup.classList.remove("show");
-                }
-            });
-
-            // Dynamiczne dodawanie kafelków
-            const tiles = [
-                { id: "tile1", name: "Kafelek 1", image: "graphic/image1.png" },
-                { id: "tile2", name: "Kafelek 2", image: "graphic/image2.png" },
-                { id: "tile3", name: "Kafelek 3", image: "graphic/image3.png" },
-                { id: "tile4", name: "Kafelek 4", image: "graphic/image4.png" },
-                { id: "tile5", name: "Kafelek 5", image: "graphic/image5.png" },
-            ];
-
-            tiles.forEach(function(tile) {
-                const tileElement = document.createElement("div");
-                tileElement.classList.add("icon");
-                tileElement.dataset.tileId = tile.id;
-                tileElement.innerHTML = `<img src="${tile.image}" alt="${tile.name}"><br>${tile.name}`;
-                availableTilesContainer.appendChild(tileElement);
-
-                tileElement.addEventListener("click", function() {
-                    addTileToList(tile);
+                closeTilePopupBtn.addEventListener("click", function() {
                     tilePopup.classList.remove("show");
                 });
 
-                tileElement.addEventListener("touchstart", function() {
-                    addTileToList(tile);
-                    tilePopup.classList.remove("show");
+                document.addEventListener("click", function(event) {
+                    if (event.target === tilePopup) {
+                        tilePopup.classList.remove("show");
+                    }
                 });
-            });
-
-            function addTileToList(tile) {
-                const existingTile = document.querySelector(`.icon[data-tile-id="${tile.id}"]`);
-                if (existingTile) {
-                    alert("Ten kafelek został już dodany.");
-                    return;
-                }
-                const newTile = document.createElement("div");
-                newTile.classList.add("icon");
-                newTile.dataset.tileId = tile.id;
-                newTile.innerHTML = `<img src="${tile.image}" alt="${tile.name}"><br>${tile.name}`;
-                sortableContainer.insertBefore(newTile, addTileBtn);
             }
 
-            // SortableJS
-            Sortable.create(sortableContainer, {
-                animation: 150,
-                ghostClass: 'sortable-ghost',
-                touchStartThreshold: 5,
-                onStart: function(evt) {
-                    if (switchElement.classList.contains("on")) {
-                        evt.from.style.pointerEvents = 'none';
-                    }
-                },
-                onEnd: function(evt) {
-                    if (switchElement.classList.contains("on")) {
-                        evt.from.style.pointerEvents = 'auto';
-                    }
+            // Load available tiles
+            function loadAvailableTiles() {
+                fetch('/eko/assets/tiles.json')  // Użyj poprawnej ścieżki
+                    .then(response => response.json())
+                    .then(data => {
+                        availableTilesContainer.innerHTML = ''; // Clear existing tiles
+                        data.forEach(tile => {
+                            const tileElement = document.createElement('div');
+                            tileElement.className = 'icon';
+                            tileElement.innerHTML = `<img src="${tile.iconUrl}" alt="${tile.name}"><div>${tile.name}</div>`;
+                            tileElement.dataset.id = tile.id;
+                            tileElement.dataset.iconUrl = tile.iconUrl;
+                            tileElement.dataset.name = tile.name;
+                            tileElement.addEventListener('click', function() {
+                                addTileToList(tile);
+                                tilePopup.classList.remove('show');
+                            });
+                            availableTilesContainer.appendChild(tileElement);
+                        });
+                    })
+                    .catch(error => {
+                        console.error("Błąd podczas ładowania pliku tiles.json:", error);
+                    });
+            }
+
+            // Add tile to the list
+            function addTileToList(tile) {
+                const newTileElement = document.createElement('div');
+                newTileElement.className = 'icon';
+                newTileElement.innerHTML = `<a href="${tile.link}" target="_blank"><img src="${tile.iconUrl}" alt="${tile.name}"><div>${tile.name}</div></a>`;
+                sortableContainer.appendChild(newTileElement);
+                initializeSortable();
+            }
+
+            // Initialize Sortable
+            function initializeSortable() {
+                if (sortableContainer) {
+                    Sortable.create(sortableContainer, {
+                        animation: 150,
+                        ghostClass: 'sortable-ghost',
+                        touchStartThreshold: 3, // Dodano do lepszej obsługi urządzeń mobilnych
+                        onStart: function(evt) {
+                            if (switchElement.classList.contains("on")) {
+                                evt.from.style.pointerEvents = 'none'; // Disable pointer events
+                            }
+                        },
+                        onEnd: function(evt) {
+                            if (switchElement.classList.contains("on")) {
+                                evt.from.style.pointerEvents = 'auto'; // Re-enable pointer events
+                            }
+                        }
+                    });
                 }
-            });
+            }
+
+            initializeSortable(); // Initialize Sortable on page load
         });
     </script>
 </body>
