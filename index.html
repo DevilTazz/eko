@@ -97,9 +97,14 @@
             justify-content: center;
             align-items: center;
             font-size: 24px;
-            color: white;
+            color: black; /* Changed to black to match the requirements */
             z-index: 1;
-            cursor: move; /* Added to ensure that sorting works */
+            cursor: pointer;
+            text-align: center; /* Added for better alignment of text/icon */
+        }
+        .icon img {
+            max-width: 80px; /* Ensures image fits within icon */
+            max-height: 80px;
         }
         .sortable-ghost {
             opacity: 0.4;
@@ -162,8 +167,7 @@
             transition: filter 0.3s, opacity 0.3s;
         }
         #add-tile {
-            
-            color: black;
+            color: black; /* Changed to black to match the requirements */
             font-size: 36px;
             cursor: pointer;
         }
@@ -207,7 +211,7 @@
     <!-- Dymek do wybierania kafelków -->
     <div id="tile-popup" class="popup hidden">
         <div class="popup-content">
-            <span id="close-popup-btn" class="close-btn">&times;</span>
+            <span id="close-tile-popup" class="close-btn">&times;</span>
             <h2>Wybierz kafelek</h2>
             <div id="available-tiles" class="icon-container"></div>
         </div>
@@ -276,7 +280,7 @@
 
             // Load available tiles
             function loadAvailableTiles() {
-                fetch('/eko/assets/tiles.json')
+                fetch('/eko/assets/tiles.json')  // Użyj poprawnej ścieżki
                     .then(response => response.json())
                     .then(data => {
                         availableTilesContainer.innerHTML = ''; // Clear existing tiles
