@@ -123,18 +123,17 @@
             box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.3);
             transition: background-color 0.3s;
         }
-.switch::before {
-    content: "";
-    position: absolute;
-    left: -5px;
-    width: 20px;
-    height: 10px;
-    background: linear-gradient(135deg, #9e9e9e, #e0e0e0, #b0b0b0); /* Metaliczny stalowy kolor */
-    border-radius: 5px;
-    box-shadow: inset 0 0 2px rgba(255, 255, 255, 0.5), inset 0 0 4px rgba(0, 0, 0, 0.5); /* Błyszczący efekt metalu */
-    transition: transform 0.3s;
-}
-
+        .switch::before {
+            content: "";
+            position: absolute;
+            left: -5px;
+            width: 20px;
+            height: 10px;
+            background: linear-gradient(135deg, #9e9e9e, #e0e0e0, #b0b0b0); /* Metaliczny stalowy kolor */
+            border-radius: 5px;
+            box-shadow: inset 0 0 2px rgba(255, 255, 255, 0.5), inset 0 0 4px rgba(0, 0, 0, 0.5); /* Błyszczący efekt metalu */
+            transition: transform 0.3s;
+        }
         .switch.on {
             background-color: #4caf50;
         }
@@ -169,11 +168,11 @@
     <div class="container">
         <!-- Switch container -->
         <div class="switch-container">
-            <div class="switch-icon unlocked">
+            <div id="icon-unlocked" class="switch-icon unlocked">
                 <img src="graphic/unlock_1.png" alt="Unlocked">
             </div>
             <div id="switch" class="switch"></div>
-            <div class="switch-icon locked grayscale">
+            <div id="icon-locked" class="switch-icon locked grayscale">
                 <img src="graphic/padlock_1.png" alt="Locked">
             </div>
         </div>
@@ -224,8 +223,8 @@
             const openPopupBtn = document.getElementById("open-popup-btn");
             const closePopupBtn = document.getElementById("close-popup-btn");
             const switchElement = document.getElementById("switch");
-            const unlockedIcon = document.querySelector(".switch-icon.unlocked img");
-            const lockedIcon = document.querySelector(".switch-icon.locked img");
+            const unlockedIcon = document.getElementById("icon-unlocked");
+            const lockedIcon = document.getElementById("icon-locked");
 
             if (popup && openPopupBtn && closePopupBtn) {
                 openPopupBtn.addEventListener("click", function() {
@@ -236,52 +235,25 @@
                     popup.classList.remove("show");
                 });
 
-                window.addEventListener("click", function(event) {
+                document.addEventListener("click", function(event) {
                     if (event.target === popup) {
                         popup.classList.remove("show");
                     }
                 });
-            } else {
-                console.error("Jeden z elementów nie został znaleziony.");
             }
 
-            const iconContainer = document.querySelector('.icon-container');
-            if (iconContainer) {
-                Sortable.create(iconContainer, {
-                    animation: 150,
-                    ghostClass: 'sortable-ghost',
-                    onStart: function(evt) {
-                        if (switchElement.classList.contains("on")) {
-                            evt.from.style.pointerEvents = 'none'; // Disable pointer events
-                        }
-                    },
-                    onEnd: function(evt) {
-                        if (switchElement.classList.contains("on")) {
-                            evt.from.style.pointerEvents = 'auto'; // Re-enable pointer events
-                        }
+            if (switchElement) {
+                switchElement.addEventListener("click", function() {
+                    switchElement.classList.toggle("on");
+                    if (switchElement.classList.contains("on")) {
+                        lockedIcon.classList.remove("grayscale");
+                        unlockedIcon.classList.add("grayscale");
+                    } else {
+                        lockedIcon.classList.add("grayscale");
+                        unlockedIcon.classList.remove("grayscale");
                     }
                 });
-
-                document.getElementById("add-tile").addEventListener('click', function() {
-                    // Kod do wyświetlenia dymka z możliwością dodania kafelków
-                    // ...
-                });
-            } else {
-                console.error("Kontener z ikonami nie został znaleziony.");
             }
-
-            switchElement.addEventListener("click", function() {
-                switchElement.classList.toggle("on");
-
-                // Zmieniaj ikonki w zależności od pozycji suwaka
-                if (switchElement.classList.contains("on")) {
-                    lockedIcon.classList.remove("grayscale");
-                    unlockedIcon.classList.add("grayscale");
-                } else {
-                    unlockedIcon.classList.remove("grayscale");
-                    lockedIcon.classList.add("grayscale");
-                }
-            });
         });
     </script>
 </body>
