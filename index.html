@@ -193,20 +193,6 @@
             <div class="icon">📷</div>
             <div class="icon">❤️</div>
             <div class="icon">🌟</div>
-            <div class="icon">📷</div>
-            <div class="icon">🌟</div>
-            <div class="icon">❤️</div>
-            <div class="icon">📷</div>
-            <div class="icon">🌟</div>
-            <div class="icon">📷</div>
-            <div class="icon">🌟</div>
-            <div class="icon">📷</div>
-            <div class="icon">🌟</div>
-            <div class="icon">📷</div>
-            <div class="icon">🌟</div>
-            <div class="icon">❤️</div>
-            <div class="icon">📷</div>
-            <div class="icon">🌟</div>
             <div class="icon" id="add-tile">+</div>
         </div>
     </div>
@@ -227,7 +213,6 @@
             const unlockedIcon = document.getElementById("icon-unlocked");
             const lockedIcon = document.getElementById("icon-locked");
 
-            // Otwórz popup
             if (popup && openPopupBtn && closePopupBtn) {
                 openPopupBtn.addEventListener("click", function() {
                     popup.classList.add("show");
@@ -244,7 +229,6 @@
                 });
             }
 
-            // Przełącznik
             if (switchElement) {
                 switchElement.addEventListener("click", function() {
                     switchElement.classList.toggle("on");
@@ -281,6 +265,7 @@
 
             // Funkcja do tworzenia kafelka z danymi
             function createTile(tile) {
+                console.log("Tworzenie kafelka:", tile); // Debugging
                 const tileElement = document.createElement('div');
                 tileElement.className = 'icon';
                 
@@ -304,6 +289,7 @@
                 fetch('/assets/tiles.json')
                     .then(response => response.json())
                     .then(data => {
+                        console.log("Dane kafelków:", data); // Debugging
                         const container = document.getElementById('sortable-container');
                         if (container) {
                             data.forEach(tile => {
