@@ -247,16 +247,16 @@
                 });
             }
 
-            // Toggle switch state
-            if (switchElement) {
+            // Toggle switch and icon
+            if (switchElement && unlockedIcon && lockedIcon) {
                 switchElement.addEventListener("click", function() {
                     switchElement.classList.toggle("on");
                     if (switchElement.classList.contains("on")) {
-                        lockedIcon.classList.remove("grayscale");
-                        unlockedIcon.classList.add("grayscale");
-                    } else {
-                        lockedIcon.classList.add("grayscale");
                         unlockedIcon.classList.remove("grayscale");
+                        lockedIcon.classList.add("grayscale");
+                    } else {
+                        unlockedIcon.classList.add("grayscale");
+                        lockedIcon.classList.remove("grayscale");
                     }
                 });
             }
@@ -292,29 +292,38 @@
                 return tile;
             }
 
-            // Load available tiles (this would be dynamic in a real application)
-            const tiles = [
-                { src: 'graphic/icon1.png', id: 'tile1' },
-                { src: 'graphic/icon2.png', id: 'tile2' },
-                { src: 'graphic/icon3.png', id: 'tile3' }
-            ];
+            // Load available tiles from JSON
+            fetch('/eko/assets/tiles.json')
+                .then(response => response.json())
+                .then(data => {
+                    data.tiles.forEach(tile => {
+                        const tileElement = createTile(tile.src, tile.id);
+                        availableTilesContainer.appendChild(tileElement);
 
-            tiles.forEach(tile => {
-                const tileElement = createTile(tile.src, tile.id);
-                availableTilesContainer.appendChild(tileElement);
-
-                tileElement.addEventListener("click", function() {
-                    const newTile = createTile(tile.src, tile.id);
-                    sortableContainer.appendChild(newTile);
-                });
-            });
+                        tileElement.addEventListener("click", function() {
+                            if (switchElement.classList.contains("on")) {
+                                const newTile = createTile(tile.src, tile.id);
+                                sortableContainer.appendChild(newTile);
+                            }
+                        });
+                    });
+                })
+                .catch(error => console.error('Error loading tiles:', error));
 
             // Initialize sortable
             if (sortableContainer) {
                 Sortable.create(sortableContainer, {
                     animation: 150,
                     ghostClass: 'sortable-ghost',
+                    onStart: function(evt) {
+                        if (switchElement.classList.contains("on")) {
+                            evt.from.classList.add('disabled');
+                        }
+                    },
                     onEnd: function(evt) {
+                        if (switchElement.classList.contains("on")) {
+                            evt.from.classList.remove('disabled');
+                        }
                         console.log('Element moved');
                     }
                 });
