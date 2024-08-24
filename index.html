@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
+        /* Style CSS są bez zmian */
         body {
             margin: 0;
             background-color: #f0f0f0;
@@ -208,7 +209,6 @@
                 <img src="graphic/padlock_1.png" alt="Locked">
             </div>
         </div>
-
         <div class="opis">
             <button id="open-popup-btn" class="button">Zobacz info</button>
         </div>
@@ -245,7 +245,6 @@
             const closeTilePopupBtn = document.getElementById("close-tile-popup");
             const availableTilesContainer = document.getElementById("available-tiles");
             const sortableContainer = document.getElementById("sortable-container");
-
             // Toggle popup visibility
             if (popup && openPopupBtn && closePopupBtn) {
                 openPopupBtn.addEventListener("click", function() {
@@ -254,60 +253,124 @@
                 closePopupBtn.addEventListener("click", function() {
                     popup.classList.remove("show");
                 });
-            }
-
-            // Toggle tile popup visibility
-            if (addTileBtn && tilePopup && closeTilePopupBtn) {
-                addTileBtn.addEventListener("click", function() {
-                    tilePopup.classList.add("show");
+                document.addEventListener("click", function(event) {
+                    if (event.target === popup) {
+                        popup.classList.remove("show");
+                    }
                 });
+            }
+            // Toggle switch and icon
+            if (switchElement && unlockedIcon && lockedIcon) {
+                switchElement.addEventListener("click", function() {
+                    const isLocked = switchElement.classList.contains("on");
+                    
+                    if (isLocked) {
+                        unlockedIcon.classList.remove("grayscale");
+                        lockedIcon.classList.add("grayscale");
+                        // Enable adding tiles
+                        addTileBtn.classList.remove("disabled");
+                        sortableContainer.classList.remove("disabled");
+                    } else {
+                        unlockedIcon.classList.add("grayscale");
+                        lockedIcon.classList.remove("grayscale");
+                        // Disable adding tiles
+                        addTileBtn.classList.add("disabled");
+                        sortableContainer.classList.add("disabled");
+                    }
+                });
+            }
+            // Add tile popup functionality
+            if (addTileBtn) {
+                addTileBtn.addEventListener("click", function() {
+                    if (!switchElement.classList.contains("on")) {
+                        tilePopup.classList.add("show");
+                    }
+                });
+            }
+            // Close tile popup
+            if (closeTilePopupBtn) {
                 closeTilePopupBtn.addEventListener("click", function() {
                     tilePopup.classList.remove("show");
                 });
-            }
-
-            // Switch functionality
-            if (switchElement) {
-                switchElement.addEventListener("click", function() {
-                    switchElement.classList.toggle("on");
-                    updateIcons();
+                document.addEventListener("click", function(event) {
+                    if (event.target === tilePopup) {
+                        tilePopup.classList.remove("show");
+                    }
                 });
             }
-
-            function updateIcons() {
-                const isSwitchOn = switchElement.classList.contains("on");
-                if (isSwitchOn) {
-                    unlockedIcon.classList.add("grayscale");
-                    lockedIcon.classList.remove("grayscale");
-                    addTileBtn.classList.add("grayscale");
-                } else {
-                    unlockedIcon.classList.remove("grayscale");
-                    lockedIcon.classList.add("grayscale");
-                    addTileBtn.classList.remove("grayscale");
-                }
+            // Function to create a tile
+            function createTile(iconSrc, tileId, tileName) {
+                const tile = document.createElement("div");
+                tile.className = "icon";
+                tile.innerHTML = `<img src="${iconSrc}" alt="Tile"><div class="name">${tileName}</div>`;
+                tile.id = tileId;
+                return tile;
             }
-
-            // Sortable functionality
+            // Load available tiles from JSON
+            fetch('/eko/assets/tiles.json')
+                .then(response => response.json())
+                .then(data => {
+                    data.forEach(tile => {
+                        const tileElement = createTile(tile.iconUrl, tile.id, tile.name);
+                        availableTilesContainer.appendChild(tileElement);
+                        tileElement.addEventListener("click", function() {
+                            if (!switchElement.classList.contains("on")) {
+                                const newTile = createTile(tile.iconUrl, tile.id, tile.name);
+                                sortableContainer.appendChild(newTile);
+                                // Move the add tile button to the end
+                                sortableContainer.appendChild(addTileBtn);
+                            }
+                        });
+                    });
+                })
+                .catch(error => console.error('Error loading tiles:', error));
+            // Initialize sortable
             if (sortableContainer) {
                 Sortable.create(sortableContainer, {
                     animation: 150,
-                    ghostClass: 'sortable-ghost'
+                    ghostClass: 'sortable-ghost',
+                    onStart: function(evt) {
+                        if (switchElement.classList.contains("on")) {
+                            evt.from.classList.add('disabled');
+                        }
+                    },
+                    onEnd: function(evt) {
+                        if (switchElement.classList.contains("on")) {
+                            evt.from.classList.remove('disabled');
+                        }
+                        console.log('Element moved');
+                    }
                 });
             }
-
-            // Dynamic tiles (for demonstration)
-            const tiles = [
-                { id: 1, src: 'graphic/tile1.png', name: 'Tile 1' },
-                { id: 2, src: 'graphic/tile2.png', name: 'Tile 2' },
-                { id: 3, src: 'graphic/tile3.png', name: 'Tile 3' }
-            ];
-
-            tiles.forEach(tile => {
-                const div = document.createElement('div');
-                div.className = 'icon';
-                div.id = `tile-${tile.id}`;
-                div.innerHTML = `<img src="${tile.src}" alt="${tile.name}"><div class="name">${tile.name}</div>`;
-                availableTilesContainer.appendChild(div);
+            // Adjust icon grayscale based on switch position
+            function updateIconVisibility() {
+                const switchRect = switchElement.getBoundingClientRect();
+                const unlockedRect = unlockedIcon.getBoundingClientRect();
+                const lockedRect = lockedIcon.getBoundingClientRect();
+                if (switchRect.left < unlockedRect.right) {
+                    unlockedIcon.classList.remove("grayscale");
+                    lockedIcon.classList.add("grayscale");
+                } else if (switchRect.right > lockedRect.left) {
+                    unlockedIcon.classList.add("grayscale");
+                    lockedIcon.classList.remove("grayscale");
+                }
+            }
+            // Update icon visibility on switch movement
+            let isDragging = false;
+            switchElement.addEventListener("mousedown", () => isDragging = true);
+            switchElement.addEventListener("mouseup", () => isDragging = false);
+            switchElement.addEventListener("mousemove", function() {
+                if (isDragging) {
+                    updateIconVisibility();
+                }
+            });
+            // Handle touch events
+            switchElement.addEventListener("touchstart", () => isDragging = true);
+            switchElement.addEventListener("touchend", () => isDragging = false);
+            switchElement.addEventListener("touchmove", function() {
+                if (isDragging) {
+                    updateIconVisibility();
+                }
             });
         });
     </script>
