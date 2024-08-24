@@ -251,141 +251,63 @@
                 openPopupBtn.addEventListener("click", function() {
                     popup.classList.add("show");
                 });
-
                 closePopupBtn.addEventListener("click", function() {
                     popup.classList.remove("show");
                 });
-
-                document.addEventListener("click", function(event) {
-                    if (event.target === popup) {
-                        popup.classList.remove("show");
-                    }
-                });
             }
 
-            // Toggle switch and icon
-            if (switchElement && unlockedIcon && lockedIcon) {
-                switchElement.addEventListener("click", function() {
-                    const isLocked = switchElement.classList.contains("on");
-                    
-                    if (isLocked) {
-                        unlockedIcon.classList.remove("grayscale");
-                        lockedIcon.classList.add("grayscale");
-                        // Enable adding tiles
-                        addTileBtn.classList.remove("disabled");
-                        sortableContainer.classList.remove("disabled");
-                    } else {
-                        unlockedIcon.classList.add("grayscale");
-                        lockedIcon.classList.remove("grayscale");
-                        // Disable adding tiles
-                        addTileBtn.classList.add("disabled");
-                        sortableContainer.classList.add("disabled");
-                    }
-                });
-            }
-
-            // Add tile popup functionality
-            if (addTileBtn) {
+            // Toggle tile popup visibility
+            if (addTileBtn && tilePopup && closeTilePopupBtn) {
                 addTileBtn.addEventListener("click", function() {
-                    if (!switchElement.classList.contains("on")) {
-                        tilePopup.classList.add("show");
-                    }
+                    tilePopup.classList.add("show");
                 });
-            }
-
-            // Close tile popup
-            if (closeTilePopupBtn) {
                 closeTilePopupBtn.addEventListener("click", function() {
                     tilePopup.classList.remove("show");
                 });
+            }
 
-                document.addEventListener("click", function(event) {
-                    if (event.target === tilePopup) {
-                        tilePopup.classList.remove("show");
-                    }
+            // Switch functionality
+            if (switchElement) {
+                switchElement.addEventListener("click", function() {
+                    switchElement.classList.toggle("on");
+                    updateIcons();
                 });
             }
 
-            // Function to create a tile
-            function createTile(iconSrc, tileId, tileName) {
-                const tile = document.createElement("div");
-                tile.className = "icon";
-                tile.innerHTML = `<img src="${iconSrc}" alt="Tile"><div class="name">${tileName}</div>`;
-                tile.id = tileId;
-                return tile;
+            function updateIcons() {
+                const isSwitchOn = switchElement.classList.contains("on");
+                if (isSwitchOn) {
+                    unlockedIcon.classList.remove("grayscale");
+                    lockedIcon.classList.add("grayscale");
+                    addTileBtn.classList.add("grayscale");
+                } else {
+                    unlockedIcon.classList.add("grayscale");
+                    lockedIcon.classList.remove("grayscale");
+                    addTileBtn.classList.remove("grayscale");
+                }
             }
 
-            // Load available tiles from JSON
-            fetch('/eko/assets/tiles.json')
-                .then(response => response.json())
-                .then(data => {
-                    data.forEach(tile => {
-                        const tileElement = createTile(tile.iconUrl, tile.id, tile.name);
-                        availableTilesContainer.appendChild(tileElement);
-
-                        tileElement.addEventListener("click", function() {
-                            if (!switchElement.classList.contains("on")) {
-                                const newTile = createTile(tile.iconUrl, tile.id, tile.name);
-                                sortableContainer.appendChild(newTile);
-                                // Move the add tile button to the end
-                                sortableContainer.appendChild(addTileBtn);
-                            }
-                        });
-                    });
-                })
-                .catch(error => console.error('Error loading tiles:', error));
-
-            // Initialize sortable
+            // Sortable functionality
             if (sortableContainer) {
                 Sortable.create(sortableContainer, {
                     animation: 150,
-                    ghostClass: 'sortable-ghost',
-                    onStart: function(evt) {
-                        if (switchElement.classList.contains("on")) {
-                            evt.from.classList.add('disabled');
-                        }
-                    },
-                    onEnd: function(evt) {
-                        if (switchElement.classList.contains("on")) {
-                            evt.from.classList.remove('disabled');
-                        }
-                        console.log('Element moved');
-                    }
+                    ghostClass: 'sortable-ghost'
                 });
             }
 
-            // Adjust icon grayscale based on switch position
-            function updateIconVisibility() {
-                const switchRect = switchElement.getBoundingClientRect();
-                const unlockedRect = unlockedIcon.getBoundingClientRect();
-                const lockedRect = lockedIcon.getBoundingClientRect();
+            // Dynamic tiles (for demonstration)
+            const tiles = [
+                { id: 1, src: 'graphic/tile1.png', name: 'Tile 1' },
+                { id: 2, src: 'graphic/tile2.png', name: 'Tile 2' },
+                { id: 3, src: 'graphic/tile3.png', name: 'Tile 3' }
+            ];
 
-                if (switchRect.left < unlockedRect.right) {
-                    unlockedIcon.classList.remove("grayscale");
-                    lockedIcon.classList.add("grayscale");
-                } else if (switchRect.right > lockedRect.left) {
-                    unlockedIcon.classList.add("grayscale");
-                    lockedIcon.classList.remove("grayscale");
-                }
-            }
-
-            // Update icon visibility on switch movement
-            let isDragging = false;
-            switchElement.addEventListener("mousedown", () => isDragging = true);
-            switchElement.addEventListener("mouseup", () => isDragging = false);
-            switchElement.addEventListener("mousemove", function() {
-                if (isDragging) {
-                    updateIconVisibility();
-                }
-            });
-
-            // Handle touch events
-            switchElement.addEventListener("touchstart", () => isDragging = true);
-            switchElement.addEventListener("touchend", () => isDragging = false);
-            switchElement.addEventListener("touchmove", function() {
-                if (isDragging) {
-                    updateIconVisibility();
-                }
+            tiles.forEach(tile => {
+                const div = document.createElement('div');
+                div.className = 'icon';
+                div.id = `tile-${tile.id}`;
+                div.innerHTML = `<img src="${tile.src}" alt="${tile.name}"><div class="name">${tile.name}</div>`;
+                availableTilesContainer.appendChild(div);
             });
         });
     </script>
