@@ -178,6 +178,10 @@
             opacity: 0.5;
             transition: filter 0.3s, opacity 0.3s;
         }
+        .disabled {
+            pointer-events: none;
+            opacity: 0.5;
+        }
         #add-tile {
             color: black;
             font-size: 36px;
@@ -323,8 +327,7 @@
                                 const newTile = createTile(tile.iconUrl, tile.id, tile.name);
                                 sortableContainer.appendChild(newTile);
                                 // Move the add tile button to the end
-                                const addTileButton = document.getElementById("add-tile");
-                                sortableContainer.appendChild(addTileButton);
+                                sortableContainer.appendChild(addTileBtn);
                             }
                         });
                     });
