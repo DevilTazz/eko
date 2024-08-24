@@ -264,7 +264,7 @@
             // Add tile popup functionality
             if (addTileBtn) {
                 addTileBtn.addEventListener("click", function() {
-                    if (switchElement.classList.contains("on")) {
+                    if (!switchElement.classList.contains("on")) {
                         tilePopup.classList.add("show");
                     }
                 });
@@ -296,13 +296,13 @@
             fetch('/eko/assets/tiles.json')
                 .then(response => response.json())
                 .then(data => {
-                    data.tiles.forEach(tile => {
-                        const tileElement = createTile(tile.src, tile.id);
+                    data.forEach(tile => {
+                        const tileElement = createTile(tile.iconUrl, tile.id);
                         availableTilesContainer.appendChild(tileElement);
 
                         tileElement.addEventListener("click", function() {
-                            if (switchElement.classList.contains("on")) {
-                                const newTile = createTile(tile.src, tile.id);
+                            if (!switchElement.classList.contains("on")) {
+                                const newTile = createTile(tile.iconUrl, tile.id);
                                 sortableContainer.appendChild(newTile);
                             }
                         });
