@@ -103,11 +103,42 @@
             text-align: center;
             position: relative;
         }
+        .icon2 {
+            width: 100px;
+            height: 100px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
+            background-color: #F5F5DC;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+            color: black;
+            z-index: 1;
+            cursor: pointer;
+            text-align: center;
+            position: relative;
+        }
         .icon img {
             max-width: 80px;
             max-height: 80px;
         }
+        .icon2 img {
+            max-width: 80px;
+            max-height: 80px;
+        }
         .icon .name {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            font-size: 12px;
+            background: rgba(0, 0, 0, 0.5);
+            color: white;
+            text-align: center;
+            padding: 2px 0;
+            border-radius: 0 0 50% 50%;
+        }
+        .icon2 .name {
             position: absolute;
             bottom: 0;
             width: 100%;
@@ -258,6 +289,31 @@
                     }
                 });
             }
+
+            // Toggle switch and icon
+            if (switchElement && unlockedIcon && lockedIcon) {
+                switchElement.addEventListener("click", function() {
+                    switchElement.classList.toggle("on");
+                    updateIcons();
+                });
+            }
+
+            function updateIcons() {
+                const isSwitchOn = switchElement.classList.contains("on");
+                if (isSwitchOn) {
+                    unlockedIcon.classList.add("grayscale");
+                    lockedIcon.classList.remove("grayscale");
+                    // Disable adding tiles
+                    addTileBtn.classList.add("grayscale");
+                } else {
+                    unlockedIcon.classList.remove("grayscale");
+                    lockedIcon.classList.add("grayscale");
+                    // Enable adding tiles
+                    addTileBtn.classList.remove("grayscale");
+                }
+            }
+
+            /*
             // Toggle switch and icon
             if (switchElement && unlockedIcon && lockedIcon) {
                 switchElement.addEventListener("click", function() {
@@ -276,7 +332,7 @@
                         sortableContainer.classList.remove("disabled");
                     }
                 });
-            }
+            } */
             // Add tile popup functionality
             if (addTileBtn) {
                 addTileBtn.addEventListener("click", function() {
@@ -299,7 +355,7 @@
             // Function to create a tile
             function createTile(iconSrc, tileId, tileName) {
                 const tile = document.createElement("div");
-                tile.className = "icon";
+                tile.className = "icon2";
                 tile.innerHTML = `<img src="${iconSrc}" alt="Tile"><div class="name">${tileName}</div>`;
                 tile.id = tileId;
                 return tile;
