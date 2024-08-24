@@ -97,13 +97,13 @@
             justify-content: center;
             align-items: center;
             font-size: 24px;
-            color: black; /* Changed to black to match the requirements */
+            color: black;
             z-index: 1;
             cursor: pointer;
-            text-align: center; /* Added for better alignment of text/icon */
+            text-align: center;
         }
         .icon img {
-            max-width: 80px; /* Ensures image fits within icon */
+            max-width: 80px;
             max-height: 80px;
         }
         .sortable-ghost {
@@ -135,9 +135,9 @@
             left: -5px;
             width: 20px;
             height: 10px;
-            background: linear-gradient(135deg, #9e9e9e, #e0e0e0, #b0b0b0); /* Metaliczny stalowy kolor */
+            background: linear-gradient(135deg, #9e9e9e, #e0e0e0, #b0b0b0);
             border-radius: 5px;
-            box-shadow: inset 0 0 2px rgba(255, 255, 255, 0.5), inset 0 0 4px rgba(0, 0, 0, 0.5); /* Błyszczący efekt metalu */
+            box-shadow: inset 0 0 2px rgba(255, 255, 255, 0.5), inset 0 0 4px rgba(0, 0, 0, 0.5);
             transition: transform 0.3s;
         }
         .switch.on {
@@ -167,7 +167,7 @@
             transition: filter 0.3s, opacity 0.3s;
         }
         #add-tile {
-            color: black; /* Changed to black to match the requirements */
+            color: black;
             font-size: 36px;
             cursor: pointer;
         }
@@ -228,6 +228,7 @@
             const tilePopup = document.getElementById("tile-popup");
             const closeTilePopupBtn = document.getElementById("close-tile-popup");
             const availableTilesContainer = document.getElementById("available-tiles");
+            const sortableContainer = document.getElementById("sortable-container");
 
             // Toggle popup visibility
             if (popup && openPopupBtn && closePopupBtn) {
@@ -287,8 +288,14 @@
                         data.forEach(tile => {
                             const tileElement = document.createElement('div');
                             tileElement.className = 'icon';
-                            tileElement.innerHTML = `<a href="${tile.link}"><img src="${tile.iconUrl}" alt="${tile.name}"></a>`;
+                            tileElement.innerHTML = `<img src="${tile.iconUrl}" alt="${tile.name}"><div>${tile.name}</div>`;
                             tileElement.dataset.id = tile.id;
+                            tileElement.dataset.iconUrl = tile.iconUrl;
+                            tileElement.dataset.name = tile.name;
+                            tileElement.addEventListener('click', function() {
+                                addTileToList(tile);
+                                tilePopup.classList.remove('show');
+                            });
                             availableTilesContainer.appendChild(tileElement);
                         });
                     })
@@ -297,26 +304,36 @@
                     });
             }
 
-            // Initialize Sortable
-            const sortableContainer = document.getElementById("sortable-container");
-            if (sortableContainer) {
-                Sortable.create(sortableContainer, {
-                    animation: 150,
-                    ghostClass: 'sortable-ghost',
-                    onStart: function(evt) {
-                        if (switchElement.classList.contains("on")) {
-                            evt.from.style.pointerEvents = 'none'; // Disable pointer events
-                        }
-                    },
-                    onEnd: function(evt) {
-                        if (switchElement.classList.contains("on")) {
-                            evt.from.style.pointerEvents = 'auto'; // Re-enable pointer events
-                        }
-                    }
-                });
-            } else {
-                console.error("Kontener sortowalny nie został znaleziony.");
+            // Add tile to the list
+            function addTileToList(tile) {
+                const newTileElement = document.createElement('div');
+                newTileElement.className = 'icon';
+                newTileElement.innerHTML = `<a href="${tile.link}" target="_blank"><img src="${tile.iconUrl}" alt="${tile.name}"><div>${tile.name}</div></a>`;
+                sortableContainer.appendChild(newTileElement);
+                initializeSortable();
             }
+
+            // Initialize Sortable
+            function initializeSortable() {
+                if (sortableContainer) {
+                    Sortable.create(sortableContainer, {
+                        animation: 150,
+                        ghostClass: 'sortable-ghost',
+                        onStart: function(evt) {
+                            if (switchElement.classList.contains("on")) {
+                                evt.from.style.pointerEvents = 'none'; // Disable pointer events
+                            }
+                        },
+                        onEnd: function(evt) {
+                            if (switchElement.classList.contains("on")) {
+                                evt.from.style.pointerEvents = 'auto'; // Re-enable pointer events
+                            }
+                        }
+                    });
+                }
+            }
+
+            initializeSortable(); // Initialize Sortable on page load
         });
     </script>
 </body>
