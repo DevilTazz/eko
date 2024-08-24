@@ -276,7 +276,7 @@
 
             // Load available tiles
             function loadAvailableTiles() {
-                fetch('/assets/tiles.json')
+                fetch('/eko/assets/tiles.json')
                     .then(response => response.json())
                     .then(data => {
                         availableTilesContainer.innerHTML = ''; // Clear existing tiles
