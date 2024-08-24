@@ -332,12 +332,12 @@
                 });
             }
             // Function to create a tile
-            function createTile(iconSrc, tileId, tileName) {
-            //function createTile(iconSrc, tileId, tileName, tileLink) {
+            //function createTile(iconSrc, tileId, tileName) {
+            function createTile(iconSrc, tileId, tileName, tileLink) {
                 const tile = document.createElement("div");
                 tile.className = "icon2";
-                tile.innerHTML = `<img src="${iconSrc}" alt="Tile"><div class="name">${tileName}</div>`;
-               // tile.innerHTML = `<a href="${link}"><img src="${iconSrc}" alt="Tile"><div class="name">${tileName}</a></div>`;
+                //tile.innerHTML = `<img src="${iconSrc}" alt="Tile"><div class="name">${tileName}</div>`;
+                tile.innerHTML = `<a href="${link}"><img src="${iconSrc}" alt="Tile"><div class="name">${tileName}</a></div>`;
                 tile.id = tileId;
                 return tile;
             }
@@ -346,11 +346,11 @@
                 .then(response => response.json())
                 .then(data => {
                     data.forEach(tile => {
-                        const tileElement = createTile(tile.iconUrl, tile.id, tile.name);
+                        const tileElement = createTile(tile.iconUrl, tile.id, tile.name, tile.link);
                         availableTilesContainer.appendChild(tileElement);
                         tileElement.addEventListener("click", function() {
                             if (!switchElement.classList.contains("on")) {
-                                const newTile = createTile(tile.iconUrl, tile.id, tile.name);
+                                const newTile = createTile(tile.iconUrl, tile.id, tile.name, tile.link);
                                 sortableContainer.appendChild(newTile);
                                 // Move the add tile button to the end
                                 const addTileButton = document.getElementById("add-tile");
