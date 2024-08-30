@@ -371,25 +371,18 @@
                 })
                 .catch(error => console.error('Błąd ładowania kafelków:', error));
 
-            function closePopup() {
-                document.getElementById("popup").classList.remove("show");
-                document.getElementById("popup").classList.add("hidden");
-            }
-
-            function closeTilePopup() {
-                tilePopup.classList.remove("show");
-                tilePopup.classList.add("hidden");
-            }
-
             document.addEventListener("click", function(event) {
-                // Zamknięcie popupów, jeśli kliknięto poza nimi
-                const isPopupClicked = event.target.closest('.popup-content');
-                if (!isPopupClicked) {
-                    if (document.getElementById("popup").classList.contains("show")) {
-                        closePopup();
+                const popup = document.getElementById("popup");
+                const tilePopup = document.getElementById("tile-popup");
+
+                if (!event.target.closest('.popup-content') && (popup.classList.contains("show") || tilePopup.classList.contains("show"))) {
+                    if (popup.classList.contains("show")) {
+                        popup.classList.remove("show");
+                        popup.classList.add("hidden");
                     }
                     if (tilePopup.classList.contains("show")) {
-                        closeTilePopup();
+                        tilePopup.classList.remove("show");
+                        tilePopup.classList.add("hidden");
                     }
                 }
             });
