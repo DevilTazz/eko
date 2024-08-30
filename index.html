@@ -259,118 +259,118 @@
         </div>
     </div>
     <script>
-    document.addEventListener("DOMContentLoaded", function() {
-        const switchElement = document.getElementById("switch");
-        const iconUnlocked = document.getElementById("icon-unlocked");
-        const iconLocked = document.getElementById("icon-locked");
-        const iconsContainer = document.getElementById("sortable-container");
-        const openInfoPopupBtn = document.getElementById("open-popup-btn");
-        const closeInfoPopupBtn = document.getElementById("close-popup-btn");
+        document.addEventListener("DOMContentLoaded", function() {
+    const switchElement = document.getElementById("switch");
+    const iconUnlocked = document.getElementById("icon-unlocked");
+    const iconLocked = document.getElementById("icon-locked");
+    const iconsContainer = document.getElementById("sortable-container");
+    const openInfoPopupBtn = document.getElementById("open-popup-btn");
+    const closeInfoPopupBtn = document.getElementById("close-popup-btn");
+    const tilePopup = document.getElementById("tile-popup");
+    const closeTilePopup = document.getElementById("close-tile-popup");
+    const availableTilesContainer = document.getElementById("available-tiles");
+    const addTileBtn = document.getElementById("add-tile");
+    let isLocked = false;
+
+    // Przełącznik
+    switchElement.addEventListener("click", function () {
+        isLocked = !isLocked;
+        switchElement.classList.toggle("on", isLocked);
+        iconLocked.classList.toggle("grayscale", !isLocked);
+        iconUnlocked.classList.toggle("grayscale", isLocked);
+        document.querySelectorAll('.icon').forEach(icon => {
+            icon.classList.toggle('disabled', isLocked);
+        });
+    });
+
+    // Otwórz popup informacji
+    openInfoPopupBtn.addEventListener("click", function () {
+        const popup = document.getElementById("popup");
+        popup.classList.add("show");
+        popup.classList.remove("hidden");
+    });
+
+    // Zamknij popup informacji
+    closeInfoPopupBtn.addEventListener("click", function () {
+        const popup = document.getElementById("popup");
+        popup.classList.remove("show");
+        popup.classList.add("hidden");
+    });
+
+    // Otwórz popup kafelków
+    addTileBtn.addEventListener("click", function () {
+        tilePopup.classList.add("show");
+        tilePopup.classList.remove("hidden");
+    });
+
+    // Zamknij popup kafelków
+    closeTilePopup.addEventListener("click", function () {
+        tilePopup.classList.remove("show");
+        tilePopup.classList.add("hidden");
+    });
+
+    // Kliknięcia poza popupami
+    document.addEventListener("click", function(event) {
+        const popup = document.getElementById("popup");
         const tilePopup = document.getElementById("tile-popup");
-        const closeTilePopup = document.getElementById("close-tile-popup");
-        const availableTilesContainer = document.getElementById("available-tiles");
-        const addTileBtn = document.getElementById("add-tile");
-        let isLocked = false;
 
-        // Przełącznik
-        switchElement.addEventListener("click", function () {
-            isLocked = !isLocked;
-            switchElement.classList.toggle("on", isLocked);
-            iconLocked.classList.toggle("grayscale", !isLocked);
-            iconUnlocked.classList.toggle("grayscale", isLocked);
-            document.querySelectorAll('.icon').forEach(icon => {
-                icon.classList.toggle('disabled', isLocked);
-            });
-        });
+        // Funkcja do sprawdzania, czy kliknięto wewnątrz popupu
+        function isClickInsidePopup(popup, event) {
+            return popup.contains(event.target);
+        }
 
-        // Otwórz popup informacji
-        openInfoPopupBtn.addEventListener("click", function () {
-            const popup = document.getElementById("popup");
-            popup.classList.add("show");
-            popup.classList.remove("hidden");
-        });
-
-        // Zamknij popup informacji
-        closeInfoPopupBtn.addEventListener("click", function () {
-            const popup = document.getElementById("popup");
+        // Sprawdzamy kliknięcia poza popupami
+        if (popup.classList.contains("show") && !isClickInsidePopup(popup, event)) {
             popup.classList.remove("show");
             popup.classList.add("hidden");
-        });
+        }
 
-        // Otwórz popup kafelków
-        addTileBtn.addEventListener("click", function () {
-            tilePopup.classList.add("show");
-            tilePopup.classList.remove("hidden");
-        });
-
-        // Zamknij popup kafelków
-        closeTilePopup.addEventListener("click", function () {
+        if (tilePopup.classList.contains("show") && !isClickInsidePopup(tilePopup, event)) {
             tilePopup.classList.remove("show");
             tilePopup.classList.add("hidden");
-        });
-
-        // Kliknięcia poza popupami
-        document.addEventListener("click", function(event) {
-            const popup = document.getElementById("popup");
-            const tilePopup = document.getElementById("tile-popup");
-
-            // Funkcja do sprawdzania, czy kliknięto wewnątrz popupu
-            function isClickInsidePopup(popup, event) {
-                return popup.contains(event.target) || event.target === popup;
-            }
-
-            // Sprawdzamy kliknięcia poza popupami
-            if (!isClickInsidePopup(popup, event) && popup.classList.contains("show")) {
-                popup.classList.remove("show");
-                popup.classList.add("hidden");
-            }
-
-            if (!isClickInsidePopup(tilePopup, event) && tilePopup.classList.contains("show")) {
-                tilePopup.classList.remove("show");
-                tilePopup.classList.add("hidden");
-            }
-        });
-
-        // Załaduj kafelki
-        fetch('assets/tiles.json')
-            .then(response => response.json())
-            .then(data => {
-                if (data.tiles) {
-                    data.tiles.forEach(tile => {
-                        const tileElement = document.createElement('div');
-                        tileElement.className = 'tile-list-item';
-                        tileElement.innerHTML = `
-                            <img src="${tile.icon}" alt="${tile.name}">
-                            <div class="tile-info">
-                                <div class="tile-name">${tile.name}</div>
-                                <div class="tile-description">${tile.description || "Brak opisu"}</div>
-                            </div>
-                        `;
-                        tileElement.addEventListener("click", function() {
-                            if (!isLocked) {
-                                const newTile = document.createElement("div");
-                                newTile.className = "icon2";
-                                newTile.innerHTML = `
-                                    <a href="${tile.link}"><img src="${tile.icon}" alt="Tile"><div class="name">${tile.name}</a></div>
-                                `;
-                                iconsContainer.appendChild(newTile);
-                                iconsContainer.appendChild(addTileBtn);
-                            }
-                        });
-                        availableTilesContainer.appendChild(tileElement);
-                    });
-
-                    new Sortable(iconsContainer, {
-                        ghostClass: "sortable-ghost",
-                        animation: 150,
-                        disabled: true
-                    });
-                } else {
-                    console.error('Nie znaleziono właściwości "tiles" w danych');
-                }
-            })
-            .catch(error => console.error('Błąd ładowania kafelków:', error));
+        }
     });
+
+    // Załaduj kafelki
+    fetch('assets/tiles.json')
+        .then(response => response.json())
+        .then(data => {
+            if (data.tiles) {
+                data.tiles.forEach(tile => {
+                    const tileElement = document.createElement('div');
+                    tileElement.className = 'tile-list-item';
+                    tileElement.innerHTML = `
+                        <img src="${tile.icon}" alt="${tile.name}">
+                        <div class="tile-info">
+                            <div class="tile-name">${tile.name}</div>
+                            <div class="tile-description">${tile.description || "Brak opisu"}</div>
+                        </div>
+                    `;
+                    tileElement.addEventListener("click", function() {
+                        if (!isLocked) {
+                            const newTile = document.createElement("div");
+                            newTile.className = "icon2";
+                            newTile.innerHTML = `
+                                <a href="${tile.link}"><img src="${tile.icon}" alt="Tile"><div class="name">${tile.name}</a></div>
+                            `;
+                            iconsContainer.appendChild(newTile);
+                            iconsContainer.appendChild(addTileBtn);
+                        }
+                    });
+                    availableTilesContainer.appendChild(tileElement);
+                });
+
+                new Sortable(iconsContainer, {
+                    ghostClass: "sortable-ghost",
+                    animation: 150,
+                    disabled: true
+                });
+            } else {
+                console.error('Nie znaleziono właściwości "tiles" w danych');
+            }
+        })
+        .catch(error => console.error('Błąd ładowania kafelków:', error));
+});
     </script>
 </body>
 </html>
