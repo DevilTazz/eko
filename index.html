@@ -258,7 +258,7 @@
             <div id="available-tiles" class="icon-container"></div>
         </div>
     </div>
-    <script>
+<script>
         document.addEventListener("DOMContentLoaded", function() {
             const switchElement = document.getElementById("switch");
             const iconUnlocked = document.getElementById("icon-unlocked");
@@ -280,12 +280,14 @@
 
             // Kliknięcia poza popupami
             document.addEventListener("click", function(event) {
+                // Jeśli kliknięcie było poza popupem z informacjami
                 if (!isClickInsidePopup(popup, event) && popup.classList.contains("show")) {
                     popup.classList.remove("show");
                     popup.classList.add("hidden");
                     console.log('Clicked outside info popup');
                 }
 
+                // Jeśli kliknięcie było poza popupem z kafelkami
                 if (!isClickInsidePopup(tilePopup, event) && tilePopup.classList.contains("show")) {
                     tilePopup.classList.remove("show");
                     tilePopup.classList.add("hidden");
