@@ -294,7 +294,6 @@
     </div>
     <script>
         document.addEventListener("DOMContentLoaded", function() {
-            // Zmienne globalne
             const switchElement = document.getElementById("switch");
             const iconUnlocked = document.getElementById("icon-unlocked");
             const iconLocked = document.getElementById("icon-locked");
@@ -307,7 +306,6 @@
             const addTileBtn = document.getElementById("add-tile");
             let isLocked = false;
 
-            // Obsługa przełącznika
             switchElement.addEventListener("click", function () {
                 isLocked = !isLocked;
                 switchElement.classList.toggle("on", isLocked);
@@ -318,7 +316,6 @@
                 });
             });
 
-            // Obsługa popupu informacyjnego
             openInfoPopupBtn.addEventListener("click", function () {
                 document.getElementById("popup").classList.add("show");
                 document.getElementById("popup").classList.remove("hidden");
@@ -329,7 +326,6 @@
                 document.getElementById("popup").classList.add("hidden");
             });
 
-            // Obsługa popupu kafelków
             addTileBtn.addEventListener("click", function () {
                 tilePopup.classList.remove("hidden");
                 tilePopup.classList.add("show");
@@ -340,7 +336,6 @@
                 tilePopup.classList.add("hidden");
             });
 
-            // Ładowanie kafelków z JSON
             fetch('tiles.json')
                 .then(response => response.json())
                 .then(data => {
@@ -362,7 +357,7 @@
                                     <a href="${tile.link}"><img src="${tile.icon}" alt="Tile"><div class="name">${tile.name}</a></div>
                                 `;
                                 iconsContainer.appendChild(newTile);
-                                iconsContainer.appendChild(addTileBtn); // Przesuwanie przycisku dodawania na koniec
+                                iconsContainer.appendChild(addTileBtn);
                             }
                         });
                         availableTilesContainer.appendChild(tileElement);
@@ -375,6 +370,29 @@
                     });
                 })
                 .catch(error => console.error('Błąd ładowania kafelków:', error));
+
+            function closePopup() {
+                document.getElementById("popup").classList.remove("show");
+                document.getElementById("popup").classList.add("hidden");
+            }
+
+            function closeTilePopup() {
+                tilePopup.classList.remove("show");
+                tilePopup.classList.add("hidden");
+            }
+
+            document.addEventListener("click", function(event) {
+                // Zamknięcie popupów, jeśli kliknięto poza nimi
+                const isPopupClicked = event.target.closest('.popup-content');
+                if (!isPopupClicked) {
+                    if (document.getElementById("popup").classList.contains("show")) {
+                        closePopup();
+                    }
+                    if (tilePopup.classList.contains("show")) {
+                        closeTilePopup();
+                    }
+                }
+            });
         });
     </script>
 </body>
