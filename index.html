@@ -318,13 +318,19 @@
             const popup = document.getElementById("popup");
             const tilePopup = document.getElementById("tile-popup");
 
-            if (popup.classList.contains("show") && !event.target.closest('#popup, #popup *')) {
+            // Funkcja do sprawdzania, czy kliknięto wewnątrz popupu
+            function isClickInsidePopup(popup, event) {
+                return popup.contains(event.target);
+            }
+
+            // Sprawdzamy kliknięcia poza popupami
+            if (!isClickInsidePopup(popup, event) && popup.classList.contains("show")) {
                 console.log("Kliknięto poza popup info");
                 popup.classList.remove("show");
                 popup.classList.add("hidden");
             }
 
-            if (tilePopup.classList.contains("show") && !event.target.closest('#tile-popup, #tile-popup *')) {
+            if (!isClickInsidePopup(tilePopup, event) && tilePopup.classList.contains("show")) {
                 console.log("Kliknięto poza popup kafelków");
                 tilePopup.classList.remove("show");
                 tilePopup.classList.add("hidden");
