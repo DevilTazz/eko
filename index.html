@@ -258,7 +258,7 @@
             <div id="available-tiles" class="icon-container"></div>
         </div>
     </div>
-<script>
+    <script>
         document.addEventListener("DOMContentLoaded", function() {
             const switchElement = document.getElementById("switch");
             const iconUnlocked = document.getElementById("icon-unlocked");
@@ -274,21 +274,15 @@
 
             let switchOn = false;
 
-            function isClickInsidePopup(popup, event) {
-                return popup && popup.contains(event.target);
-            }
-
             // Kliknięcia poza popupami
             document.addEventListener("click", function(event) {
-                // Jeśli kliknięcie było poza popupem z informacjami
-                if (!isClickInsidePopup(popup, event) && popup.classList.contains("show")) {
+                if (!popup.contains(event.target) && popup.classList.contains("show")) {
                     popup.classList.remove("show");
                     popup.classList.add("hidden");
                     console.log('Clicked outside info popup');
                 }
 
-                // Jeśli kliknięcie było poza popupem z kafelkami
-                if (!isClickInsidePopup(tilePopup, event) && tilePopup.classList.contains("show")) {
+                if (!tilePopup.contains(event.target) && tilePopup.classList.contains("show")) {
                     tilePopup.classList.remove("show");
                     tilePopup.classList.add("hidden");
                     console.log('Clicked outside tile popup');
@@ -296,28 +290,32 @@
             });
 
             // Otwórz popup informacji
-            openInfoPopupBtn.addEventListener("click", function () {
+            openInfoPopupBtn.addEventListener("click", function (event) {
+                event.stopPropagation(); // Zapobiega zamknięciu popupu przy kliknięciu
                 popup.classList.remove("hidden");
                 popup.classList.add("show");
                 console.log('Info popup opened');
             });
 
             // Zamknij popup informacji
-            closeInfoPopupBtn.addEventListener("click", function () {
+            closeInfoPopupBtn.addEventListener("click", function (event) {
+                event.stopPropagation(); // Zapobiega zamknięciu popupu przy kliknięciu
                 popup.classList.remove("show");
                 popup.classList.add("hidden");
                 console.log('Info popup closed');
             });
 
             // Otwórz popup kafelków
-            addTileBtn.addEventListener("click", function () {
+            addTileBtn.addEventListener("click", function (event) {
+                event.stopPropagation(); // Zapobiega zamknięciu popupu przy kliknięciu
                 tilePopup.classList.remove("hidden");
                 tilePopup.classList.add("show");
                 console.log('Tile popup opened');
             });
 
             // Zamknij popup kafelków
-            closeTilePopup.addEventListener("click", function () {
+            closeTilePopup.addEventListener("click", function (event) {
+                event.stopPropagation(); // Zapobiega zamknięciu popupu przy kliknięciu
                 tilePopup.classList.remove("show");
                 tilePopup.classList.add("hidden");
                 console.log('Tile popup closed');
