@@ -286,7 +286,6 @@
         // Otwórz popup informacji
         openInfoPopupBtn.addEventListener("click", function () {
             const popup = document.getElementById("popup");
-            console.log("Otwieram popup info");
             popup.classList.add("show");
             popup.classList.remove("hidden");
         });
@@ -294,21 +293,18 @@
         // Zamknij popup informacji
         closeInfoPopupBtn.addEventListener("click", function () {
             const popup = document.getElementById("popup");
-            console.log("Zamykam popup info");
             popup.classList.remove("show");
             popup.classList.add("hidden");
         });
 
         // Otwórz popup kafelków
         addTileBtn.addEventListener("click", function () {
-            console.log("Otwieram popup kafelków");
             tilePopup.classList.add("show");
             tilePopup.classList.remove("hidden");
         });
 
         // Zamknij popup kafelków
         closeTilePopup.addEventListener("click", function () {
-            console.log("Zamykam popup kafelków");
             tilePopup.classList.remove("show");
             tilePopup.classList.add("hidden");
         });
@@ -320,18 +316,16 @@
 
             // Funkcja do sprawdzania, czy kliknięto wewnątrz popupu
             function isClickInsidePopup(popup, event) {
-                return popup.contains(event.target);
+                return popup.contains(event.target) || event.target === popup;
             }
 
             // Sprawdzamy kliknięcia poza popupami
             if (!isClickInsidePopup(popup, event) && popup.classList.contains("show")) {
-                console.log("Kliknięto poza popup info");
                 popup.classList.remove("show");
                 popup.classList.add("hidden");
             }
 
             if (!isClickInsidePopup(tilePopup, event) && tilePopup.classList.contains("show")) {
-                console.log("Kliknięto poza popup kafelków");
                 tilePopup.classList.remove("show");
                 tilePopup.classList.add("hidden");
             }
@@ -341,9 +335,6 @@
         fetch('assets/tiles.json')
             .then(response => response.json())
             .then(data => {
-                console.log('Dane:', data);
-                console.log('Tiles:', data.tiles);
-
                 if (data.tiles) {
                     data.tiles.forEach(tile => {
                         const tileElement = document.createElement('div');
