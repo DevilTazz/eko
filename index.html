@@ -298,9 +298,9 @@
             const switchElement = document.getElementById("switch");
             const iconUnlocked = document.getElementById("icon-unlocked");
             const iconLocked = document.getElementById("icon-locked");
-            const iconsContainer = document.getElementById("icons-container");
-            const openInfoPopupBtn = document.getElementById("open-info-popup-btn");
-            const closeInfoPopupBtn = document.getElementById("close-info-popup");
+            const iconsContainer = document.getElementById("sortable-container");
+            const openInfoPopupBtn = document.getElementById("open-popup-btn");
+            const closeInfoPopupBtn = document.getElementById("close-popup-btn");
             const tilePopup = document.getElementById("tile-popup");
             const closeTilePopup = document.getElementById("close-tile-popup");
             const availableTilesContainer = document.getElementById("available-tiles");
@@ -320,19 +320,17 @@
 
             // Obsługa popupu informacyjnego
             openInfoPopupBtn.addEventListener("click", function () {
-                document.getElementById("info-popup").classList.add("show");
-                document.getElementById("info-popup").classList.remove("hidden");
+                document.getElementById("popup").classList.add("show");
+                document.getElementById("popup").classList.remove("hidden");
             });
 
             closeInfoPopupBtn.addEventListener("click", function () {
-                document.getElementById("info-popup").classList.remove("show");
-                document.getElementById("info-popup").classList.add("hidden");
+                document.getElementById("popup").classList.remove("show");
+                document.getElementById("popup").classList.add("hidden");
             });
 
             // Obsługa popupu kafelków
-            const openTilePopupBtn = document.getElementById("open-tile-popup-btn");
-
-            openTilePopupBtn.addEventListener("click", function () {
+            addTileBtn.addEventListener("click", function () {
                 tilePopup.classList.remove("hidden");
                 tilePopup.classList.add("show");
             });
