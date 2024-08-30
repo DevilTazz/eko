@@ -336,6 +336,11 @@
     fetch('assets/tiles.json')
         .then(response => response.json())
         .then(data => {
+            
+            console.log('Dane:', data); // Sprawdź, co jest w `data`
+            console.log('Tiles:', data.tiles); // Sprawdź, co jest w `data.tiles`
+            
+            if (data.tiles) {
             data.tiles.forEach(tile => {
                 const tileElement = document.createElement('div');
                 tileElement.className = 'tile-list-item';
@@ -365,8 +370,11 @@
                 animation: 150,
                 disabled: true
             });
-        })
-        .catch(error => console.error('Błąd ładowania kafelków:', error));
+        } else {
+            console.error('Nie znaleziono właściwości "tiles" w danych');
+        }
+    })
+    .catch(error => console.error('Błąd ładowania kafelków:', error));
 });
 
     </script>
