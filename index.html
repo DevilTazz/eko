@@ -22,9 +22,7 @@
             display: inline-block;
         }
         .hidden {
-            visibility: hidden;
-            opacity: 0;
-            transition: visibility 0s, opacity 0.5s linear;
+            display: none;
         }
         .popup {
             position: fixed;
@@ -39,6 +37,7 @@
             z-index: 1000;
             visibility: hidden;
             opacity: 0;
+            transition: opacity 0.5s, visibility 0.5s;
         }
         .popup.show {
             visibility: visible;
@@ -87,7 +86,7 @@
             justify-content: center;
             margin-top: 20px;
         }
-        .icon {
+        .icon, .icon2 {
             width: 100px;
             height: 100px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
@@ -103,42 +102,11 @@
             text-align: center;
             position: relative;
         }
-        .icon2 {
-            width: 100px;
-            height: 100px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
-            background-color: #F5F5DC;
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 24px;
-            color: black;
-            z-index: 1;
-            cursor: pointer;
-            text-align: center;
-            position: relative;
-        }
-        .icon img {
+        .icon img, .icon2 img {
             max-width: 80px;
             max-height: 80px;
         }
-        .icon2 img {
-            max-width: 80px;
-            max-height: 80px;
-        }
-        .icon .name {
-            position: absolute;
-            bottom: 0;
-            width: 100%;
-            font-size: 12px;
-            background: rgba(0, 0, 0, 0.5);
-            color: white;
-            text-align: center;
-            padding: 2px 0;
-            border-radius: 0 0 50% 50%;
-        }
-        .icon2 .name {
+        .icon .name, .icon2 .name {
             position: absolute;
             bottom: 0;
             width: 100%;
@@ -218,7 +186,6 @@
             font-size: 36px;
             cursor: pointer;
         }
-        /* Zmiana: Styl dla listy kafelków w popupie */
         .tile-list-item {
             display: flex;
             align-items: center;
@@ -248,7 +215,6 @@
             color: #666;
             margin-top: 5px;
         }
-        /* Koniec zmiany */
         a:link {
             text-decoration: none;
             color: white;
@@ -317,18 +283,20 @@
             });
 
             openInfoPopupBtn.addEventListener("click", function () {
-                document.getElementById("popup").classList.add("show");
-                document.getElementById("popup").classList.remove("hidden");
+                const popup = document.getElementById("popup");
+                popup.classList.add("show");
+                popup.classList.remove("hidden");
             });
 
             closeInfoPopupBtn.addEventListener("click", function () {
-                document.getElementById("popup").classList.remove("show");
-                document.getElementById("popup").classList.add("hidden");
+                const popup = document.getElementById("popup");
+                popup.classList.remove("show");
+                popup.classList.add("hidden");
             });
 
             addTileBtn.addEventListener("click", function () {
-                tilePopup.classList.remove("hidden");
                 tilePopup.classList.add("show");
+                tilePopup.classList.remove("hidden");
             });
 
             closeTilePopup.addEventListener("click", function () {
