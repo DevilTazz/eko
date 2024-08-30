@@ -258,100 +258,110 @@
             <div id="available-tiles" class="icon-container"></div>
         </div>
     </div>
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            const switchElement = document.getElementById("switch");
-            const iconUnlocked = document.getElementById("icon-unlocked");
-            const iconLocked = document.getElementById("icon-locked");
-            const iconsContainer = document.getElementById("sortable-container");
-            const openInfoPopupBtn = document.getElementById("open-popup-btn");
-            const closeInfoPopupBtn = document.getElementById("close-popup-btn");
-            const popup = document.getElementById("popup");
-            const addTileBtn = document.getElementById("add-tile");
-            const tilePopup = document.getElementById("tile-popup");
-            const closeTilePopup = document.getElementById("close-tile-popup");
-            const availableTilesContainer = document.getElementById("available-tiles");
-            const blurBackground = document.getElementById("blur-background");
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const switchElement = document.getElementById("switch");
+        const iconUnlocked = document.getElementById("icon-unlocked");
+        const iconLocked = document.getElementById("icon-locked");
+        const iconsContainer = document.getElementById("sortable-container");
+        const openInfoPopupBtn = document.getElementById("open-popup-btn");
+        const closeInfoPopupBtn = document.getElementById("close-popup-btn");
+        const popup = document.getElementById("popup");
+        const addTileBtn = document.getElementById("add-tile");
+        const tilePopup = document.getElementById("tile-popup");
+        const closeTilePopup = document.getElementById("close-tile-popup");
+        const availableTilesContainer = document.getElementById("available-tiles");
+        const blurBackground = document.getElementById("blur-background");
 
-            let switchOn = false;
+        let switchOn = false;
 
-            // Kliknięcia poza popupami
-            blurBackground.addEventListener("click", function() {
-                if (popup.classList.contains("show")) {
-                    popup.classList.remove("show");
-                    popup.classList.add("hidden");
-                }
-                if (tilePopup.classList.contains("show")) {
-                    tilePopup.classList.remove("show");
-                    tilePopup.classList.add("hidden");
-                }
-            });
-
-            // Otwórz popup informacji
-            openInfoPopupBtn.addEventListener("click", function (event) {
-                event.stopPropagation(); // Zapobiega zamknięciu popupu przy kliknięciu
-                popup.classList.remove("hidden");
-                popup.classList.add("show");
-            });
-
-            // Zamknij popup informacji
-            closeInfoPopupBtn.addEventListener("click", function (event) {
-                event.stopPropagation(); // Zapobiega zamknięciu popupu przy kliknięciu
+        // Kliknięcia poza popupami
+        blurBackground.addEventListener("click", function() {
+            if (popup.classList.contains("show")) {
                 popup.classList.remove("show");
                 popup.classList.add("hidden");
-            });
-
-            // Otwórz popup kafelków
-            addTileBtn.addEventListener("click", function (event) {
-                event.stopPropagation(); // Zapobiega zamknięciu popupu przy kliknięciu
-                tilePopup.classList.remove("hidden");
-                tilePopup.classList.add("show");
-            });
-
-            // Zamknij popup kafelków
-            closeTilePopup.addEventListener("click", function (event) {
-                event.stopPropagation(); // Zapobiega zamknięciu popupu przy kliknięciu
+            }
+            if (tilePopup.classList.contains("show")) {
                 tilePopup.classList.remove("show");
                 tilePopup.classList.add("hidden");
-            });
-
-            // Przełącznik
-            switchElement.addEventListener("click", function() {
-                switchOn = !switchOn;
-                switchElement.classList.toggle("on", switchOn);
-                iconUnlocked.classList.toggle("grayscale", !switchOn);
-                iconLocked.classList.toggle("grayscale", switchOn);
-
-                const icons = document.querySelectorAll(".icon");
-                icons.forEach(icon => {
-                    icon.classList.toggle("disabled", !switchOn);
-                });
-            });
-
-            // Funkcja dodająca nowe kafelki do popupu
-            function addTile(name, imageUrl) {
-                const tileElement = document.createElement("div");
-                tileElement.className = "tile-list-item";
-                tileElement.innerHTML = `
-                    <img src="${imageUrl}" alt="${name}">
-                    <div class="tile-info">
-                        <div class="tile-name">${name}</div>
-                        <div class="tile-description">Opis kafelka ${name}</div>
-                    </div>
-                `;
-                availableTilesContainer.appendChild(tileElement);
             }
+        });
 
-            // Przykładowe dodanie kafelków do popupu
-            addTile("Kafelek 1", "icon/coinskro32x32.png");
-            addTile("Kafelek 2", "icon/pipcm.png");
+        // Zatrzymaj propagację kliknięć wewnątrz popupów
+        function preventPopupClose(event) {
+            event.stopPropagation();
+        }
 
-            // Umożliwienie przeciągania kafelków
-            Sortable.create(iconsContainer, {
-                animation: 150,
-                ghostClass: "sortable-ghost"
+        // Otwórz popup informacji
+        openInfoPopupBtn.addEventListener("click", function(event) {
+            event.stopPropagation();
+            popup.classList.remove("hidden");
+            popup.classList.add("show");
+        });
+
+        // Zamknij popup informacji
+        closeInfoPopupBtn.addEventListener("click", function(event) {
+            event.stopPropagation();
+            popup.classList.remove("show");
+            popup.classList.add("hidden");
+        });
+
+        // Otwórz popup kafelków
+        addTileBtn.addEventListener("click", function(event) {
+            event.stopPropagation();
+            tilePopup.classList.remove("hidden");
+            tilePopup.classList.add("show");
+        });
+
+        // Zamknij popup kafelków
+        closeTilePopup.addEventListener("click", function(event) {
+            event.stopPropagation();
+            tilePopup.classList.remove("show");
+            tilePopup.classList.add("hidden");
+        });
+
+        // Zapobieganie zamknięciu popupu po kliknięciu wewnątrz
+        popup.addEventListener("click", preventPopupClose);
+        tilePopup.addEventListener("click", preventPopupClose);
+
+        // Przełącznik
+        switchElement.addEventListener("click", function() {
+            switchOn = !switchOn;
+            switchElement.classList.toggle("on", switchOn);
+            iconUnlocked.classList.toggle("grayscale", !switchOn);
+            iconLocked.classList.toggle("grayscale", switchOn);
+
+            const icons = document.querySelectorAll(".icon");
+            icons.forEach(icon => {
+                icon.classList.toggle("disabled", !switchOn);
             });
         });
-    </script>
+
+        // Funkcja dodająca nowe kafelki do popupu
+        function addTile(name, imageUrl) {
+            const tileElement = document.createElement("div");
+            tileElement.className = "tile-list-item";
+            tileElement.innerHTML = `
+                <img src="${imageUrl}" alt="${name}">
+                <div class="tile-info">
+                    <div class="tile-name">${name}</div>
+                    <div class="tile-description">Opis kafelka ${name}</div>
+                </div>
+            `;
+            availableTilesContainer.appendChild(tileElement);
+        }
+
+        // Przykładowe dodanie kafelków do popupu
+        addTile("Kafelek 1", "icon/coinskro32x32.png");
+        addTile("Kafelek 2", "icon/pipcm.png");
+
+        // Umożliwienie przeciągania kafelków
+        Sortable.create(iconsContainer, {
+            animation: 150,
+            ghostClass: "sortable-ghost"
+        });
+    });
+</script>
+
 </body>
 </html>
