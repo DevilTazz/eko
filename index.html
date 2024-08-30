@@ -223,7 +223,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.15.0/Sortable.min.js"></script>
 </head>
 <body>
-    <div class="blur-background"></div>
+    <div class="blur-background" id="blur-background"></div>
     <div class="container">
         <!-- Switch container -->
         <div class="switch-container">
@@ -271,21 +271,19 @@
             const tilePopup = document.getElementById("tile-popup");
             const closeTilePopup = document.getElementById("close-tile-popup");
             const availableTilesContainer = document.getElementById("available-tiles");
+            const blurBackground = document.getElementById("blur-background");
 
             let switchOn = false;
 
             // Kliknięcia poza popupami
-            document.addEventListener("click", function(event) {
-                if (!popup.contains(event.target) && popup.classList.contains("show")) {
+            blurBackground.addEventListener("click", function() {
+                if (popup.classList.contains("show")) {
                     popup.classList.remove("show");
                     popup.classList.add("hidden");
-                    console.log('Clicked outside info popup');
                 }
-
-                if (!tilePopup.contains(event.target) && tilePopup.classList.contains("show")) {
+                if (tilePopup.classList.contains("show")) {
                     tilePopup.classList.remove("show");
                     tilePopup.classList.add("hidden");
-                    console.log('Clicked outside tile popup');
                 }
             });
 
@@ -294,7 +292,6 @@
                 event.stopPropagation(); // Zapobiega zamknięciu popupu przy kliknięciu
                 popup.classList.remove("hidden");
                 popup.classList.add("show");
-                console.log('Info popup opened');
             });
 
             // Zamknij popup informacji
@@ -302,7 +299,6 @@
                 event.stopPropagation(); // Zapobiega zamknięciu popupu przy kliknięciu
                 popup.classList.remove("show");
                 popup.classList.add("hidden");
-                console.log('Info popup closed');
             });
 
             // Otwórz popup kafelków
@@ -310,7 +306,6 @@
                 event.stopPropagation(); // Zapobiega zamknięciu popupu przy kliknięciu
                 tilePopup.classList.remove("hidden");
                 tilePopup.classList.add("show");
-                console.log('Tile popup opened');
             });
 
             // Zamknij popup kafelków
@@ -318,7 +313,6 @@
                 event.stopPropagation(); // Zapobiega zamknięciu popupu przy kliknięciu
                 tilePopup.classList.remove("show");
                 tilePopup.classList.add("hidden");
-                console.log('Tile popup closed');
             });
 
             // Przełącznik
@@ -332,7 +326,6 @@
                 icons.forEach(icon => {
                     icon.classList.toggle("disabled", !switchOn);
                 });
-                console.log(switchOn ? 'Switch ON' : 'Switch OFF');
             });
 
             // Funkcja dodająca nowe kafelki do popupu
@@ -347,7 +340,6 @@
                     </div>
                 `;
                 availableTilesContainer.appendChild(tileElement);
-                console.log(`Tile added: ${name}`);
             }
 
             // Przykładowe dodanie kafelków do popupu
