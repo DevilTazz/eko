@@ -259,141 +259,155 @@
         </div>
     </div>
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            const popup = document.getElementById("popup");
-            const openPopupBtn = document.getElementById("open-popup-btn");
-            const closePopupBtn = document.getElementById("close-popup-btn");
-            const switchElement = document.getElementById("switch");
-            const unlockedIcon = document.getElementById("icon-unlocked");
-            const lockedIcon = document.getElementById("icon-locked");
-            const addTileBtn = document.getElementById("add-tile");
-            const tilePopup = document.getElementById("tile-popup");
-            const closeTilePopupBtn = document.getElementById("close-tile-popup");
-            const availableTilesContainer = document.getElementById("available-tiles");
-            const sortableContainer = document.getElementById("sortable-container");
+    document.addEventListener("DOMContentLoaded", function() {
+    const popup = document.getElementById("popup");
+    const openPopupBtn = document.getElementById("open-popup-btn");
+    const closePopupBtn = document.getElementById("close-popup-btn");
+    const switchElement = document.getElementById("switch");
+    const unlockedIcon = document.getElementById("icon-unlocked");
+    const lockedIcon = document.getElementById("icon-locked");
+    const addTileBtn = document.getElementById("add-tile");
+    const tilePopup = document.getElementById("tile-popup");
+    const closeTilePopupBtn = document.getElementById("close-tile-popup");
+    const availableTilesContainer = document.getElementById("available-tiles");
+    const sortableContainer = document.getElementById("sortable-container");
 
-            // Toggle popup visibility
-            if (popup && openPopupBtn && closePopupBtn) {
-                openPopupBtn.addEventListener("click", function() {
-                    popup.classList.add("show");
-                });
-                closePopupBtn.addEventListener("click", function() {
-                    popup.classList.remove("show");
-                });
-                document.addEventListener("click", function(event) {
-                    if (event.target === popup) {
-                        popup.classList.remove("show");
-                    }
-                });
-            }
-
-            // Toggle switch and icon
-            if (switchElement && unlockedIcon && lockedIcon) {
-                switchElement.addEventListener("click", function() {
-                    switchElement.classList.toggle("on");
-                    updateIcons();
-                });
-            }
-
-            function updateIcons() {
-                const isSwitchOn = switchElement.classList.contains("on");
-                if (isSwitchOn) {
-                    unlockedIcon.classList.add("grayscale");
-                    lockedIcon.classList.remove("grayscale");
-                    // Disable adding tiles
-                    addTileBtn.classList.add("grayscale");
-                } else {
-                    unlockedIcon.classList.remove("grayscale");
-                    lockedIcon.classList.add("grayscale");
-                    // Enable adding tiles
-                    addTileBtn.classList.remove("grayscale");
-                }
-            }
-
-            // Add tile popup functionality
-            if (addTileBtn) {
-                addTileBtn.addEventListener("click", function() {
-                    if (!switchElement.classList.contains("on")) {
-                        tilePopup.classList.add("show");
-                    }
-                });
-            }
-
-            // Close tile popup
-            if (closeTilePopupBtn) {
-                closeTilePopupBtn.addEventListener("click", function() {
-                    tilePopup.classList.remove("show");
-                });
-                document.addEventListener("click", function(event) {
-                    if (event.target === tilePopup) {
-                        tilePopup.classList.remove("show");
-                    }
-                });
-            }
-
-            // Function to create a tile
-            function createTile(iconSrc, tileId, tileName, tileLink) {
-                const tile = document.createElement("div");
-                tile.className = "icon2";
-                tile.innerHTML = `<a href="${tileLink}"><img src="${iconSrc}" alt="Tile"><div class="name">${tileName}</a></div>`;
-                tile.id = tileId;
-                return tile;
-            }
-
-            // Function to add tiles to the popup
-            function addTile(name, imageUrl) {
-                const tileElement = document.createElement("div");
-                tileElement.className = "tile-list-item";
-                tileElement.innerHTML = `
-                    <img src="${imageUrl}" alt="${name}">
-                    <div class="tile-info">
-                        <div class="tile-name">${name}</div>
-                        <div class="tile-description">Opis kafelka ${name}</div>
-                    </div>
-                `;
-                availableTilesContainer.appendChild(tileElement);
-            }
-
-            // Load available tiles from JSON
-            fetch('/eko/assets/tiles.json')
-                .then(response => response.json())
-                .then(data => {
-                    data.forEach(tile => {
-                        addTile(tile.name, tile.iconUrl); // Adjusted to match the new addTile function
-                        const tileElement = createTile(tile.iconUrl, tile.id, tile.name, tile.link);
-                        availableTilesContainer.appendChild(tileElement);
-                        tileElement.addEventListener("click", function() {
-                            if (!switchElement.classList.contains("on")) {
-                                const newTile = createTile(tile.iconUrl, tile.id, tile.name, tile.link);
-                                sortableContainer.appendChild(newTile);
-                                // Move the add tile button to the end
-                                const addTileButton = document.getElementById("add-tile");
-                                sortableContainer.appendChild(addTileButton);
-                            }
-                        });
-                    });
-                })
-                .catch(error => console.error('Error loading tiles:', error));
-
-            // Initialize sortable
-            if (sortableContainer) {
-                Sortable.create(sortableContainer, {
-                    animation: 150,
-                    ghostClass: 'sortable-ghost',
-                    onStart: function(evt) {
-                        if (switchElement.classList.contains("on")) {
-                            evt.from.classList.add('disabled');
-                        }
-                    },
-                    onEnd: function(evt) {
-                        if (switchElement.classList.contains("on")) {
-                            evt.from.classList.remove('disabled');
-                        }
-                        console.log('Element moved');
-                    }
-                });
+    // Toggle popup visibility
+    if (popup && openPopupBtn && closePopupBtn) {
+        openPopupBtn.addEventListener("click", function() {
+            popup.classList.add("show");
+        });
+        closePopupBtn.addEventListener("click", function() {
+            popup.classList.remove("show");
+        });
+        document.addEventListener("click", function(event) {
+            if (event.target === popup) {
+                popup.classList.remove("show");
             }
         });
+    }
+
+    // Toggle switch and icon
+    if (switchElement && unlockedIcon && lockedIcon) {
+        switchElement.addEventListener("click", function() {
+            switchElement.classList.toggle("on");
+            updateIcons();
+        });
+    }
+
+    function updateIcons() {
+        const isSwitchOn = switchElement.classList.contains("on");
+        if (isSwitchOn) {
+            unlockedIcon.classList.add("grayscale");
+            lockedIcon.classList.remove("grayscale");
+            // Disable adding tiles
+            addTileBtn.classList.add("grayscale");
+        } else {
+            unlockedIcon.classList.remove("grayscale");
+            lockedIcon.classList.add("grayscale");
+            // Enable adding tiles
+            addTileBtn.classList.remove("grayscale");
+        }
+    }
+
+    // Add tile popup functionality
+    if (addTileBtn) {
+        addTileBtn.addEventListener("click", function() {
+            if (!switchElement.classList.contains("on")) {
+                tilePopup.classList.add("show");
+            }
+        });
+    }
+
+    // Close tile popup
+    if (closeTilePopupBtn) {
+        closeTilePopupBtn.addEventListener("click", function() {
+            tilePopup.classList.remove("show");
+        });
+        document.addEventListener("click", function(event) {
+            if (event.target === tilePopup) {
+                tilePopup.classList.remove("show");
+            }
+        });
+    }
+
+    // Function to create a tile element
+    function createTile(iconSrc, tileId, tileName, tileLink) {
+        const tile = document.createElement("div");
+        tile.className = "icon2";
+        tile.innerHTML = `<a href="${tileLink}"><img src="${iconSrc}" alt="Tile"><div class="name">${tileName}</a></div>`;
+        tile.id = tileId;
+        return tile;
+    }
+
+    // Function to add tiles to the tile popup
+    function addTileToPopup(name, imageUrl, id, link) {
+        const tileElement = document.createElement("div");
+        tileElement.className = "tile-list-item";
+        tileElement.dataset.tileId = id;
+        tileElement.dataset.tileName = name;
+        tileElement.dataset.tileIconUrl = imageUrl;
+        tileElement.dataset.tileLink = link;
+        tileElement.innerHTML = `
+            <img src="${imageUrl}" alt="${name}">
+            <div class="tile-info">
+                <div class="tile-name">${name}</div>
+                <div class="tile-description">Opis kafelka ${name}</div>
+            </div>
+        `;
+        availableTilesContainer.appendChild(tileElement);
+    }
+
+    // Load available tiles from JSON
+    fetch('/eko/assets/tiles.json')
+        .then(response => response.json())
+        .then(data => {
+            data.forEach(tile => {
+                addTileToPopup(tile.name, tile.iconUrl, tile.id, tile.link);
+            });
+        })
+        .catch(error => console.error('Error loading tiles:', error));
+
+    // Handle clicks on tiles in the tile-popup
+    availableTilesContainer.addEventListener("click", function(event) {
+        const tileElement = event.target.closest(".tile-list-item");
+        if (tileElement) {
+            const tileId = tileElement.dataset.tileId;
+            const tileName = tileElement.dataset.tileName;
+            const tileIconUrl = tileElement.dataset.tileIconUrl;
+            const tileLink = tileElement.dataset.tileLink;
+
+            if (!switchElement.classList.contains("on")) {
+                const newTile = createTile(tileIconUrl, tileId, tileName, tileLink);
+                sortableContainer.appendChild(newTile);
+                // Move the add tile button to the end
+                const addTileButton = document.getElementById("add-tile");
+                sortableContainer.appendChild(addTileButton);
+                tilePopup.classList.remove("show"); // Close the tile popup after adding the tile
+            }
+        }
+    });
+
+    // Initialize sortable
+    if (sortableContainer) {
+        Sortable.create(sortableContainer, {
+            animation: 150,
+            ghostClass: 'sortable-ghost',
+            onStart: function(evt) {
+                if (switchElement.classList.contains("on")) {
+                    evt.from.classList.add('disabled');
+                }
+            },
+            onEnd: function(evt) {
+                if (switchElement.classList.contains("on")) {
+                    evt.from.classList.remove('disabled');
+                }
+                console.log('Element moved');
+            }
+        });
+    }
+});
+
     </script>
 </body>
 </html>
