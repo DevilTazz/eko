@@ -281,6 +281,7 @@
         document.querySelectorAll('.icon').forEach(icon => {
             icon.classList.toggle('disabled', isLocked);
         });
+        console.log('Switch toggled, isLocked:', isLocked);
     });
 
     // Otwórz popup informacji
@@ -288,6 +289,7 @@
         const popup = document.getElementById("popup");
         popup.classList.add("show");
         popup.classList.remove("hidden");
+        console.log('Info popup opened');
     });
 
     // Zamknij popup informacji
@@ -295,18 +297,21 @@
         const popup = document.getElementById("popup");
         popup.classList.remove("show");
         popup.classList.add("hidden");
+        console.log('Info popup closed');
     });
 
     // Otwórz popup kafelków
     addTileBtn.addEventListener("click", function () {
         tilePopup.classList.add("show");
         tilePopup.classList.remove("hidden");
+        console.log('Tile popup opened');
     });
 
     // Zamknij popup kafelków
     closeTilePopup.addEventListener("click", function () {
         tilePopup.classList.remove("show");
         tilePopup.classList.add("hidden");
+        console.log('Tile popup closed');
     });
 
     // Kliknięcia poza popupami
@@ -323,11 +328,13 @@
         if (popup.classList.contains("show") && !isClickInsidePopup(popup, event)) {
             popup.classList.remove("show");
             popup.classList.add("hidden");
+            console.log('Clicked outside info popup');
         }
 
         if (tilePopup.classList.contains("show") && !isClickInsidePopup(tilePopup, event)) {
             tilePopup.classList.remove("show");
             tilePopup.classList.add("hidden");
+            console.log('Clicked outside tile popup');
         }
     });
 
@@ -355,6 +362,7 @@
                             `;
                             iconsContainer.appendChild(newTile);
                             iconsContainer.appendChild(addTileBtn);
+                            console.log('Tile added');
                         }
                     });
                     availableTilesContainer.appendChild(tileElement);
@@ -370,7 +378,11 @@
             }
         })
         .catch(error => console.error('Błąd ładowania kafelków:', error));
-});
+    });
+    </script>
+</body>
+</html>
+
     </script>
 </body>
 </html>
