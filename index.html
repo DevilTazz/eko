@@ -260,84 +260,87 @@
     </div>
     <script>
         document.addEventListener("DOMContentLoaded", function() {
-            const switchElement = document.getElementById("switch");
-            const iconUnlocked = document.getElementById("icon-unlocked");
-            const iconLocked = document.getElementById("icon-locked");
-            const iconsContainer = document.getElementById("sortable-container");
-            const openInfoPopupBtn = document.getElementById("open-popup-btn");
-            const closeInfoPopupBtn = document.getElementById("close-popup-btn");
             const popup = document.getElementById("popup");
+            const openPopupBtn = document.getElementById("open-popup-btn");
+            const closePopupBtn = document.getElementById("close-popup-btn");
+            const switchElement = document.getElementById("switch");
+            const unlockedIcon = document.getElementById("icon-unlocked");
+            const lockedIcon = document.getElementById("icon-locked");
             const addTileBtn = document.getElementById("add-tile");
             const tilePopup = document.getElementById("tile-popup");
-            const closeTilePopup = document.getElementById("close-tile-popup");
+            const closeTilePopupBtn = document.getElementById("close-tile-popup");
             const availableTilesContainer = document.getElementById("available-tiles");
-            const blurBackground = document.getElementById("blur-background");
+            const sortableContainer = document.getElementById("sortable-container");
 
-            let switchOn = false;
-
-            // Kliknięcia poza popupami
-            blurBackground.addEventListener("click", function() {
-                if (popup.classList.contains("show")) {
+            // Toggle popup visibility
+            if (popup && openPopupBtn && closePopupBtn) {
+                openPopupBtn.addEventListener("click", function() {
+                    popup.classList.add("show");
+                });
+                closePopupBtn.addEventListener("click", function() {
                     popup.classList.remove("show");
-                    popup.classList.add("hidden");
-                }
-                if (tilePopup.classList.contains("show")) {
-                    tilePopup.classList.remove("show");
-                    tilePopup.classList.add("hidden");
-                }
-            });
-
-            // Zatrzymaj propagację kliknięć wewnątrz popupów
-            function preventPopupClose(event) {
-                event.stopPropagation();
+                });
+                document.addEventListener("click", function(event) {
+                    if (event.target === popup) {
+                        popup.classList.remove("show");
+                    }
+                });
             }
 
-            // Otwórz popup informacji
-            openInfoPopupBtn.addEventListener("click", function(event) {
-                event.stopPropagation();
-                popup.classList.remove("hidden");
-                popup.classList.add("show");
-            });
-
-            // Zamknij popup informacji
-            closeInfoPopupBtn.addEventListener("click", function(event) {
-                event.stopPropagation();
-                popup.classList.remove("show");
-                popup.classList.add("hidden");
-            });
-
-            // Otwórz popup kafelków
-            addTileBtn.addEventListener("click", function(event) {
-                event.stopPropagation();
-                tilePopup.classList.remove("hidden");
-                tilePopup.classList.add("show");
-            });
-
-            // Zamknij popup kafelków
-            closeTilePopup.addEventListener("click", function(event) {
-                event.stopPropagation();
-                tilePopup.classList.remove("show");
-                tilePopup.classList.add("hidden");
-            });
-
-            // Zapobieganie zamknięciu popupu po kliknięciu wewnątrz
-            popup.addEventListener("click", preventPopupClose);
-            tilePopup.addEventListener("click", preventPopupClose);
-
-            // Przełącznik
-            switchElement.addEventListener("click", function() {
-                switchOn = !switchOn;
-                switchElement.classList.toggle("on", switchOn);
-                iconUnlocked.classList.toggle("grayscale", !switchOn);
-                iconLocked.classList.toggle("grayscale", switchOn);
-
-                const icons = document.querySelectorAll(".icon");
-                icons.forEach(icon => {
-                    icon.classList.toggle("disabled", !switchOn);
+            // Toggle switch and icon
+            if (switchElement && unlockedIcon && lockedIcon) {
+                switchElement.addEventListener("click", function() {
+                    switchElement.classList.toggle("on");
+                    updateIcons();
                 });
-            });
+            }
 
-            // Funkcja dodająca nowe kafelki do popupu
+            function updateIcons() {
+                const isSwitchOn = switchElement.classList.contains("on");
+                if (isSwitchOn) {
+                    unlockedIcon.classList.add("grayscale");
+                    lockedIcon.classList.remove("grayscale");
+                    // Disable adding tiles
+                    addTileBtn.classList.add("grayscale");
+                } else {
+                    unlockedIcon.classList.remove("grayscale");
+                    lockedIcon.classList.add("grayscale");
+                    // Enable adding tiles
+                    addTileBtn.classList.remove("grayscale");
+                }
+            }
+
+            // Add tile popup functionality
+            if (addTileBtn) {
+                addTileBtn.addEventListener("click", function() {
+                    if (!switchElement.classList.contains("on")) {
+                        tilePopup.classList.add("show");
+                    }
+                });
+            }
+
+            // Close tile popup
+            if (closeTilePopupBtn) {
+                closeTilePopupBtn.addEventListener("click", function() {
+                    tilePopup.classList.remove("show");
+                });
+                document.addEventListener("click", function(event) {
+                    if (event.target === tilePopup) {
+                        tilePopup.classList.remove("show");
+                    }
+                });
+            }
+
+            // Function to create a tile
+            function createTile(iconSrc, tileId, tileName, tileLink) {
+                const tile = document.createElement("div");
+                tile.className = "icon2";
+                tile.innerHTML = `<a href="${tileLink}"><img src="${iconSrc}" alt="Tile"><div class="name">${tileName}</a></div>`;
+                tile.id = tileId;
+                return tile;
+            }
+
+            // Function to add tiles to the popup
             function addTile(name, imageUrl) {
                 const tileElement = document.createElement("div");
                 tileElement.className = "tile-list-item";
@@ -351,15 +354,45 @@
                 availableTilesContainer.appendChild(tileElement);
             }
 
-            // Przykładowe dodanie kafelków do popupu
-            addTile("Kafelek 1", "icon/coinskro32x32.png");
-            addTile("Kafelek 2", "icon/pipcm.png");
+            // Load available tiles from JSON
+            fetch('/eko/assets/tiles.json')
+                .then(response => response.json())
+                .then(data => {
+                    data.forEach(tile => {
+                        addTile(tile.name, tile.iconUrl); // Adjusted to match the new addTile function
+                        const tileElement = createTile(tile.iconUrl, tile.id, tile.name, tile.link);
+                        availableTilesContainer.appendChild(tileElement);
+                        tileElement.addEventListener("click", function() {
+                            if (!switchElement.classList.contains("on")) {
+                                const newTile = createTile(tile.iconUrl, tile.id, tile.name, tile.link);
+                                sortableContainer.appendChild(newTile);
+                                // Move the add tile button to the end
+                                const addTileButton = document.getElementById("add-tile");
+                                sortableContainer.appendChild(addTileButton);
+                            }
+                        });
+                    });
+                })
+                .catch(error => console.error('Error loading tiles:', error));
 
-            // Umożliwienie przeciągania kafelków
-            Sortable.create(iconsContainer, {
-                animation: 150,
-                ghostClass: "sortable-ghost"
-            });
+            // Initialize sortable
+            if (sortableContainer) {
+                Sortable.create(sortableContainer, {
+                    animation: 150,
+                    ghostClass: 'sortable-ghost',
+                    onStart: function(evt) {
+                        if (switchElement.classList.contains("on")) {
+                            evt.from.classList.add('disabled');
+                        }
+                    },
+                    onEnd: function(evt) {
+                        if (switchElement.classList.contains("on")) {
+                            evt.from.classList.remove('disabled');
+                        }
+                        console.log('Element moved');
+                    }
+                });
+            }
         });
     </script>
 </body>
