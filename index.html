@@ -274,27 +274,24 @@
 
             let switchOn = false;
 
+            function isClickInsidePopup(popup, event) {
+                return popup && popup.contains(event.target);
+            }
+
             // Kliknięcia poza popupami
             document.addEventListener("click", function(event) {
-                const isClickInsideInfoPopup = isClickInsidePopup(popup, event);
-                const isClickInsideTilePopup = isClickInsidePopup(tilePopup, event);
-
-                if (!isClickInsideInfoPopup && popup.classList.contains("show")) {
+                if (!isClickInsidePopup(popup, event) && popup.classList.contains("show")) {
                     popup.classList.remove("show");
                     popup.classList.add("hidden");
                     console.log('Clicked outside info popup');
                 }
 
-                if (!isClickInsideTilePopup && tilePopup.classList.contains("show")) {
+                if (!isClickInsidePopup(tilePopup, event) && tilePopup.classList.contains("show")) {
                     tilePopup.classList.remove("show");
                     tilePopup.classList.add("hidden");
                     console.log('Clicked outside tile popup');
                 }
             });
-
-            function isClickInsidePopup(popup, event) {
-                return popup && popup.contains(event.target);
-            }
 
             // Otwórz popup informacji
             openInfoPopupBtn.addEventListener("click", function () {
@@ -362,7 +359,6 @@
                 animation: 150,
                 ghostClass: "sortable-ghost"
             });
-
         });
     </script>
 </body>
