@@ -276,13 +276,16 @@
 
             // Kliknięcia poza popupami
             document.addEventListener("click", function(event) {
-                if (popup.classList.contains("show") && !isClickInsidePopup(popup, event)) {
+                const isClickInsideInfoPopup = isClickInsidePopup(popup, event);
+                const isClickInsideTilePopup = isClickInsidePopup(tilePopup, event);
+
+                if (!isClickInsideInfoPopup && popup.classList.contains("show")) {
                     popup.classList.remove("show");
                     popup.classList.add("hidden");
                     console.log('Clicked outside info popup');
                 }
 
-                if (tilePopup.classList.contains("show") && !isClickInsidePopup(tilePopup, event)) {
+                if (!isClickInsideTilePopup && tilePopup.classList.contains("show")) {
                     tilePopup.classList.remove("show");
                     tilePopup.classList.add("hidden");
                     console.log('Clicked outside tile popup');
