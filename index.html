@@ -195,10 +195,9 @@
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
             background-color: #F5F5DC;
         }
-        #tile-popup .icon-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
-            gap: 20px;
+        #tile-popup .tile-list {
+            padding: 0;
+            margin: 0;
         }
         a:link {
             text-decoration: none;
@@ -208,19 +207,20 @@
         .tile-item {
             display: flex;
             align-items: center;
-            margin: 10px;
             padding: 10px;
             border: 1px solid #ddd;
             border-radius: 5px;
             cursor: pointer;
+            margin-bottom: 10px; /* Margines między elementami listy */
+            transition: background-color 0.2s; /* Płynne przejście koloru tła */
         }
         .tile-content {
             display: flex;
             align-items: center;
         }
         .tile-icon {
-            width: 50px;
-            height: 50px;
+            width: 24px;
+            height: 24px;
             margin-right: 10px;
         }
         .tile-info {
@@ -271,7 +271,7 @@
         <div class="popup-content">
             <span id="close-tile-popup" class="close-btn">&times;</span>
             <h2>Wybierz kafelek</h2>
-            <div id="available-tiles" class="icon-container"></div>
+            <div id="available-tiles" class="tile-list"></div>
         </div>
     </div>
     <script>
