@@ -214,20 +214,19 @@
             margin-bottom: 10px; /* Margines między elementami listy */
             transition: background-color 0.2s; /* Płynne przejście koloru tła */
             
-            justify-content: flex-start; /* Wyśrodkowanie zawartości */
+            justify-content: center; /* Wyśrodkowanie zawartości */
             text-align: center; /* Wyśrodkowanie tekstu */
-            text-align: center;
+            
         }
         .tile-content {
             display: flex;
             align-items: center;
         }
         .tile-icon {
-            width: 24px;
-            height: 24px;
-            margin-right: 10px;
-            margin-bottom: 10px; /* Dodanie marginesu poniżej ikony */
-
+            max-width: 24px;
+            max-height: 24px;
+            display: block;
+            margin: 0 auto;
         }
         .tile-info {
             display: flex;
