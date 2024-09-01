@@ -21,11 +21,7 @@
             padding: 15px 32px;
             display: inline-block;
         }
-        .hidden {
-            visibility: hidden;
-            opacity: 0;
-            transition: visibility 0s, opacity 0.5s linear;
-        }
+        
         .popup {
             position: fixed;
             top: 0;
@@ -213,26 +209,17 @@
             cursor: pointer;
             margin-bottom: 10px; /* Margines między elementami listy */
             transition: background-color 0.2s; /* Płynne przejście koloru tła */
-            
-            justify-content: center; /* Wyśrodkowanie zawartości */
+
+            justify-content: flex-start; /* Wyśrodkowanie zawartości */
             text-align: center; /* Wyśrodkowanie tekstu */
-            
+     
         }
-        .tile-content {
-            display: flex;
-            align-items: center;
-        }
-        .tile-icon-div {
-            width: 40px;
-            display: inline;
-        }
+    
         .tile-icon {
-            max-width: 24px;
-            max-height: 24px;
-            
-            align-content: flex-start;
-            display: flex;
-            margin: 0;
+            width: 24px;
+            height: 24px;
+            margin-right: 10px;
+            margin-bottom: 10px; /* Dodanie marginesu poniżej ikony */
         }
         .tile-info {
             display: flex;
@@ -240,7 +227,7 @@
             align-items: center; /* Wyśrodkowanie w pionie */
             justify-content: center; /* Wyśrodkowanie w poziomie */
             text-align: center; /* Wyśrodkowanie tekstu wewnątrz */
-            text-align: center; /* Wyśrodkowanie tekstu wewnątrz */
+         
         }
         .tile-name {
             font-size: 16px;
@@ -367,7 +354,7 @@
                 const tile = document.createElement("div");
                 tile.className = "tile-item"; // Klasa do wyświetlania w dymku
                 tile.innerHTML = `
-                    <div class="tile-icon-div"><img src="${iconSrc}" alt="Tile" class="tile-icon></div>
+                    <img src="${iconSrc}" alt="Tile" class="tile-icon">
                     <div class="tile-info">
                         <div class="tile-name">${tileName}</div>
                         <div class="tile-description">${tileDescription}</div>
