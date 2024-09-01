@@ -225,8 +225,7 @@
         }
         a:link {
             text-decoration: none;
-
-            color: white;
+            color: black;
         }
     </style>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.15.0/Sortable.min.js"></script>
@@ -263,8 +262,7 @@
     <div id="tile-popup" class="popup hidden">
         <div class="popup-content">
             <span id="close-tile-popup" class="close-btn">&times;</span>
-
-            <h2>Dodaj kafelek</h2>
+            <h2>Wybierz kafelek</h2>
             <div id="available-tiles" class="icon-container"></div>
         </div>
     </div>
@@ -341,7 +339,7 @@
             function createTile(iconSrc, tileId, tileName, tileLink) {
                 const tile = document.createElement("div");
                 tile.className = "icon2";
-                tile.innerHTML = `<img src="${iconSrc}" alt="Tile"><div class="name">${tileName}</div>`;
+                //tile.innerHTML = `<img src="${iconSrc}" alt="Tile"><div class="name">${tileName}</div>`;
                 tile.innerHTML = `<a href="${tileLink}"><img src="${iconSrc}" alt="Tile"><div class="name">${tileName}</a></div>`;
                 tile.id = tileId;
                 return tile;
