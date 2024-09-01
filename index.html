@@ -341,7 +341,7 @@
             function createTile(iconSrc, tileId, tileName, tileLink) {
                 const tile = document.createElement("div");
                 tile.className = "icon2";
-                //tile.innerHTML = `<img src="${iconSrc}" alt="Tile"><div class="name">${tileName}</div>`;
+                tile.innerHTML = `<img src="${iconSrc}" alt="Tile"><div class="name">${tileName}</div>`;
                 tile.innerHTML = `<a href="${tileLink}"><img src="${iconSrc}" alt="Tile"><div class="name">${tileName}</a></div>`;
                 tile.id = tileId;
                 return tile;
