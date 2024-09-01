@@ -48,6 +48,15 @@
             text-align: center;
             position: relative;
         }
+        .popup-content-tiles {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            max-width: 90vw; /* Maksymalna szerokość popupu dostosowuje się do szerokości wyświetlacza */
+            max-height: 90vh; /* Maksymalna wysokość popupu */
+            overflow: auto; /* Dodaje pasek przewijania, jeśli zawartość przekracza maksymalną wysokość */
+            box-sizing: border-box; /* Uwzględnia padding i border w szerokości */
+        }
         .close-btn {
             position: absolute;
             top: 10px;
@@ -200,6 +209,14 @@
             color: white;
         }
         /* Style dla kafelków w dymku */
+        #available-tiles {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); /* Automatyczne dopasowywanie kolumn */
+        gap: 10px; /* Odstęp między kafelkami */
+        box-sizing: border-box; /* Uwzględnia padding i border w szerokości */
+        max-width: 100%; /* Maksymalna szerokość kontenera dopasowuje się do szerokości popupu */
+        overflow-y: auto; /* Dodaje pasek przewijania, jeśli zawartość przekracza wysokość */
+    }
         .tile-item {
             display: flex;
             align-items: center;
@@ -209,6 +226,7 @@
             cursor: pointer;
             margin-bottom: 10px; /* Margines między elementami listy */
             transition: background-color 0.2s; /* Płynne przejście koloru tła */
+            max-width: 300px; /* Maksymalna szerokość dla pojedynczego elementu */
             width: 100%; /* Umożliwienie wypełnienia dostępnej szerokości */
             justify-content: center; /* Wyśrodkowanie zawartości */
             text-align: center; /* Wyśrodkowanie tekstu */
@@ -276,9 +294,9 @@
     </div>
     <!-- Dymek do wybierania kafelków -->
     <div id="tile-popup" class="popup hidden">
-        <div class="popup-content">
+        <div class="popup-content-tiles">
             <span id="close-tile-popup" class="close-btn">&times;</span>
-            <h2>Wybierz kafelek</h2>
+            <h2>Dodaj kafelek</h2>
             <div id="available-tiles" class="tile-list"></div>
         </div>
     </div>
