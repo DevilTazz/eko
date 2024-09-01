@@ -213,27 +213,27 @@
             cursor: pointer;
             margin-bottom: 10px; /* Margines między elementami listy */
             transition: background-color 0.2s; /* Płynne przejście koloru tła */
-            justify-content: center; /* Wyśrodkowanie zawartości */
+            
+            justify-content: flex-start; /* Wyśrodkowanie zawartości */
             text-align: center; /* Wyśrodkowanie tekstu */
         }
         .tile-content {
             display: flex;
             align-items: center;
-            flex-direction: column; /* Ustawienie treści w kolumnie */
-    justify-content: center;
-    text-align: center; /* Wycentrowanie tekstu */
         }
         .tile-icon {
             width: 24px;
             height: 24px;
             margin-right: 10px;
-            
+            margin-bottom: 10px; /* Dodanie marginesu poniżej ikony */
+
         }
         .tile-info {
             display: flex;
             flex-direction: column;
             align-items: center; /* Wyśrodkowanie w pionie */
             justify-content: center; /* Wyśrodkowanie w poziomie */
+            text-align: center; /* Wyśrodkowanie tekstu wewnątrz */
             text-align: center; /* Wyśrodkowanie tekstu wewnątrz */
         }
         .tile-name {
@@ -361,7 +361,7 @@
                 const tile = document.createElement("div");
                 tile.className = "tile-item"; // Klasa do wyświetlania w dymku
                 tile.innerHTML = `
-                    <div><img src="${iconSrc}" alt="Tile" class="tile-icon"></div>
+                    <img src="${iconSrc}" alt="Tile" class="tile-icon">
                     <div class="tile-info">
                         <div class="tile-name">${tileName}</div>
                         <div class="tile-description">${tileDescription}</div>
@@ -377,13 +377,11 @@
                 .then(data => {
                     data.forEach(tile => {
                         const tileElement = createTileForPopup(tile.iconUrl, tile.id, tile.name, tile.description);
-
                         availableTilesContainer.appendChild(tileElement);
                         // Dodaj nasłuchiwacz kliknięcia
                         tileElement.addEventListener("click", function() {
                             if (!switchElement.classList.contains("on")) {
                                 const newTile = createTileForMainScreen(tile.iconUrl, tile.id, tile.name, tile.link);
-
                                 sortableContainer.appendChild(newTile);
                                 // Move the add tile button to the end
                                 sortableContainer.appendChild(addTileBtn);
