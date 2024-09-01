@@ -344,7 +344,7 @@
                 return tile;
             }
             // Load available tiles from JSON
-            fetch('/eko/assets/tiles.json')
+            fetch('assets/tiles.json')
                 .then(response => response.json())
                 .then(data => {
                     data.forEach(tile => {
