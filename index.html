@@ -398,12 +398,14 @@
                 .then(response => response.json())
                 .then(data => {
                     data.forEach(tile => {
-                        const tileElement = createTile(tile.iconUrl, tile.id, tile.name, tile.link);
+                        const tileElement = createTileForPopup(tile.iconUrl, tile.id, tile.name, tile.description);
+
                         availableTilesContainer.appendChild(tileElement);
                         // Dodaj nasłuchiwacz kliknięcia
                         tileElement.addEventListener("click", function() {
                             if (!switchElement.classList.contains("on")) {
-                                const newTile = createTile(tile.iconUrl, tile.id, tile.name, tile.link);
+                                const newTile = createTileForMainScreen(tile.iconUrl, tile.id, tile.name, tile.link);
+
                                 sortableContainer.appendChild(newTile);
                                 // Move the add tile button to the end
                                 const addTileButton = document.getElementById("add-tile");
