@@ -2,4 +2,5 @@
     { "id": 1, "name": "Coinskro", "link": "pi://coinskro.com", "iconUrl": "icon/coinskro32x32.png", "description": "Platforma do bezpiecznych transakcji." },
     { "id": 2, "name": "Chain Mall for Pi", "link": "pi://pipcm.com", "iconUrl": "icon/pipcm.png", "description": "OPIS Opis opis..." },
     { "id": 3, "name": "WorkforcePool", "link": "pi://workforcepool.com", "iconUrl": "icon/work32x32.png", "description": "OPIS Opis opis..." }
+    { "id": 4, "name": "Country Of Pi", "link": "pi://paigd.com", "iconUrl": "icon/country.png", "description": "OPIS Opis opis..." }
 ]
