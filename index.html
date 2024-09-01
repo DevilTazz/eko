@@ -380,21 +380,19 @@
                 tile.id = tileId;
                 return tile;
             } */
+          
+
             function createTile(iconSrc, tileId, tileName, tileDescription) {
                 const tile = document.createElement("div");
-                tile.className = "tile-item"; // Zmieniona klasa dla różnego stylu w dymku
+                tile.className = "icon2"; // Użyj klasy `icon2` dla jednolitego stylu
                 tile.innerHTML = `
-                    <div class="tile-content">
-                        <img src="${iconSrc}" alt="Tile" class="tile-icon">
-                        <div class="tile-info">
-                            <div class="tile-name">${tileName}</div>
-                            <div class="tile-description">${tileDescription}</div>
-                        </div>
-                    </div>
-            `;
-    tile.id = tileId;
-    return tile;
-}
+                    <img src="${iconSrc}" alt="Tile" class="tile-icon">
+                    <div class="name">${tileName}</div>
+                    <div class="description">${tileDescription}</div>
+                `;
+                tile.id = tileId;
+                return tile;
+            }
             // Load available tiles from JSON
             fetch('assets/tiles.json')
                 .then(response => response.json())
