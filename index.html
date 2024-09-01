@@ -372,19 +372,19 @@
             }
             // Function to create a tile
             //function createTile(iconSrc, tileId, tileName) {
-            /* function createTile(iconSrc, tileId, tileName, tileLink) {
+             function createTile(iconSrc, tileId, tileName, tileLink) {
                 const tile = document.createElement("div");
                 tile.className = "icon2";
                 tile.innerHTML = `<img src="${iconSrc}" alt="Tile"><div class="name">${tileName}</div>`;
                 //tile.innerHTML = `<a href="${tileLink}"><img src="${iconSrc}" alt="Tile"><div class="name">${tileName}</a></div>`;
                 tile.id = tileId;
                 return tile;
-            } */
+            } 
           
 
             function createTile(iconSrc, tileId, tileName, tileDescription) {
                 const tile = document.createElement("div");
-                tile.className = "icon2"; // Użyj klasy `icon2` dla jednolitego stylu
+                tile.className = "tile-item"; // Klasa do wyświetlania w dymku
                 tile.innerHTML = `
                     <img src="${iconSrc}" alt="Tile" class="tile-icon">
                     <div class="name">${tileName}</div>
