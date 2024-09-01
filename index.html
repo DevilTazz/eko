@@ -222,39 +222,10 @@
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
             gap: 20px;
-        /* Zmiana: Styl dla listy kafelków w popupie */
-        .tile-list-item {
-            display: flex;
-            align-items: center;
-            padding: 10px;
-            border-bottom: 1px solid #ccc;
-            cursor: pointer;
         }
-        .tile-list-item:hover {
-            background-color: #f0f0f0;
-        }
-        .tile-list-item img {
-            width: 50px;
-            height: 50px;
-            margin-right: 20px;
-            border-radius: 5px;
-        }
-        .tile-list-item .tile-info {
-            display: flex;
-            flex-direction: column;
-        }
-        .tile-list-item .tile-name {
-            font-size: 18px;
-            font-weight: bold;
-        }
-        .tile-list-item .tile-description {
-            font-size: 14px;
-            color: #666;
-            margin-top: 5px;
-        }
-        /* Koniec zmiany */
         a:link {
             text-decoration: none;
+
             color: white;
         }
     </style>
@@ -292,6 +263,7 @@
     <div id="tile-popup" class="popup hidden">
         <div class="popup-content">
             <span id="close-tile-popup" class="close-btn">&times;</span>
+
             <h2>Dodaj kafelek</h2>
             <div id="available-tiles" class="icon-container"></div>
         </div>
@@ -301,19 +273,12 @@
             const popup = document.getElementById("popup");
             const openPopupBtn = document.getElementById("open-popup-btn");
             const closePopupBtn = document.getElementById("close-popup-btn");
-            // Zmienne globalne
             const switchElement = document.getElementById("switch");
             const unlockedIcon = document.getElementById("icon-unlocked");
             const lockedIcon = document.getElementById("icon-locked");
             const addTileBtn = document.getElementById("add-tile");
-            const iconUnlocked = document.getElementById("icon-unlocked");
-            const iconLocked = document.getElementById("icon-locked");
-            const iconsContainer = document.getElementById("icons-container");
-            const openInfoPopupBtn = document.getElementById("open-info-popup-btn");
-            const closeInfoPopupBtn = document.getElementById("close-info-popup");
             const tilePopup = document.getElementById("tile-popup");
             const closeTilePopupBtn = document.getElementById("close-tile-popup");
-            const closeTilePopup = document.getElementById("close-tile-popup");
             const availableTilesContainer = document.getElementById("available-tiles");
             const sortableContainer = document.getElementById("sortable-container");
             // Toggle popup visibility
@@ -351,10 +316,7 @@
                     addTileBtn.classList.remove("grayscale");
                 }
             }
-            const addTileBtn = document.getElementById("add-tile");
-            let isLocked = false;
-
-
+           
             // Add tile popup functionality
             if (addTileBtn) {
                 addTileBtn.addEventListener("click", function() {
@@ -367,14 +329,6 @@
             if (closeTilePopupBtn) {
                 closeTilePopupBtn.addEventListener("click", function() {
                     tilePopup.classList.remove("show");
-            // Obsługa przełącznika
-            switchElement.addEventListener("click", function () {
-                isLocked = !isLocked;
-                switchElement.classList.toggle("on", isLocked);
-                iconLocked.classList.toggle("grayscale", !isLocked);
-                iconUnlocked.classList.toggle("grayscale", isLocked);
-                document.querySelectorAll('.icon').forEach(icon => {
-                    icon.classList.toggle('disabled', isLocked);
                 });
                 document.addEventListener("click", function(event) {
                     if (event.target === tilePopup) {
@@ -394,49 +348,11 @@
             }
             // Load available tiles from JSON
             fetch('/eko/assets/tiles.json')
-            });
-
-            // Obsługa popupu informacyjnego
-            openInfoPopupBtn.addEventListener("click", function () {
-                document.getElementById("info-popup").classList.add("show");
-                document.getElementById("info-popup").classList.remove("hidden");
-            });
-
-            closeInfoPopupBtn.addEventListener("click", function () {
-                document.getElementById("info-popup").classList.remove("show");
-                document.getElementById("info-popup").classList.add("hidden");
-            });
-
-            // Obsługa popupu kafelków
-            const openTilePopupBtn = document.getElementById("open-tile-popup-btn");
-
-            openTilePopupBtn.addEventListener("click", function () {
-                tilePopup.classList.remove("hidden");
-                tilePopup.classList.add("show");
-            });
-
-            closeTilePopup.addEventListener("click", function () {
-                tilePopup.classList.remove("show");
-                tilePopup.classList.add("hidden");
-            });
-
-            // Ładowanie kafelków z JSON
-            fetch('tiles.json')
                 .then(response => response.json())
                 .then(data => {
                     data.forEach(tile => {
                         const tileElement = createTile(tile.iconUrl, tile.id, tile.name, tile.link);
                         availableTilesContainer.appendChild(tileElement);
-                    data.tiles.forEach(tile => {
-                        const tileElement = document.createElement('div');
-                        tileElement.className = 'tile-list-item';
-                        tileElement.innerHTML = `
-                            <img src="${tile.icon}" alt="${tile.name}">
-                            <div class="tile-info">
-                                <div class="tile-name">${tile.name}</div>
-                                <div class="tile-description">${tile.description || "Brak opisu"}</div>
-                            </div>
-                        `;
                         tileElement.addEventListener("click", function() {
                             if (!switchElement.classList.contains("on")) {
                                 const newTile = createTile(tile.iconUrl, tile.id, tile.name, tile.link);
@@ -445,23 +361,8 @@
                                 const addTileButton = document.getElementById("add-tile");
                                 sortableContainer.appendChild(addTileButton);
                                 sortableContainer.appendChild(addTileBtn);
-                            if (!isLocked) {
-                                const newTile = document.createElement("div");
-                                newTile.className = "icon2";
-                                newTile.innerHTML = `
-                                    <a href="${tile.link}"><img src="${tile.icon}" alt="Tile"><div class="name">${tile.name}</a></div>
-                                `;
-                                iconsContainer.appendChild(newTile);
-                                iconsContainer.appendChild(addTileBtn); // Przesuwanie przycisku dodawania na koniec
                             }
                         });
-                        availableTilesContainer.appendChild(tileElement);
-                    });
-
-                    new Sortable(iconsContainer, {
-                        ghostClass: "sortable-ghost",
-                        animation: 150,
-                        disabled: true
                     });
                 })
                 .catch(error => console.error('Error loading tiles:', error));
@@ -483,7 +384,6 @@
                     }
                 });
             }
-                .catch(error => console.error('Błąd ładowania kafelków:', error));
         });
     </script>
 </body>
