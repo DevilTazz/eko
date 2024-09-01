@@ -213,12 +213,15 @@
             cursor: pointer;
             margin-bottom: 10px; /* Margines między elementami listy */
             transition: background-color 0.2s; /* Płynne przejście koloru tła */
-            justify-content: flex-start; /* Wyśrodkowanie zawartości */
+            justify-content: center; /* Wyśrodkowanie zawartości */
             text-align: center; /* Wyśrodkowanie tekstu */
         }
         .tile-content {
             display: flex;
             align-items: center;
+            flex-direction: column; /* Ustawienie treści w kolumnie */
+    justify-content: center;
+    text-align: center; /* Wycentrowanie tekstu */
         }
         .tile-icon {
             width: 24px;
