@@ -372,7 +372,7 @@
             }
             // Function to create a tile
             //function createTile(iconSrc, tileId, tileName) {
-             function createTile(iconSrc, tileId, tileName, tileLink) {
+             function createTileForMainScreen(iconSrc, tileId, tileName, tileLink) {
                 const tile = document.createElement("div");
                 tile.className = "icon2";
                 tile.innerHTML = `<img src="${iconSrc}" alt="Tile"><div class="name">${tileName}</div>`;
@@ -382,7 +382,7 @@
             } 
           
 
-            function createTile(iconSrc, tileId, tileName, tileDescription) {
+            function createTileForPopup(iconSrc, tileId, tileName, tileDescription) {
                 const tile = document.createElement("div");
                 tile.className = "tile-item"; // Klasa do wyświetlania w dymku
                 tile.innerHTML = `
@@ -400,6 +400,7 @@
                     data.forEach(tile => {
                         const tileElement = createTile(tile.iconUrl, tile.id, tile.name, tile.link);
                         availableTilesContainer.appendChild(tileElement);
+                        // Dodaj nasłuchiwacz kliknięcia
                         tileElement.addEventListener("click", function() {
                             if (!switchElement.classList.contains("on")) {
                                 const newTile = createTile(tile.iconUrl, tile.id, tile.name, tile.link);
