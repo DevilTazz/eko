@@ -87,7 +87,7 @@
             justify-content: center;
             margin-top: 20px;
         }
-        .icon {
+        .icon, .icon2 {
             width: 100px;
             height: 100px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
@@ -103,42 +103,11 @@
             text-align: center;
             position: relative;
         }
-        .icon2 {
-            width: 100px;
-            height: 100px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
-            background-color: #F5F5DC;
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 24px;
-            color: black;
-            z-index: 1;
-            cursor: pointer;
-            text-align: center;
-            position: relative;
-        }
-        .icon img {
+        .icon img, .icon2 img {
             max-width: 80px;
             max-height: 80px;
         }
-        .icon2 img {
-            max-width: 80px;
-            max-height: 80px;
-        }
-        .icon .name {
-            position: absolute;
-            bottom: 0;
-            width: 100%;
-            font-size: 12px;
-            background: rgba(0, 0, 0, 0.5);
-            color: white;
-            text-align: center;
-            padding: 2px 0;
-            border-radius: 0 0 50% 50%;
-        }
-        .icon2 .name {
+        .icon .name, .icon2 .name {
             position: absolute;
             bottom: 0;
             width: 100%;
@@ -228,41 +197,41 @@
             color: white;
         }
         /* Style dla kafelków w dymku */
-.tile-item {
-    display: flex;
-    align-items: center;
-    margin: 10px;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    cursor: pointer;
-}
+        .tile-item {
+            display: flex;
+            align-items: center;
+            margin: 10px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            cursor: pointer;
+        }
 
-.tile-content {
-    display: flex;
-    align-items: center;
-}
+        .tile-content {
+            display: flex;
+            align-items: center;
+        }
 
-.tile-icon {
-    width: 50px;
-    height: 50px;
-    margin-right: 10px;
-}
+        .tile-icon {
+            width: 50px;
+            height: 50px;
+            margin-right: 10px;
+        }
 
-.tile-info {
-    display: flex;
-    flex-direction: column;
-}
+        .tile-info {
+            display: flex;
+            flex-direction: column;
+        }
 
-.tile-name {
-    font-size: 16px;
-    font-weight: bold;
-}
+        .tile-name {
+            font-size: 16px;
+            font-weight: bold;
+        }
 
-.tile-description {
-    font-size: 12px;
-    color: #888;
-}
+        .tile-description {
+            font-size: 12px;
+            color: #888;
+        }
     </style>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.15.0/Sortable.min.js"></script>
 </head>
@@ -291,7 +260,7 @@
         </div>
         <div class="icon-container" id="sortable-container">
             <!-- Ikony zostaną dodane dynamicznie -->
-            <div class="icon" id="add-tile">+</div>
+            <div id="add-tile">+</div>
         </div>
     </div>
     <!-- Dymek do wybierania kafelków -->
@@ -315,6 +284,7 @@
             const closeTilePopupBtn = document.getElementById("close-tile-popup");
             const availableTilesContainer = document.getElementById("available-tiles");
             const sortableContainer = document.getElementById("sortable-container");
+            
             // Toggle popup visibility
             if (popup && openPopupBtn && closePopupBtn) {
                 openPopupBtn.addEventListener("click", function() {
@@ -329,6 +299,7 @@
                     }
                 });
             }
+            
             // Toggle switch and icon
             if (switchElement && unlockedIcon && lockedIcon) {
                 switchElement.addEventListener("click", function() {
@@ -336,19 +307,12 @@
                     updateIcons();
                 });
             }
+            
             function updateIcons() {
                 const isSwitchOn = switchElement.classList.contains("on");
-                if (isSwitchOn) {
-                    unlockedIcon.classList.add("grayscale");
-                    lockedIcon.classList.remove("grayscale");
-                    // Disable adding tiles
-                    addTileBtn.classList.add("grayscale");
-                } else {
-                    unlockedIcon.classList.remove("grayscale");
-                    lockedIcon.classList.add("grayscale");
-                    // Enable adding tiles
-                    addTileBtn.classList.remove("grayscale");
-                }
+                unlockedIcon.classList.toggle("grayscale", isSwitchOn);
+                lockedIcon.classList.toggle("grayscale", !isSwitchOn);
+                addTileBtn.classList.toggle("grayscale", isSwitchOn);
             }
            
             // Add tile popup functionality
@@ -359,6 +323,7 @@
                     }
                 });
             }
+            
             // Close tile popup
             if (closeTilePopupBtn) {
                 closeTilePopupBtn.addEventListener("click", function() {
@@ -370,29 +335,30 @@
                     }
                 });
             }
+            
             // Function to create a tile
-            //function createTile(iconSrc, tileId, tileName) {
-             function createTileForMainScreen(iconSrc, tileId, tileName, tileLink) {
+            function createTileForMainScreen(iconSrc, tileId, tileName, tileLink) {
                 const tile = document.createElement("div");
                 tile.className = "icon2";
-                tile.innerHTML = `<img src="${iconSrc}" alt="Tile"><div class="name">${tileName}</div>`;
-                //tile.innerHTML = `<a href="${tileLink}"><img src="${iconSrc}" alt="Tile"><div class="name">${tileName}</a></div>`;
+                tile.innerHTML = `<a href="${tileLink}"><img src="${iconSrc}" alt="Tile"><div class="name">${tileName}</div></a>`;
                 tile.id = tileId;
                 return tile;
             } 
           
-
             function createTileForPopup(iconSrc, tileId, tileName, tileDescription) {
                 const tile = document.createElement("div");
                 tile.className = "tile-item"; // Klasa do wyświetlania w dymku
                 tile.innerHTML = `
                     <img src="${iconSrc}" alt="Tile" class="tile-icon">
-                    <div class="name">${tileName}</div>
-                    <div class="description">${tileDescription}</div>
+                    <div class="tile-info">
+                        <div class="tile-name">${tileName}</div>
+                        <div class="tile-description">${tileDescription}</div>
+                    </div>
                 `;
                 tile.id = tileId;
                 return tile;
             }
+            
             // Load available tiles from JSON
             fetch('assets/tiles.json')
                 .then(response => response.json())
@@ -408,14 +374,13 @@
 
                                 sortableContainer.appendChild(newTile);
                                 // Move the add tile button to the end
-                                const addTileButton = document.getElementById("add-tile");
-                                sortableContainer.appendChild(addTileButton);
                                 sortableContainer.appendChild(addTileBtn);
                             }
                         });
                     });
                 })
                 .catch(error => console.error('Error loading tiles:', error));
+            
             // Initialize sortable
             if (sortableContainer) {
                 Sortable.create(sortableContainer, {
