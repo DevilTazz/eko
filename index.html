@@ -263,7 +263,8 @@
         }
          /* Stylizacja kontenera przełącznika */
         .switch-container1 {
-            margin: 50px;
+            position: relative;
+            margin-left: -100px;
         }
 
         /* Stylizacja przełącznika */
@@ -338,23 +339,12 @@
         <div class="switch-container">
             
              <div class="switch-container1">
-        <!-- Przełącznik -->
-        <label class="switch1">
-            <input type="checkbox" id="toggleSwitch">
-            <span class="slider1"></span>
-        </label>
-
-        
-
-        <!-- Dodatkowy element -->
-        <div class="extra-content" id="extraContent">
-            <p>Przełącznik jest włączony! Oto dodatkowy element.</p>
-        </div>
-            
-
-        
-
-      </div>
+            <!-- Przełącznik -->
+                <label class="switch1">
+                <input type="checkbox" id="toggleSwitch">
+                <span class="slider1"></span>
+                </label>
+             </div>
             
             <div id="icon-unlocked" class="switch-icon unlocked">
                 <img src="graphic/unlock_1.png" alt="Unlocked">
@@ -518,14 +508,14 @@
     <!-- nie wiem czy tak zadziała -->
     <script>
         const toggleSwitch = document.getElementById('toggleSwitch');
-        const extraContent = document.getElementById('extraContent');
+        const opisDiv = document.querySelector('.opis'); // Znajduje element opis
 
         toggleSwitch.addEventListener('change', function() {
-            if (toggleSwitch.checked) {
-                extraContent.style.display = 'block';
-            } else {
-                extraContent.style.display = 'none';
-            }
+        if (toggleSwitch.checked) {
+        opisDiv.style.display = 'block'; // Pokaż opis
+        } else {
+        opisDiv.style.display = 'none'; // Ukryj opis
+    }
         });
     </script>
 </body>
