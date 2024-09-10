@@ -261,11 +261,96 @@
             
            
         }
+         /* Stylizacja kontenera przełącznika */
+        .switch-container1 {
+            margin: 50px;
+        }
+
+        /* Stylizacja przełącznika */
+        .switch1 {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 34px;
+        }
+
+        .switch1 input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider1 {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 34px;
+        }
+
+        .slider1:before {
+            position: absolute;
+            content: "";
+            height: 26px;
+            width: 26px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .slider1 {
+            background-color: #4CAF50;
+        }
+
+        input:checked + .slider1:before {
+            transform: translateX(26px);
+        }
+
+        /* Stylizacja dodatkowego elementu */
+        .extra-content {
+            display: none;
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #f1f1f1;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .rectangle {
+            width: 300px;
+            height: 20px;
+            background-color: white;
+            border: 1px solid black;
+            margin: 10px;
     </style>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.15.0/Sortable.min.js"></script>
 </head>
 <body>
     <div class="blur-background"></div>
+    
+    <div class="switch-container1">
+        <!-- Przełącznik -->
+        <label class="switch1">
+            <input type="checkbox" id="toggleSwitch">
+            <span class="slider1"></span>
+        </label>
+
+        <div class="rectangle" ></div>
+
+        <!-- Dodatkowy element -->
+        <div class="extra-content" id="extraContent">
+            <p>Przełącznik jest włączony! Oto dodatkowy element.</p>
+        </div>
+
+        <div class="rectangle" ></div>
+
+  </div>
+    
     <div class="container">
         <!-- Switch container -->
         <div class="switch-container">
@@ -425,6 +510,19 @@
                         console.log('Element moved');
                     }
                 });
+            }
+        });
+    </script>
+    <!-- nie wiem czy tak zadziała -->
+    <script>
+        const toggleSwitch = document.getElementById('toggleSwitch');
+        const extraContent = document.getElementById('extraContent');
+
+        toggleSwitch.addEventListener('change', function() {
+            if (toggleSwitch.checked) {
+                extraContent.style.display = 'block';
+            } else {
+                extraContent.style.display = 'none';
             }
         });
     </script>
