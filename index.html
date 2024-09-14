@@ -129,25 +129,56 @@
         }
         .switch-container {
             display: flex;
-            align-items: center;
-            justify-content: space-between;
+            align-items: center; /* Wyrównanie pionowe */
+            justify-content: center; /* Wyrównanie elementów względem siebie */
             background: linear-gradient(to right, #ffccff, #ff99cc);
             padding: 10px;
             border-radius: 10px;
             position: relative;
+            gap: 50px; /* Dodaje przestrzeń między elementami */
+        }
+        
+        /* Menu będzie ustawione na lewo */
+        .switch-icon.menu-icon {
+            order: 0; /* Kolejność elementów w kontenerze flex */
+            margin-right: auto; /* Przesuń maksymalnie w lewo */
+            width: 24px;
+            height: 24px;
+        }
+        
+        /* Ikona odblokowanej kłódki 50px na lewo od suwaka */
+        .switch-icon.unlocked {
+            order: 1;
+            margin-right: 50px; /* Ustawienie ikony 50px od suwaka */
         }
         .switch {
-            position: relative;
+            order: 2;
             width: 60px;
             height: 10px;
             background-color: #555;
             border-radius: 5px;
-            order: 2;
-    margin: 0 20px; /* Odstęp po bokach przełącznika */
+            margin: 0 20px; /* Odstęp między suwakami a ikonami */
             cursor: pointer;
             box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.3);
             transition: background-color 0.3s;
         }
+
+        /* Ikona zablokowanej kłódki 50px na prawo od suwaka */
+        .switch-icon.locked {
+            order: 3;
+            margin-left: 50px;
+        }
+
+        /* Kosz wyrównany maksymalnie po prawej */
+        .switch-icon.trash-icon {
+            order: 4;
+            margin-left: auto; /* Przesuń maksymalnie w prawo */
+            width: 24px;
+            height: 24px;
+        }
+
+        
+           
         .switch::before {
             content: "";
             position: absolute;
@@ -174,12 +205,8 @@
             align-items: center;
             justify-content: center;
         }
-        .switch-icon.locked {
-            order: 3
-        }
-        .switch-icon.unlocked {
-            order: 1;
-        }
+        
+       
         .switch-icon.trash-icon {
              order: 4;
     margin-left: auto; /* Przesuwa kosz na skrajnie prawą stronę */
@@ -189,12 +216,7 @@
     max-height: 100%;
    
         }
-        .switch-icon.menu-icon {
-            order: 0; /* Przesuń menu najbardziej w lewo */
-    margin-right: auto; /* Zapewnia, że menu będzie na lewo od reszty */
-            height: 24px;
-width: 24px;
-        }
+        
         .grayscale {
             filter: grayscale(100%);
             opacity: 0.5;
