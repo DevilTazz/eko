@@ -157,7 +157,7 @@
         /* Ikona odblokowanej kłódki 50px na lewo od suwaka */
         .switch-icon.unlocked {
             order: 1;
-            margin-right: 10px; /* Ustawienie ikony 10px od suwaka */
+            margin-right: 12px; /* Ustawienie ikony 10px od suwaka */
         }
         .switch {
             order: 2;
@@ -191,7 +191,7 @@
         /* Ikona zablokowanej kłódki 50px na prawo od suwaka */
         .switch-icon.locked {
             order: 3;
-            margin-left: 10px; /* Zmniejszone marginesy */
+            margin-left: 12px; /* Zmniejszone marginesy */
         }
 
         /* Kosz wyrównany maksymalnie po prawej */
@@ -382,7 +382,7 @@
             <div id="icon-locked" class="switch-icon locked grayscale">
                 <img src="graphic/padlock_1.png" alt="Locked">
             </div>
-            <div id="trash" class="switch-icon trash-icon unlocked">
+            <div id="trash" class="switch-icon trash-icon">
                 <img src="graphic/trash_svgrepo_com.svg" alt="Trash">
             </div>
         </div>
@@ -425,7 +425,8 @@
             const tilePopup = document.getElementById("tile-popup");
             const closeTilePopupBtn = document.getElementById("close-tile-popup");
             const availableTilesContainer = document.getElementById("available-tiles");
-            const sortableContainer = document.getElementById("sortable-container");
+            const sortableContainer = document.getElementById("sortable-container");3
+            const trashIcon = document.getElementById("trash");
             
             // Toggle popup visibility
             if (popup && openPopupBtn && closePopupBtn) {
@@ -455,6 +456,7 @@
                 unlockedIcon.classList.toggle("grayscale", isSwitchOn);
                 lockedIcon.classList.toggle("grayscale", !isSwitchOn);
                 addTileBtn.classList.toggle("grayscale", isSwitchOn);
+                trashIcon.classList.toggle("grayscale", isSwitchOn);
             }
            
             // Add tile popup functionality
