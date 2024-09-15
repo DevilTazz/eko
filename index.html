@@ -153,7 +153,7 @@
             width: 24px;
             height: 24px;
             padding: 10px;
-            padding-right: 20px;
+            padding-right: 35px;
             border: 2px solid black;
             border-radius: 5px;
         }
@@ -162,13 +162,16 @@
             display: none;
             position: absolute; /* Ustawia pozycję menu jako absolutną */
             top: 100%; /* Menu zaczyna się zaraz pod divem z ID menu */
-            left: 0;
+            left: 50%; /* Ustawia menu w poziomie na środek kontenera */
+    transform: translateX(-50%); /* Wyśrodkowuje menu względem jego szerokości */
             background-color: white; /* Kolor tła menu */
             box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Efekt cienia dla menu */
-            width: 300px; /* Możesz dostosować szerokość menu */
+            width: 250px; /* Możesz dostosować szerokość menu */
             z-index: 10; /* Aby menu było wyżej od innych elementów */
-            padding: 20px 0; /* Odstępy wewnętrzne dla menu */
+            /* padding: 20px 0; Odstępy wewnętrzne dla menu */
+            gap: 20px;
             border-radius: 0 0 5px 5px; /* Zaokrąglenie tylko dolnych rogów */
+            margin-left: 10px; /* Przesunięcie menu o 10px w prawo */
         }
 
         .menu-dropdown.show {
@@ -408,9 +411,13 @@
                 <img src="graphic/menu_svgrepo_com1.svg" alt="Menu">MENU
                  <!-- Rozwijane menu wewnątrz div menu -->
                 <div id="menu-dropdown" class="menu-dropdown">
-                    <div class="menu-item">Opcja 1</div>
-                    <div class="menu-item">Opcja 2</div>
-                    <div class="menu-item">Opcja 3</div>
+                    <div class="menu-item">Ikonka</div>
+                    <div class="menu-item">Profil?</div>
+                    <div class="menu-item">pstryczek</div>
+                    <div class="menu-item">wczytaj</div>
+                    <div class="menu-item">zapisz</div>
+                    <div class="menu-item">TOS</div>
+                    <div class="menu-item">Privacy</div>
                 </div>
                
             </div>
@@ -607,6 +614,7 @@
 
             // Obsługa kliknięcia w menu
             menu.addEventListener("click", function() {
+                event.stopPropagation(); // Zapobiega propagacji kliknięcia, aby nie ukrywać menu od razu
                 menuDropdown.classList.toggle("show");
             });
 
