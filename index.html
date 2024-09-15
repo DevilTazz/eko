@@ -162,14 +162,14 @@
             display: none;
             position: absolute; /* Ustawia pozycję menu jako absolutną */
             top: 100%; /* Menu zaczyna się zaraz pod divem z ID menu */
-            left: 50%; /* Ustawia menu w poziomie na środek kontenera */
-    transform: translateX(-50%); /* Wyśrodkowuje menu względem jego szerokości */
+            left: 90%; /* Ustawia menu w poziomie na środek kontenera */
+    transform: translateX(-90%); /* Wyśrodkowuje menu względem jego szerokości */
             background-color: white; /* Kolor tła menu */
             box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Efekt cienia dla menu */
             width: 250px; /* Możesz dostosować szerokość menu */
             z-index: 10; /* Aby menu było wyżej od innych elementów */
             /* padding: 20px 0; Odstępy wewnętrzne dla menu */
-            gap: 20px;
+           
             border-radius: 0 0 5px 5px; /* Zaokrąglenie tylko dolnych rogów */
             margin-left: 10px; /* Przesunięcie menu o 10px w prawo */
         }
@@ -179,6 +179,7 @@
         }
         .menu-item:last-child {
     border-bottom: none; /* Usuwa dolną granicę dla ostatniego elementu */
+            margin: 20px;
         }
 
 
