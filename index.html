@@ -153,9 +153,29 @@
             width: 24px;
             height: 24px;
             padding: 10px
-            border: 2px solid #000;
+            border: 2px solid black;
             border-radius: 5px;
         }
+
+        .menu-dropdown {
+            display: none;
+    position: absolute; /* Ustawia pozycję menu jako absolutną */
+    top: 100%; /* Menu zaczyna się zaraz pod divem z ID menu */
+    left: 0;
+    background-color: white; /* Kolor tła menu */
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Efekt cienia dla menu */
+    width: 200px; /* Możesz dostosować szerokość menu */
+    z-index: 10; /* Aby menu było wyżej od innych elementów */
+}
+
+.menu-dropdown.show {
+    display: block; /* Pokazuje menu, gdy ma klasę 'show' */
+}
+
+
+          
+
+        
         
         /* Ikona odblokowanej kłódki 50px na lewo od suwaka */
         .switch-icon.unlocked {
@@ -204,7 +224,7 @@
             width: 24px;
             height: 24px;
             padding: 10px
-            border: 2px solid #000;
+            border: 2px solid black;
             border-radius: 50%;
         }
 
@@ -380,6 +400,7 @@
         -->
             <div id="menu" class="switch-icon menu-icon">
                 <img src="graphic/menu_svgrepo_com1.svg" alt="Menu">MENU
+               
             </div>
             <div id="icon-unlocked" class="switch-icon unlocked">
                 <img src="graphic/unlock_1.png" alt="Unlocked">
@@ -391,6 +412,13 @@
             <div id="trash" class="switch-icon trash-icon">
                 <img src="graphic/trash_svgrepo_com.svg" alt="Trash">
             </div>
+        </div>
+
+            <!-- Rozwijane menu -->
+        <div id="menu-dropdown" class="menu-dropdown">
+            <a href="#section1">Opcja 1</a>
+            <a href="#section2">Opcja 2</a>
+            <a href="#section3">Opcja 3</a>
         </div>
         
 
@@ -431,7 +459,7 @@
             const tilePopup = document.getElementById("tile-popup");
             const closeTilePopupBtn = document.getElementById("close-tile-popup");
             const availableTilesContainer = document.getElementById("available-tiles");
-            const sortableContainer = document.getElementById("sortable-container");3
+            const sortableContainer = document.getElementById("sortable-container");
             const trashIcon = document.getElementById("trash");
             
             // Toggle popup visibility
@@ -562,5 +590,26 @@
     }
         });
     </script>
+
+    
+    <script>
+    // Funkcja do obsługi kliknięcia menu
+      document.addEventListener("DOMContentLoaded", function() {
+            const menu = document.getElementById("menu");
+            const menuDropdown = document.getElementById("menu-dropdown");
+
+            // Obsługa kliknięcia w menu
+            menu.addEventListener("click", function() {
+                menuDropdown.classList.toggle("show");
+            });
+
+            // Ukrywanie menu, jeśli kliknięto poza nim
+            document.addEventListener("click", function(event) {
+                if (!menu.contains(event.target) && !menuDropdown.contains(event.target)) {
+                    menuDropdown.classList.remove("show");
+                }
+            });
+        });
+</script>
 </body>
 </html>
