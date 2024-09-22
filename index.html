@@ -484,6 +484,9 @@
 
             // Dodanie klasy trash-icon tylko raz
             trashIcon.classList.add('trash-icon');
+
+             // Zmienna do śledzenia dodanych kafelków
+            const addedTiles = new Set();
             
             // Toggle popup visibility
             if (popup && openPopupBtn && closePopupBtn) {
