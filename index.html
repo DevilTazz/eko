@@ -401,10 +401,10 @@
         
        
         
-        <!-- Switch container 
+        <!-- Switch container -->
         <div class="switch-container">
 
-             tu jest przełącznik ukrywający przycisk info
+             <!-- tu jest przełącznik ukrywający przycisk info
               <div class="switch-container1">
             
                 <label class="switch1">
@@ -519,7 +519,7 @@
                 // Zmiana ikony kosza
                 const trashImg = trashIcon.querySelector('img');
                  if (trashImg) {
-                    trashImg.src = isSwitchOn ? "graphic/open_trash_test.svg" : "graphic/trash_svgrepo_com.svg"; 
+                    trashImg.src = isSwitchOff ? "graphic/trash_svgrepo_com.svg" : "graphic/open_trash_test.svg"; 
                     console.log("Trash icon changed to", trashImg.src); // Loguj zmianę ikony
                     } else {
                     console.error("Trash image not found!"); // Loguj, jeśli obrazek kosza nie został znaleziony
