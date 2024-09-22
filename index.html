@@ -307,6 +307,14 @@
             margin-right: 10px;
             
         }
+        
+        /* Ogólne stylowanie ikony check */
+        .fa-check {
+        font-size: 16px; /* Rozmiar ikony */
+        color: #37ff00;  /* Kolor ikony */
+        margin-right: 8px; /* Odstęp od innych elementów */
+        vertical-align: middle; /* Wyrównanie ikony w pionie */
+        }
         .tile-info {
             display: flex;
             flex-direction: column;
@@ -605,7 +613,7 @@
                     });
                 });
             })
-    .catch(error => console.error('Error loading tiles:', error));
+            .catch(error => console.error('Error loading tiles:', error));
 
             
             // Initialize sortable
