@@ -499,6 +499,7 @@
             const availableTilesContainer = document.getElementById("available-tiles");
             const sortableContainer = document.getElementById("sortable-container");
             const trashIcon = document.getElementById("trash");
+            const addTileId = "add-tile"; // Zdefiniuj id kafelka z plusem
 
             // Dodanie klasy trash-icon tylko raz
             trashIcon.classList.add('trash-icon');
@@ -647,20 +648,26 @@
         });
 
         trashIcon.addEventListener("drop", function(event) {
+        }
        
             event.preventDefault(); // Zapobiegaj domyślnemu zachowaniu
             const tileId = event.dataTransfer.getData("text/plain");
+            
+            console.log("Dropped tile ID:", tileId);
+
+             // Logowanie wszystkich kafelków w sortableContainer
+            console.log("Current tiles:", [...sortableContainer.children].map(child => child.id));
 
             const tileToRemove = document.getElementById(tileId);
 
-            console.log("Dropped tile ID:", tileId);
+            
     console.log("Tile to remove:", tileToRemove);
             
             if (!switchElement.classList.contains("on")) {
                  
                      
                  // Sprawdź, czy kafelek nie jest kafelkiem z plusem
-                 if (tileToRemove && tileId !== addTileId) {
+                 if (tileId !== addTileId && tileToRemove) {
                      console.log("Removing tile:", tileId); // Loguj usuwanie
                      // Usuń kafelek z ekranu głównego
                      sortableContainer.removeChild(tileToRemove);
@@ -673,9 +680,11 @@
                         if (checkIcon) {
                             checkIcon.style.display = 'none'; // Ukryj ikonę check
                         }
+                        addedTiles.delete(tileId); // Usuń kafelek z zestawu dodanych kafelków
+                         console.log("Tile removed successfully");
+                    } else {
+                        console.error("Tile element not found in available tiles"); // Loguj, jeśli kafelek nie został znaleziony
                     }
-
-                    console.log("Tile removed successfully");
                  } else {
                      console.warn("Tile is not removable or is the add tile"); // Loguj, jeśli kafelek nie może być usunięty
                  }
