@@ -506,8 +506,14 @@
                 const isSwitchOn = switchElement.classList.contains("on");
                 unlockedIcon.classList.toggle("grayscale", isSwitchOn);
                 lockedIcon.classList.toggle("grayscale", !isSwitchOn);
-                addTileBtn.classList.toggle("grayscale", isSwitchOn);
-                trashIcon.classList.toggle("grayscale", isSwitchOn);
+               addTileBtn.classList.toggle("grayscale", isSwitchOn);
+        
+                // Zmiana ikony kosza
+                if (isSwitchOn) {
+                trashIcon.src = "open_trash_test.svg"; // Jeśli przełącznik włączony, zmień ikonę kosza
+                } else {
+                trashIcon.src = "trash_svgrepo_com.svg"; // Jeśli przełącznik wyłączony, przywróć oryginalną ikonę kosza
+                }
             }
            
             // Add tile popup functionality
@@ -543,13 +549,11 @@
             function createTileForPopup(iconSrc, tileId, tileName, tileDescription) {
                 const tile = document.createElement("div");
                 tile.className = "tile-item"; // Klasa do wyświetlania w dymku
-                tile.innerHTML = `
-                    <img src="${iconSrc}" alt="Tile" class="tile-icon">
+                tile.innerHTML = `<img src="${iconSrc}" alt="Tile" class="tile-icon">
                     <div class="tile-info">
                         <div class="tile-name">${tileName}</div>
                         <div class="tile-description">${tileDescription}</div>
-                    </div>
-                `;
+                    </div>`;
                 tile.id = tileId;
                 return tile;
             }
