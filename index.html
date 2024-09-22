@@ -584,6 +584,10 @@
                 tile.addEventListener("dragstart", function(event) {
                     event.dataTransfer.setData("text/plain", tileId);
                 });
+
+                 // Logowanie do konsoli
+                console.log(tile.innerHTML); // Zobacz zawartość
+                console.log(tile.outerHTML); // Zobacz pełną strukturę elementu
                 
                 return tile;
             } 
