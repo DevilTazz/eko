@@ -32,7 +32,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            z-index: 1000;
+            z-index: 1000; /* Pozostaw wysoki z-index */
             visibility: hidden;
             opacity: 0;
         }
@@ -297,6 +297,7 @@
             justify-content: center; /* Wyśrodkowanie zawartości */
             text-align: center; /* Wyśrodkowanie tekstu */
             box-sizing: border-box; /* Uwzględnia padding i border w szerokości */
+            position: relative; /* Umożliwia pozycjonowanie absolutnych elementów wewnątrz */
      
         }
     
@@ -310,10 +311,16 @@
         
         /* Ogólne stylowanie ikony check */
         .fa-check {
-        font-size: 16px; /* Rozmiar ikony */
-        color: #37ff00;  /* Kolor ikony */
-        margin-right: 8px; /* Odstęp od innych elementów */
-        vertical-align: middle; /* Wyrównanie ikony w pionie */
+            font-size: 16px; /* Rozmiar ikony */
+            
+            top: 10px; /* Pozycjonowanie ikony */
+    left: 10px; /* Możesz dostosować pozycję */
+    color: #37ff00; /* Zielony kolor */
+    font-size: 20px; /* Możesz dostosować rozmiar */
+    z-index: 20; /* Aby upewnić się, że ikona pojawia się nad kafelkiem */
+            margin-right: 8px; /* Odstęp od innych elementów */
+            vertical-align: middle; /* Wyrównanie ikony w pionie */
+            position: absolute
         }
         .tile-info {
             display: flex;
@@ -599,10 +606,10 @@
 
                                 // Dodaj ikonę check nad elementem w popupie
                                 if (!tileElement.querySelector('.fa-check')) { // Sprawdź, czy ikona już istnieje
-                                const checkIcon = document.createElement("i");
-                                checkIcon.className = "fa-solid fa-check";
-                                checkIcon.style.color = "#37ff00";
-                                tileElement.insertBefore(checkIcon, tileElement.firstChild); // Dodaj ikonę nad kafelkiem w popupie
+                                    const checkIcon = document.createElement("i");
+                                    checkIcon.className = "fa-solid fa-check check-icon";
+                                
+                                    tileElement.insertBefore(checkIcon, tileElement.firstChild); // Dodaj ikonę nad kafelkiem w popupie
                             }
 
                             // Oznacz kafelek jako dodany
