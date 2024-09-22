@@ -481,6 +481,9 @@
             const availableTilesContainer = document.getElementById("available-tiles");
             const sortableContainer = document.getElementById("sortable-container");
             const trashIcon = document.getElementById("trash");
+
+            // Dodanie klasy trash-icon tylko raz
+            trashIcon.classList.add('trash-icon');
             
             // Toggle popup visibility
             if (popup && openPopupBtn && closePopupBtn) {
@@ -509,14 +512,11 @@
                 const isSwitchOn = switchElement.classList.contains("on");
                 unlockedIcon.classList.toggle("grayscale", isSwitchOn);
                 lockedIcon.classList.toggle("grayscale", !isSwitchOn);
-               addTileBtn.classList.toggle("grayscale", isSwitchOn);
-        
+                addTileBtn.classList.toggle("grayscale", isSwitchOn);
+
                 // Zmiana ikony kosza
-                if (isSwitchOn) {
-                trashIcon.querySelector('img').src = "graphic/open_trash_test.svg"; // Jeśli przełącznik włączony, zmień ikonę kosza
-                } else {
-                trashIcon.querySelector('img').src = "graphic/trash_svgrepo_com.svg"; // Jeśli przełącznik wyłączony, przywróć oryginalną ikonę kosza
-                }
+                const trashImg = trashIcon.querySelector('img');
+                trashImg.src = isSwitchOn ? "graphic/open_trash_test.svg" : "graphic/trash_svgrepo_com.svg"; 
             }
            
             // Add tile popup functionality
