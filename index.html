@@ -643,16 +643,23 @@
             // Trash icon functionality
         trashIcon.addEventListener("dragover", function(event) {
             event.preventDefault(); // Pozwól na upuszczenie
+            console.log("Dragging over trash icon"); // Loguj przeciąganie
         });
 
         trashIcon.addEventListener("drop", function(event) {
             event.preventDefault(); // Zapobiegaj domyślnemu zachowaniu
+            console.log("Dropped on trash icon"); // Loguj upuszczenie
+            
             if (!switchElement.classList.contains("on")) {
                 const tileId = event.dataTransfer.getData("text/plain");
+                console.log("Tile ID:", tileId); // Loguj ID kafelka
+                
                 const tileToRemove = document.getElementById(tileId);
+                console.log("Tile to remove:", tileToRemove); // Loguj kafelek do usunięcia
 
                  // Sprawdź, czy kafelek nie jest kafelkiem z plusem
                  if (tileId !== addTileId && tileToRemove) {
+                     console.log("Removing tile:", tileId); // Loguj usuwanie
                     // Usuń kafelek z ekranu głównego
                     sortableContainer.removeChild(tileToRemove);
 
@@ -664,8 +671,15 @@
                             checkIcon.style.display = 'none'; // Ukryj ikonę check
                         }
                         addedTiles.delete(tileId); // Usuń kafelek z zestawu dodanych kafelków
+                        console.log("Tile removed successfully"); // Loguj pomyślne usunięcie
+                    } else {
+                        console.error("Tile element not found in available tiles"); // Loguj, jeśli kafelek nie został znaleziony
                     }
+                } else {
+                    console.warn("Tile is not removable or is the add tile"); // Loguj, jeśli kafelek nie może być usunięty
                 }
+            } else {
+                console.warn("Switch is on, cannot remove tile"); // Loguj, jeśli przełącznik jest włączony
             }
         });
 
