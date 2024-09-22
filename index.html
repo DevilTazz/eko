@@ -585,7 +585,7 @@
                         // Dodaj nasłuchiwacz kliknięcia
                         tileElement.addEventListener("click", function() {
                             // Sprawdź, czy przełącznik jest włączony i kafelek został dodany
-                            if (switchElement.classList.contains("on") && !addedTiles.has(tile.id)) {
+                            if (!switchElement.classList.contains("on") && !addedTiles.has(tile.id)) {
                                 const newTile = createTileForMainScreen(tile.iconUrl, tile.id, tile.name, tile.link);
                                 sortableContainer.appendChild(newTile);
 
