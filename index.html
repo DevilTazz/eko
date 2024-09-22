@@ -510,13 +510,20 @@
             
             function updateIcons() {
                 const isSwitchOn = switchElement.classList.contains("on");
+                console.log("Switch is", isSwitchOn); // Loguj stan przełącznika
+                
                 unlockedIcon.classList.toggle("grayscale", isSwitchOn);
                 lockedIcon.classList.toggle("grayscale", !isSwitchOn);
                 addTileBtn.classList.toggle("grayscale", isSwitchOn);
 
                 // Zmiana ikony kosza
                 const trashImg = trashIcon.querySelector('img');
-                trashImg.src = isSwitchOn ? "graphic/open_trash_test.svg" : "graphic/trash_svgrepo_com.svg"; 
+                 if (trashImg) {
+                    trashImg.src = isSwitchOn ? "graphic/open_trash_test.svg" : "graphic/trash_svgrepo_com.svg"; 
+                    console.log("Trash icon changed to", trashImg.src); // Loguj zmianę ikony
+                    } else {
+                    console.error("Trash image not found!"); // Loguj, jeśli obrazek kosza nie został znaleziony
+                }
             }
            
             // Add tile popup functionality
