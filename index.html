@@ -577,6 +577,13 @@
                 tile.className = "icon";
                 tile.innerHTML = `<a href="${tileLink}"><img src="${iconSrc}" alt="Tile"><div class="name">${tileName}</a></div>`;
                 tile.id = tileId;
+
+                 // Dodaj obsługę przeciągania
+                tile.setAttribute("draggable", "true");
+                tile.addEventListener("dragstart", function(event) {
+                    event.dataTransfer.setData("text/plain", tileId);
+                });
+                
                 return tile;
             } 
           
