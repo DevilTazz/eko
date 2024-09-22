@@ -647,37 +647,38 @@
         });
 
         trashIcon.addEventListener("drop", function(event) {
+       
             event.preventDefault(); // Zapobiegaj domyślnemu zachowaniu
-            console.log("Dropped on trash icon"); // Loguj upuszczenie
+            const tileId = event.dataTransfer.getData("text/plain");
+
+            const tileToRemove = document.getElementById(tileId);
+
+            console.log("Dropped tile ID:", tileId);
+    console.log("Tile to remove:", tileToRemove);
             
             if (!switchElement.classList.contains("on")) {
-                const tileId = event.dataTransfer.getData("text/plain");
-                console.log("Tile ID:", tileId); // Loguj ID kafelka
-                
-                const tileToRemove = document.getElementById(tileId);
-                console.log("Tile to remove:", tileToRemove); // Loguj kafelek do usunięcia
-
+                 
+                     
                  // Sprawdź, czy kafelek nie jest kafelkiem z plusem
-                 if (tileId !== addTileId && tileToRemove) {
+                 if (tileToRemove && tileId !== addTileId) {
                      console.log("Removing tile:", tileId); // Loguj usuwanie
-                    // Usuń kafelek z ekranu głównego
-                    sortableContainer.removeChild(tileToRemove);
+                     // Usuń kafelek z ekranu głównego
+                     sortableContainer.removeChild(tileToRemove);
+                     addedTiles.delete(tileId); // Usuń kafelek z zestawu dodanych kafelków
 
-                    // Przywróć kafelek na liście
+                    // Przywróć kafelek na liście i ukryj ikonę check
                     const tileElement = document.querySelector(`.tile-item[id="${tileId}"]`);
                     if (tileElement) {
                         const checkIcon = tileElement.querySelector('.fa-check');
                         if (checkIcon) {
                             checkIcon.style.display = 'none'; // Ukryj ikonę check
                         }
-                        addedTiles.delete(tileId); // Usuń kafelek z zestawu dodanych kafelków
-                        console.log("Tile removed successfully"); // Loguj pomyślne usunięcie
-                    } else {
-                        console.error("Tile element not found in available tiles"); // Loguj, jeśli kafelek nie został znaleziony
                     }
-                } else {
-                    console.warn("Tile is not removable or is the add tile"); // Loguj, jeśli kafelek nie może być usunięty
-                }
+
+                    console.log("Tile removed successfully");
+                 } else {
+                     console.warn("Tile is not removable or is the add tile"); // Loguj, jeśli kafelek nie może być usunięty
+                 }
             } else {
                 console.warn("Switch is on, cannot remove tile"); // Loguj, jeśli przełącznik jest włączony
             }
