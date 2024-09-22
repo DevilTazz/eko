@@ -519,7 +519,7 @@
                 // Zmiana ikony kosza
                 const trashImg = trashIcon.querySelector('img');
                  if (trashImg) {
-                    trashImg.src = isSwitchOff ? "graphic/trash_svgrepo_com.svg" : "graphic/open_trash_test.svg"; 
+                    trashImg.src = !isSwitchOn ? "graphic/trash_svgrepo_com.svg" : "graphic/open_trash_test.svg"; 
                     console.log("Trash icon changed to", trashImg.src); // Loguj zmianę ikony
                     } else {
                     console.error("Trash image not found!"); // Loguj, jeśli obrazek kosza nie został znaleziony
