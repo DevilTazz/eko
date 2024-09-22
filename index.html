@@ -599,7 +599,7 @@
 
                         // Dodaj nasłuchiwacz kliknięcia
                         tileElement.addEventListener("click", function() {
-                            // Sprawdź, czy przełącznik jest włączony i kafelek został dodany
+                            // Sprawdź, czy przełącznik jest wyłączony i kafelek nie został dodany
                             if (!switchElement.classList.contains("on") && !addedTiles.has(tile.id)) {
                                 const newTile = createTileForMainScreen(tile.iconUrl, tile.id, tile.name, tile.link);
                                 sortableContainer.appendChild(newTile);
@@ -607,9 +607,10 @@
                                 // Dodaj ikonę check nad elementem w popupie
                                 if (!tileElement.querySelector('.fa-check')) { // Sprawdź, czy ikona już istnieje
                                     const checkIcon = document.createElement("i");
-                                    checkIcon.className = "fa-solid fa-check check-icon";
-                                
-                                    tileElement.insertBefore(checkIcon, tileElement.firstChild); // Dodaj ikonę nad kafelkiem w popupie
+                                    checkIcon.className = "fa-check";
+
+                                    // Dodawanie ikony do popupu
+                                    ileElement.insertAdjacentElement('beforebegin', checkIcon); // Dodaj ikonę nad kafelkiem w popupie
                             }
 
                             // Oznacz kafelek jako dodany
