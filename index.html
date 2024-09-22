@@ -679,11 +679,17 @@
                             if (checkIcon) {
                                 checkIcon.style.display = 'none'; // Ukryj ikonę check
                             }
-                            addedTiles.delete(tileId); // Usuń kafelek z zestawu dodanych kafelków
-                             console.log("Tile removed successfully");
+                            // Dodaj kafelek z powrotem na listę
+                            availableTilesContainer.appendChild(tileElement.cloneNode(true)); // Użyj cloneNode, aby skopiować kafelek
+                            console.log("Tile removed successfully");
                         } else {
                             console.error("Tile element not found in available tiles"); // Loguj, jeśli kafelek nie został znaleziony
                         }
+                        
+                        // Ustaw `draggable` ponownie na `true` dla pozostałych kafelków
+                        [...sortableContainer.children].forEach(tile => {
+                        tile.setAttribute("draggable", "true");
+                        });
                      } else {
                          console.warn("Tile is not removable or is the add tile"); // Loguj, jeśli kafelek nie może być usunięty
                      }
