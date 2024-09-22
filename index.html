@@ -659,9 +659,12 @@ trashIcon.addEventListener("drop", function(event) {
     const tileToRemove = document.getElementById(tileId);
     
     // Sprawdź, czy kafelek istnieje i nie jest kafelkiem z plusem
-    if (tileId !== addTileId && tileToRemove) {
-        console.log("Removing tile:", tileId); // Loguj usuwanie
+    
+    // if (tileId !== addTileId && tileToRemove) {
+         console.log("Removing tile:", tileId); // Loguj usuwanie
+    
         // Usuń kafelek z ekranu głównego
+    
         sortableContainer.removeChild(tileToRemove);
         addedTiles.delete(tileId); // Usuń kafelek z zestawu dodanych kafelków
 
@@ -679,8 +682,8 @@ trashIcon.addEventListener("drop", function(event) {
             console.error("Tile element not found in available tiles"); // Loguj, jeśli kafelek nie został znaleziony
         }
 
-    } else {
-        console.warn("Tile is not removable or is the add tile.");
+   // } else {
+      //  console.warn("Tile is not removable or is the add tile.");
     }
 });
 
