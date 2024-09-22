@@ -510,9 +510,9 @@
         
                 // Zmiana ikony kosza
                 if (isSwitchOn) {
-                trashIcon.src = "graphic/open_trash_test.svg"; // Jeśli przełącznik włączony, zmień ikonę kosza
+                trashIcon.querySelector('img').src = "graphic/open_trash_test.svg"; // Jeśli przełącznik włączony, zmień ikonę kosza
                 } else {
-                trashIcon.src = "graphic/trash_svgrepo_com.svg"; // Jeśli przełącznik wyłączony, przywróć oryginalną ikonę kosza
+                trashIcon.querySelector('img').src = "graphic/trash_svgrepo_com.svg"; // Jeśli przełącznik wyłączony, przywróć oryginalną ikonę kosza
                 }
             }
            
