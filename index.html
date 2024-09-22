@@ -633,6 +633,35 @@
             })
             .catch(error => console.error('Error loading tiles:', error));
 
+            // Trash icon functionality
+        trashIcon.addEventListener("dragover", function(event) {
+            event.preventDefault(); // Pozwól na upuszczenie
+        });
+
+        trashIcon.addEventListener("drop", function(event) {
+            event.preventDefault(); // Zapobiegaj domyślnemu zachowaniu
+            if (!switchElement.classList.contains("on")) {
+                const tileId = event.dataTransfer.getData("text/plain");
+                const tileToRemove = document.getElementById(tileId);
+
+                 // Sprawdź, czy kafelek nie jest kafelkiem z plusem
+                 if (tileId !== addTileId && tileToRemove) {
+                    // Usuń kafelek z ekranu głównego
+                    sortableContainer.removeChild(tileToRemove);
+
+                    // Przywróć kafelek na liście
+                    const tileElement = document.querySelector(`.tile-item[id="${tileId}"]`);
+                    if (tileElement) {
+                        const checkIcon = tileElement.querySelector('.fa-check');
+                        if (checkIcon) {
+                            checkIcon.style.display = 'none'; // Ukryj ikonę check
+                        }
+                        addedTiles.delete(tileId); // Usuń kafelek z zestawu dodanych kafelków
+                    }
+                }
+            }
+        });
+
             
             // Initialize sortable
             if (sortableContainer) {
