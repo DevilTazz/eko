@@ -506,6 +506,25 @@
 
              // Zmienna do śledzenia dodanych kafelków
             const addedTiles = new Set();
+
+             // Initialize sortable
+            if (sortableContainer) {
+                Sortable.create(sortableContainer, {
+                    animation: 150,
+                    ghostClass: 'sortable-ghost',
+                    onStart: function(evt) {
+                        if (switchElement.classList.contains("on")) {
+                            evt.from.classList.add('disabled');
+                        }
+                    },
+                    onEnd: function(evt) {
+                        if (switchElement.classList.contains("on")) {
+                            evt.from.classList.remove('disabled');
+                        }
+                        console.log('Element moved');
+                    }
+                });
+            }
             
             // Toggle popup visibility
             if (popup && openPopupBtn && closePopupBtn) {
@@ -673,24 +692,7 @@
         }
     });
             
-            // Initialize sortable
-            if (sortableContainer) {
-                Sortable.create(sortableContainer, {
-                    animation: 150,
-                    ghostClass: 'sortable-ghost',
-                    onStart: function(evt) {
-                        if (switchElement.classList.contains("on")) {
-                            evt.from.classList.add('disabled');
-                        }
-                    },
-                    onEnd: function(evt) {
-                        if (switchElement.classList.contains("on")) {
-                            evt.from.classList.remove('disabled');
-                        }
-                        console.log('Element moved');
-                    }
-                });
-            }
+           
         });
     </script>
     
