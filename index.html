@@ -576,34 +576,35 @@
             
             // Load available tiles from JSON
             fetch('assets/tiles.json')
-    .then(response => response.json())
-    .then(data => {
-        data.forEach(tile => {
-            const tileElement = createTileForPopup(tile.iconUrl, tile.id, tile.name, tile.description);
-            availableTilesContainer.appendChild(tileElement);
+                .then(response => response.json())
+                .then(data => {
+                    data.forEach(tile => {
+                        const tileElement = createTileForPopup(tile.iconUrl, tile.id, tile.name, tile.description);
+                        availableTilesContainer.appendChild(tileElement);
 
-            // Dodaj nasłuchiwacz kliknięcia
-            tileElement.addEventListener("click", function() {
-                if (!switchElement.classList.contains("on") && !addedTiles.has(tile.id)) {
-                    const newTile = createTileForMainScreen(tile.iconUrl, tile.id, tile.name, tile.link);
-                    sortableContainer.appendChild(newTile);
+                        // Dodaj nasłuchiwacz kliknięcia
+                        tileElement.addEventListener("click", function() {
+                            // Sprawdź, czy przełącznik jest włączony i kafelek został dodany
+                            if (switchElement.classList.contains("on") && !addedTiles.has(tile.id)) {
+                                const newTile = createTileForMainScreen(tile.iconUrl, tile.id, tile.name, tile.link);
+                                sortableContainer.appendChild(newTile);
 
-                    // Dodaj ikonę check nad elementem w popupie
-                    if (!tileElement.querySelector('.fa-check')) { // Sprawdź, czy ikona już istnieje
-                        const checkIcon = document.createElement("i");
-                        checkIcon.className = "fa-solid fa-check";
-                        checkIcon.style.color = "#37ff00";
-                        tileElement.insertBefore(checkIcon, tileElement.firstChild); // Dodaj ikonę nad kafelkiem w popupie
-                    }
+                                // Dodaj ikonę check nad elementem w popupie
+                                if (!tileElement.querySelector('.fa-check')) { // Sprawdź, czy ikona już istnieje
+                                const checkIcon = document.createElement("i");
+                                checkIcon.className = "fa-solid fa-check";
+                                checkIcon.style.color = "#37ff00";
+                                tileElement.insertBefore(checkIcon, tileElement.firstChild); // Dodaj ikonę nad kafelkiem w popupie
+                            }
 
-                    // Oznacz kafelek jako dodany
-                    addedTiles.add(tile.id);
-                    // Przenieś przycisk dodawania kafelka na koniec
-                    sortableContainer.appendChild(addTileBtn);
-                }
-            });
-        });
-    })
+                            // Oznacz kafelek jako dodany
+                            addedTiles.add(tile.id);
+                            // Przenieś przycisk dodawania kafelka na koniec
+                            sortableContainer.appendChild(addTileBtn);
+                        }
+                    });
+                });
+            })
     .catch(error => console.error('Error loading tiles:', error));
 
             
