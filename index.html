@@ -580,9 +580,18 @@
                         availableTilesContainer.appendChild(tileElement);
                         // Dodaj nasłuchiwacz kliknięcia
                         tileElement.addEventListener("click", function() {
-                            if (!switchElement.classList.contains("on")) {
+                            if (!switchElement.classList.contains("on") && !addedTiles.has(tile.id)) {
                                 const newTile = createTileForMainScreen(tile.iconUrl, tile.id, tile.name, tile.link);
                                 sortableContainer.appendChild(newTile);
+                                
+                                 // Dodaj ikonę check nad odpowiednim elementem w liście
+                                const checkIcon = document.createElement("i");
+                                checkIcon.className = "fa-solid fa-check";
+                                checkIcon.style.color = "#37ff00";
+                                tileElement.insertBefore(checkIcon, tileElement.firstChild); // Dodaj ikonę nad kafelkiem
+
+                                // Oznacz kafelek jako dodany
+                                addedTiles.add(tile.id);
                                 // Move the add tile button to the end
                                 sortableContainer.appendChild(addTileBtn);
                             }
