@@ -300,6 +300,7 @@
             position: relative; /* Umożliwia pozycjonowanie absolutnych elementów wewnątrz */
      
         }
+        
     
         .tile-icon {
             width: 24px;
@@ -311,16 +312,18 @@
         
         /* Ogólne stylowanie ikony check */
         .fa-check {
-            font-size: 16px; /* Rozmiar ikony */
-            
-            top: 10px; /* Pozycjonowanie ikony */
-    left: 10px; /* Możesz dostosować pozycję */
-    color: #37ff00; /* Zielony kolor */
-    font-size: 20px; /* Możesz dostosować rozmiar */
-    z-index: 20; /* Aby upewnić się, że ikona pojawia się nad kafelkiem */
+            top: 0; /* Możesz dostosować pozycję */
+            left: 0; /* Możesz dostosować pozycję */
+            color: #37ff00; /* Zielony kolor */
+            font-size: 50px; /* Możesz dostosować rozmiar */
+            z-index: 20; /* Aby upewnić się, że ikona pojawia się nad kafelkiem */
             margin-right: 8px; /* Odstęp od innych elementów */
             vertical-align: middle; /* Wyrównanie ikony w pionie */
-            position: absolute
+            position: absolute;
+            display: none; /* Domyślnie ukryta */
+        }
+        .tile-item.checked .fa-check {
+            display: block; /* Pokazuje ikonę, gdy kafelek ma klasę 'checked' */
         }
         .tile-info {
             display: flex;
@@ -584,8 +587,17 @@
                     <div class="tile-info">
                         <div class="tile-name">${tileName}</div>
                         <div class="tile-description">${tileDescription}</div>
-                    </div>`;
+                    </div>
+                    <i class="fa-check">✔️</i>`; // Dodaj ikonę check
                 tile.id = tileId;
+                
+                 // Dodaj event listener do kafelka
+                tile.addEventListener("click", function() {
+                    // Pokazanie ikony check
+                const checkIcon = tile.querySelector('.fa-check');
+                checkIcon.style.display = 'block'; // Pokazuje ikonę check
+
+                });
                 return tile;
             }
             
@@ -601,21 +613,19 @@
                         tileElement.addEventListener("click", function() {
                             // Sprawdź, czy przełącznik jest wyłączony i kafelek nie został dodany
                             if (!switchElement.classList.contains("on") && !addedTiles.has(tile.id)) {
+                                // Oznacz kafelek jako dodany
+                                addedTiles.add(tile.id);
+                                
                                 const newTile = createTileForMainScreen(tile.iconUrl, tile.id, tile.name, tile.link);
                                 sortableContainer.appendChild(newTile);
+                                
+                                
 
-                                // Dodaj ikonę check nad elementem w popupie
-                                if (!tileElement.querySelector('.fa-check')) { // Sprawdź, czy ikona już istnieje
-                                    const checkIcon = document.createElement("i");
-                                    checkIcon.className = "fa-check";
-
-                                    // Dodawanie ikony do popupu
-                                    tileElement.insertAdjacentElement('beforebegin', checkIcon); // Dodaj ikonę nad kafelkiem w popupie
+                           // Pokazanie ikony check na elemencie listy
+                    const checkIcon = tileElement.querySelector('.fa-check');
+                    if (checkIcon) {
+                        checkIcon.style.display = 'block'; // Pokazuje ikonę check
                             }
-
-                            // Oznacz kafelek jako dodany
-                            addedTiles.add(tile.id);
-                            // Przenieś przycisk dodawania kafelka na koniec
                             sortableContainer.appendChild(addTileBtn);
                         }
                     });
