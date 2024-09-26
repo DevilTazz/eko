@@ -611,6 +611,21 @@
                 
                 return tile;
             } 
+            
+            /*
+            
+            // Function to remove a tile from the main screen
+            function removeTileFromMainScreen(tileId) {
+                const tileToRemove = document.getElementById(tileId); // Znajdź kafelek po ID
+                if (tileToRemove) {
+                    sortableContainer.removeChild(tileToRemove); // Usuń kafelek z kontenera
+                    console.log(`Tile with ID ${tileId} removed from main screen.`);
+                } else {
+                    console.error(`Tile with ID ${tileId} not found on the main screen.`);
+                }
+            }
+
+            */
           
             function createTileForPopup(iconSrc, tileId, tileName, tileDescription) {
                 const tile = document.createElement("div");
