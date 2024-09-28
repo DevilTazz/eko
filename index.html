@@ -749,6 +749,59 @@
                 }
             });
         });
+
+        /* LOCAL STORAGE .... chyba
+
+
+        
+
+        // Funkcja do dodania kafelka do kontenera oraz zapisania w LocalStorage
+function addTileToContainer(iconUrl, name) {
+    const newTile = document.createElement('div');
+    newTile.className = 'icon';
+    newTile.innerHTML = `
+        <img src="${iconUrl}" alt="${name}">
+        <span>${name}</span>
+        <button class="remove-btn">Usuń</button>
+    `;
+    newTile.querySelector('.remove-btn').addEventListener('click', function() {
+        removeTile(newTile); // Usunięcie kafelka
+        saveTilesToLocalStorage(); // Aktualizacja LocalStorage po usunięciu
+    });
+    sortableContainer.appendChild(newTile);
+    
+    saveTilesToLocalStorage(); // Zapis do LocalStorage po dodaniu kafelka
+}
+
+// Funkcja do zapisywania kafelków w LocalStorage
+function saveTilesToLocalStorage() {
+    const tiles = Array.from(sortableContainer.querySelectorAll('.icon')).map(tile => {
+        return {
+            iconUrl: tile.querySelector('img').src,
+            name: tile.querySelector('span').textContent
+        };
+    });
+    localStorage.setItem('savedTiles', JSON.stringify(tiles));
+}
+
+// Funkcja do wczytywania kafelków z LocalStorage
+function loadTilesFromLocalStorage() {
+    const savedTiles = JSON.parse(localStorage.getItem('savedTiles'));
+    if (savedTiles) {
+        savedTiles.forEach(tile => {
+            addTileToContainer(tile.iconUrl, tile.name);
+        });
+    }
+}
+
+// Wczytanie kafelków po załadowaniu strony
+document.addEventListener("DOMContentLoaded", function() {
+    loadTilesFromLocalStorage();
+});
+
+
+
+*/
 </script>
 </body>
 </html>
