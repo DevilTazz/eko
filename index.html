@@ -196,7 +196,7 @@
         }
         .switch {
             order: 2;
-            width: 60px;
+            width: 10vw; /* Szerokość przełącznika uzależniona od szerokości widoku */
             height: 10px;
             background-color: #555;
             border-radius: 5px;
@@ -220,7 +220,7 @@
             background-color: #4caf50;
         }
         .switch.on::before {
-            transform: translateX(133.33%);
+            transform: translateX(calc(100% - 10px));
         }
 
         /* Ikona zablokowanej kłódki 50px na prawo od suwaka */
