@@ -195,9 +195,11 @@
             margin-right: 12px; /* Ustawienie ikony 10px od suwaka */
         }
         .switch {
-            order: 2;
-            width: 10vw; /* Szerokość przełącznika uzależniona od szerokości widoku */
+            
+            --switch-width: 10vw; /* Definiowanie zmiennej */
+            width: var(--switch-width); /* Użycie zmiennej */
             height: 10px;
+            order: 2;
             background-color: #555;
             border-radius: 5px;
             position: relative;
@@ -220,7 +222,7 @@
             background-color: #4caf50;
         }
         .switch.on::before {
-            transform: translateX(calc(100%)); /* + (10px / 10vw * 100%))); */
+            transform: translateX(calc(var(--switch-width) + 10px));
         }
 
         /* Ikona zablokowanej kłódki 50px na prawo od suwaka */
