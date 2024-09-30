@@ -194,9 +194,9 @@
             order: 1;
             margin-right: 12px; /* Ustawienie ikony 10px od suwaka */
         }
-        .switch {
-            
+        .switch {            
             --switch-width: 10vw; /* Definiowanie zmiennej */
+            --circle-width: 20px; /* Szerokość kółka */
             width: var(--switch-width); /* Użycie zmiennej */
             height: 10px;
             order: 2;
@@ -211,7 +211,7 @@
             content: "";
             position: absolute;
             left: -5px;
-            width: 20px;
+            width: var(--circle-width); /* Szerokość kółka */
             height: 10px;
             background: linear-gradient(135deg, #9e9e9e, #e0e0e0, #b0b0b0);
             border-radius: 5px;
@@ -222,7 +222,7 @@
             background-color: #4caf50;
         }
         .switch.on::before {
-            transform: translateX(calc(var(--switch-width)));
+            transform: translateX(calc(var(--switch-width) - var(--circle-width) + 10px));
         }
 
         /* Ikona zablokowanej kłódki 50px na prawo od suwaka */
