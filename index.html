@@ -505,8 +505,9 @@
             const availableTilesContainer = document.getElementById("available-tiles");
             const sortableContainer = document.getElementById("sortable-container");
             const trashIcon = document.getElementById("trash");
-            const addTileId = "add-tile"; // Zdefiniuj id kafelka z plusem
+            const addTileId = document.getElementById("add-tile"); // Zdefiniuj id kafelka z plusem
             const saveTilesBtn = document.getElementById('save-tiles');
+            
 
              // Zmienna do śledzenia dodanych kafelków
             const addedTiles = new Set();
@@ -531,7 +532,7 @@
                             },
                             animation: 150,
                             onEnd: evt => {
-                                if (evt.from === trash) {
+                                if (evt.from === trashIcon) {
                                     console.log('Kafelek usunięty do kosza');
                                 }
                             }
@@ -692,7 +693,7 @@
                 
                  // Dodaj event listener do kafelka
                 tile.addEventListener('click', () => {
-                    if (!addedTiles.has(id)) { // Sprawdzenie czy kafelek już istnieje
+                    if (!addedTiles.has(tileId)) { // Sprawdzenie czy kafelek już istnieje
                         addTileToContainer(iconUrl, name, id); // Dodaj kafelek
                         addedTiles.add(id); // Dodaj do zestawu
                         // Pokazanie ikony check
@@ -839,7 +840,7 @@
                     return;
                 }
 
-                const reader = new FileReader();
+                const reader = new FileReader(); /* wprowadzić tu później sprawdzanie poprawnej struktury wczytywanego pliku */
                 reader.onload = function(e) {
                     try {
                         const importedData = JSON.parse(e.target.result);
