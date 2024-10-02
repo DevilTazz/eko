@@ -439,9 +439,9 @@
                 <div id="menu-dropdown" class="menu-dropdown">
                     <div class="menu-item">Ikonka</div>
                     <div class="menu-item">Profil?</div>
-                    <div class="menu-item">pstryczek</div>
-                    <div class="menu-item">wczytaj</div>
-                    <div class="menu-item">zapisz</div>
+                    <div class="menu-item">pstryczek pokaż/ukryj info</div>
+                    <div class="menu-item">Wczytaj z pliku</div> <!-- <input type="file" id="import-tiles" accept=".json">  ---- Przycisk do importu --> 
+                    <div id="export-tiles" class="menu-item">Eksportuj do pliku</div>
                     <!-- <div class="menu-item">to później</div> -->
                     <div class="menu-item">TOS</div>
                     <div class="menu-item">Privacy</div>
@@ -505,9 +505,10 @@
             const sortableContainer = document.getElementById("sortable-container");
             const trashIcon = document.getElementById("trash");
             const addTileId = "add-tile"; // Zdefiniuj id kafelka z plusem
+            const saveTilesBtn = document.getElementById('save-tiles');
 
             // Dodanie klasy trash-icon tylko raz
-            trashIcon.classList.add('trash-icon');
+            trashIcon.classList.add('trash-icon'); /* ?????????? co to, po co to? */
 
              // Zmienna do śledzenia dodanych kafelków
             const addedTiles = new Set();
@@ -515,7 +516,7 @@
             // Wczytaj kafelki z localStorage przy załadowaniu strony
             loadTilesFromLocalStorage();
 
-                        // Sortowanie elementów w strefie draggable
+            // Sortowanie elementów w strefie draggable
             Sortable.create(sortableContainer, {
                 group: {
                     name: "tiles",
