@@ -514,7 +514,7 @@
             // Zmienna do śledzenia dodanych kafelków
            const addedTiles = new Set(); 
     
-    loadTilesFromLocalStorage(); 
+    /* loadTilesFromLocalStorage(); */
            
              // Toggle switch and icon
             if (switchElement && unlockedIcon && lockedIcon) { 
@@ -543,7 +543,7 @@
                         Sortable.create(trashIcon, {
                             group: "tiles",
                             onAdd: function (evt) {
-                                removeTile(evt.item); // Usunięcie kafelka
+                               // removeTile(evt.item); // Usunięcie kafelka
                                 console.log('Kafelek usunięty do kosza'); 
                             }
                         });
@@ -569,7 +569,9 @@
                  } else {
                      console.error("Trash image not found!"); // Loguj, jeśli obrazek kosza nie został znaleziony
                  }
-            }     
+            } 
+       });
+        
             
 
 /*
