@@ -517,60 +517,68 @@
             // Wczytaj kafelki z localStorage przy załadowaniu strony
             loadTilesFromLocalStorage();
 
-            // Sprawdzanie stanu switchElement
-            if (switchElement.classList.contains("on")) {
-                // Sortowanie elementów w strefie draggable
-                Sortable.create(sortableContainer, {
-                    group: {
-                        name: "tiles",
-                        pull: true,
-                        put: true // Umożliwia dodawanie do kontenera
-                    },
-                    animation: 150,
-                    onEnd: evt => {
-                        if (evt.from === trash) {
-                            console.log('Kafelek usunięty do kosza');
-                        }
-                    }
-                });
-    
-                // Sortowanie w strefie droppable (kosz)
-                Sortable.create(trash, {
-                    group: "tiles",
-                    onAdd: function (evt) {
-                        removeTile(evt.item); // Usunięcie kafelka
-                        console.log('Kafelek usunięty do kosza');
-                    }
-                });
-            }
+             // Toggle switch and icon
+            if (switchElement && unlockedIcon && lockedIcon) {
+                switchElement.addEventListener("click", function() {
+                    switchElement.classList.toggle("on");
+                    updateIcons();              
 
-            /* 
+                    // Sprawdzanie stanu switchElement
+                    if (switchElement.classList.contains("on")) {
+                        // Sortowanie elementów w strefie draggable
+                        Sortable.create(sortableContainer, {
+                            group: {
+                                name: "tiles",
+                                pull: true,
+                                put: true // Umożliwia dodawanie do kontenera
+                            },
+                            animation: 150,
+                            onEnd: evt => {
+                                if (evt.from === trash) {
+                                    console.log('Kafelek usunięty do kosza');
+                                }
+                            }
+                        });
             
-             // Initialize sortable
-            if (sortableContainer) {
-                Sortable.create(sortableContainer, {
-                    animation: 150,
-                    ghostClass: 'sortable-ghost',
-                    onStart: function(evt) {
-                        if (switchElement.classList.contains("on")) {     <--- gdzieś ten warunek chyba muszę wykorzystać!!!
-                            evt.from.classList.add('disabled');
-                        }
-                    },
-                    onEnd: function(evt) {
-                        if (switchElement.classList.contains("on")) {
-                            evt.from.classList.remove('disabled');
-                        }
-                        console.log('Element moved');
+                        // Sortowanie w strefie droppable (kosz)
+                        Sortable.create(trash, {
+                            group: "tiles",
+                            onAdd: function (evt) {
+                                removeTile(evt.item); // Usunięcie kafelka
+                                console.log('Kafelek usunięty do kosza');
+                            }
+                        });
                     }
                 });
             }
 
+            // Funkcja aktualizująca ikony
+            function updateIcons() {
+                const isSwitchOn = switchElement.classList.contains("on");
+                console.log("Switch is", isSwitchOn); // Loguj stan przełącznika
+                
+                unlockedIcon.classList.toggle("grayscale", isSwitchOn);
+                lockedIcon.classList.toggle("grayscale", !isSwitchOn);
+                addTileBtn.classList.toggle("grayscale", isSwitchOn);
 
-            */
+                // Zmiana ikony kosza
+                const trashImg = trashIcon.querySelector('img');
+                 if (trashImg) {
+                     trashImg.src = !isSwitchOn ? "graphic/open_trash_test.svg" : "graphic/trash_svgrepo_com.svg"; 
+                     console.log("Trash icon changed to", trashImg.src); // Loguj zmianę ikony
+                     trashImg.classList.add('switch-icon trash-icon'); // Dodaj swoją klasę
+                 } else {
+                     console.error("Trash image not found!"); // Loguj, jeśli obrazek kosza nie został znaleziony
+                 }
+            }
+
+            
 
 
 
-            /* TEN KOD CHYBA NIE ... ALE JESZCZE PRZEANALIZOWAĆ!!!!!!!!!!!!!1111111111111111
+
+
+
 
             
             // Toggle popup visibility
@@ -589,7 +597,7 @@
                 });
             }
 
-            */
+           
             addTileBtn.addEventListener("click", function(event) {
                 event.preventDefault();
                 tilePopup.classList.add("show");
@@ -615,34 +623,7 @@
                 console.log('Kafelki zapisane do LocalStorage');
             });
             
-            // Toggle switch and icon
-            if (switchElement && unlockedIcon && lockedIcon) {
-                switchElement.addEventListener("click", function() {
-                    switchElement.classList.toggle("on");
-                    updateIcons();
-                });
-            }
-            
-            function updateIcons() {
-                const isSwitchOn = switchElement.classList.contains("on");
-                console.log("Switch is", isSwitchOn); // Loguj stan przełącznika
-                
-                unlockedIcon.classList.toggle("grayscale", isSwitchOn);
-                lockedIcon.classList.toggle("grayscale", !isSwitchOn);
-                addTileBtn.classList.toggle("grayscale", isSwitchOn);
-
-                // Zmiana ikony kosza
-                const trashImg = trashIcon.querySelector('img');
-                 if (trashImg) {
-                    trashImg.src = !isSwitchOn ? "graphic/open_trash_test.svg" : "graphic/trash_svgrepo_com.svg"; 
-                    console.log("Trash icon changed to", trashImg.src); // Loguj zmianę ikony
-                     
-                     // Dodanie klasy do ikony kosza
-                trashImg.classList.add('switch-icon trash-icon'); // Dodaj swoją klasę
-                    } else {
-                    console.error("Trash image not found!"); // Loguj, jeśli obrazek kosza nie został znaleziony
-                }
-            }
+           
            
             // Add tile popup functionality
             if (addTileBtn) {
