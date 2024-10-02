@@ -506,10 +506,7 @@
             const sortableContainer = document.getElementById("sortable-container");
             const trashIcon = document.getElementById("trash");
             const addTileId = "add-tile"; // Zdefiniuj id kafelka z plusem
-            const saveTiles = document.getElementById('save-tiles');
-
-            // Dodanie klasy trash-icon tylko raz
-            trashIcon.classList.add('trash-icon'); /* ?????????? co to, po co to? */
+            const saveTilesBtn = document.getElementById('save-tiles');
 
              // Zmienna do śledzenia dodanych kafelków
             const addedTiles = new Set();
@@ -591,7 +588,7 @@
                 });
                 // Zamknij popup po kliknięciu poza jego obszarem
                 document.addEventListener("click", function(event) { // czy tu nie powinien być taki kod? " tilePopup.addEventListener('click', function(event) { " 
-                    if (event.target === popup) {
+                    if (event.target === tilePopup) {
                         popup.classList.remove("show");
                     }
                 });
