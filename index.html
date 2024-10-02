@@ -492,7 +492,7 @@
         </div>
     </div>
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
+       /* document.addEventListener("DOMContentLoaded", function() {
             const popup = document.getElementById("popup");
             const openPopupBtn = document.getElementById("open-popup-btn");
             const closePopupBtn = document.getElementById("close-popup-btn");
@@ -506,26 +506,44 @@
             const sortableContainer = document.getElementById("sortable-container");
             const trashIcon = document.getElementById("trash");
             const addTileId = document.getElementById("add-tile"); // Zdefiniuj id kafelka z plusem
-            const saveTilesBtn = document.getElementById('save-tiles');
+            const saveTilesBtn = document.getElementById('save-tiles'); */
             
+  document.addEventListener("DOMContentLoaded", function() {
+            const switchElement = document.getElementById("switch");
+            const unlockedIcon = document.getElementById("icon-unlocked");
+            const lockedIcon = document.getElementById("icon-locked");
 
+            switchElement.addEventListener("click", function() {
+                switchElement.classList.toggle("on");
+                updateIcons();
+            });
+
+            function updateIcons() {
+                const isSwitchOn = switchElement.classList.contains("on");
+                unlockedIcon.classList.toggle("grayscale", isSwitchOn);
+                lockedIcon.classList.toggle("grayscale", !isSwitchOn);
+                console.log("Suwak jest teraz:", isSwitchOn ? "włączony" : "wyłączony");
+            }
+        });
+
+ /*
              // Zmienna do śledzenia dodanych kafelków
-            const addedTiles = new Set();
+            const addedTiles = new Set(); 
 
             // Wczytaj kafelki z localStorage przy załadowaniu strony
-            loadTilesFromLocalStorage();
+            loadTilesFromLocalStorage(); 
 
              // Toggle switch and icon
-            if (switchElement && unlockedIcon && lockedIcon) {
-                switchElement.addEventListener("click", function() {
-                    switchElement.classList.toggle("on");
+            if (switchElement && unlockedIcon && lockedIcon) { 
+                switchElement.addEventListener("click", function() { 
+                    switchElement.classList.toggle("on"); 
                     updateIcons();              
 
                     // Sprawdzanie stanu switchElement
-                    if (switchElement.classList.contains("on")) {
+                    if (switchElement.classList.contains("on")) { 
                         // Sortowanie elementów w strefie draggable
                         Sortable.create(sortableContainer, {
-                            group: {
+                            group: { 
                                 name: "tiles",
                                 pull: true,
                                 put: true // Umożliwia dodawanie do kontenera
@@ -533,7 +551,7 @@
                             animation: 150,
                             onEnd: evt => {
                                 if (evt.from === trashIcon) {
-                                    console.log('Kafelek usunięty do kosza');
+                                    console.log('Kafelek usunięty do kosza'); 
                                 }
                             }
                         });
@@ -543,12 +561,20 @@
                             group: "tiles",
                             onAdd: function (evt) {
                                 removeTile(evt.item); // Usunięcie kafelka
-                                console.log('Kafelek usunięty do kosza');
+                                console.log('Kafelek usunięty do kosza'); 
                             }
                         });
                     }
                 });
-            }
+            } 
+            
+
+            
+
+
+            
+
+
 
             // Funkcja aktualizująca ikony
             function updateIcons() {
