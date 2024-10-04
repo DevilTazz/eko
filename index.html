@@ -479,6 +479,7 @@
             if (popup && openPopupBtn && closePopupBtn) {
                 openPopupBtn.addEventListener("click", function() {
                     popup.classList.add("show");
+                    loadAvailableTiles(); // Ładuj kafelki przy otwieraniu popupu
                 });
                 closePopupBtn.addEventListener("click", function() {
                     popup.classList.remove("show");
@@ -566,20 +567,35 @@
             } 
        });
 
-            // Ładowanie dostępnych kafelków z JSON
+             // Funkcja ładowania dostępnych kafelków z JSON
             function loadAvailableTiles() {
                 fetch('assets/tiles.json')
                     .then(response => {
                         if (!response.ok) {
                             throw new Error('Network response was not ok');
-                       }
-                       return response.json(); // Konwertuje odpowiedź na obiekt JSON
+                        }
+                        return response.json();
                     })
                     .then(data => {
                         availableTilesContainer.innerHTML = ''; // Czyścimy kontener przed dodaniem nowych kafelków
                         data.forEach(tile => {
                             const tileElement = createTileForPopup(tile.iconUrl, tile.id, tile.name, tile.description);
                             availableTilesContainer.appendChild(tileElement);
+
+                            // Dodaj nasłuchiwacz kliknięcia
+                            tileElement.addEventListener("click", function() {
+                                if (!switchElement.classList.contains("on") && !addedTiles.has(tile.id)) {
+                                    addedTiles.add(tile.id);
+                                    const newTile = createTileForMainScreen(tile.iconUrl, tile.id, tile.name, tile.link);
+                                    sortableContainer.appendChild(newTile);
+                                    
+                                    // Pokazanie ikony check na elemencie listy
+                                    const checkIcon = tileElement.querySelector('.fa-check');
+                                    if (checkIcon) {
+                                        checkIcon.style.display = 'block'; // Pokazuje ikonę check
+                                    } 
+                                }
+                            });
                         });
                     })
                     .catch(error => {
