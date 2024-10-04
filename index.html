@@ -581,9 +581,14 @@
                         data.forEach(tile => {
                             const tileElement = createTileForPopup(tile.iconUrl, tile.id, tile.name, tile.description);
                             availableTilesContainer.appendChild(tileElement);
+                            console.log("Available tiles container children:", availableTilesContainer.children);
 
                             // Dodaj nasłuchiwacz kliknięcia
                             tileElement.addEventListener("click", function() {
+                                console.log("Switch ON?", switchElement.classList.contains("on"));
+                                console.log("Tile ID?", tile.id);
+                                console.log("Tile already added?", addedTiles.has(tile.id));
+                                
                                 if (!switchElement.classList.contains("on") && !addedTiles.has(tile.id)) {
                                     addedTiles.add(tile.id);
                                     const newTile = createTileForMainScreen(tile.iconUrl, tile.id, tile.name, tile.link);
