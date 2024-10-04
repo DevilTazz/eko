@@ -565,49 +565,11 @@
                      trashImg.src = !isSwitchOn ? "graphic/open_trash_test.svg" : "graphic/trash_svgrepo_com.svg"; 
                      console.log("Trash icon changed to", trashImg.src); // Loguj zmianę ikony
                      console.log("Adding class to trashImg:", 'switch-icon');
-                    trashIcon.classList.toggle('switch-icon', !isSwitchOn); // Dodaj klasę do kontenera
-        trashIcon.classList.toggle('trash-icon', !isSwitchOn); // Dodaj klasę do kontenera
+                    trashIcon.classList.toggle('switch-icon', isSwitchOn); // Dodaj klasę do kontenera
+        trashIcon.classList.toggle('trash-icon', isSwitchOn); // Dodaj klasę do kontenera
                      
-Rozumiem, że po dodaniu klas do ikony kosza występują problemy z jej pozycjonowaniem. Oto kilka kroków, które mogą pomóc w rozwiązaniu tego problemu:
-1. Sprawdź style CSS
-Upewnij się, że dodawane klasy (switch-icon, trash-icon) nie zmieniają położenia ikony kosza. Sprawdź, czy w CSS nie ma reguł, które mogą wpływać na pozycjonowanie. Oto przykładowa reguła, którą możesz rozważyć:
-css
-Skopiuj kod
-.switch-icon {
-    display: inline-flex; /* lub inline-block */
-    align-items: center; /* Wyśrodkowanie ikony w pionie */
-}
-.trash-icon img {
-    width: 24px; /* Ustal odpowiednią szerokość */
-    height: auto; /* Zachowaj proporcje */
-}
-2. Debugowanie stylów
-Użyj narzędzi deweloperskich, aby sprawdzić, jakie style są stosowane do trashIcon. Możesz to zrobić, klikając prawym przyciskiem myszy na ikonę kosza i wybierając „Zbadaj” (Inspect).
-3. Zmiana klasy w funkcji updateIcons
-Jeśli dodawanie klas do trashImg powoduje problemy, spróbuj dodać je do trashIcon, a nie do trashImg. Upewnij się, że klasy są dodawane tylko raz, aby uniknąć problemów z pozycjonowaniem.
-Oto zmodyfikowany kod:
-javascript
-Skopiuj kod
-// Funkcja aktualizująca ikony
-function updateIcons() {
-    const isSwitchOn = switchElement.classList.contains("on");
-    console.log("Switch is", isSwitchOn); // Loguj stan przełącznika
-    
-    unlockedIcon.classList.toggle("grayscale", isSwitchOn);
-    lockedIcon.classList.toggle("grayscale", !isSwitchOn);
-    addTileBtn.classList.toggle("grayscale", isSwitchOn);
-    // Zmiana ikony kosza
-    const trashImg = trashIcon.querySelector('img');
-    if (trashImg) {
-        trashImg.src = !isSwitchOn ? "graphic/open_trash_test.svg" : "graphic/trash_svgrepo_com.svg"; 
-        console.log("Trash icon changed to", trashImg.src); // Loguj zmianę ikony
-        trashIcon.classList.toggle('switch-icon', !isSwitchOn); // Dodaj klasę do kontenera
-        trashIcon.classList.toggle('trash-icon', !isSwitchOn); // Dodaj klasę do kontenera
-                 } else {
-                     console.error("Trash image not found!"); // Loguj, jeśli obrazek kosza nie został znaleziony
-                 }
-            } 
-       });
+
+
 
              // Funkcja ładowania dostępnych kafelków z JSON
             function loadAvailableTiles() {
