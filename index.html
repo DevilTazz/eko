@@ -475,18 +475,49 @@
     
   /*  loadTilesFromLocalStorage(); <--- Tą funkcję włączyć gdy będzie działać jej kod napisany tam na dole. Bez tego wysypuje stronę */
            
-            // Toggle switch and icon
-    if (switchElement && unlockedIcon && lockedIcon) { 
-        switchElement.addEventListener("click", function() { 
-            switchElement.classList.toggle("on"); 
-            updateIcons();  // Wywołanie aktualizacji ikon
-
-            // Sortowanie elementów w strefie draggable
-            if (!switchElement.classList.contains("on")) {
-                setupSortableContainers();  // Przenieś logikę sortowania do osobnej funkcji
+            // Toggle popup visibility
+            if (popup && openPopupBtn && closePopupBtn) {
+                openPopupBtn.addEventListener("click", function() {
+                    popup.classList.add("show");
+                });
+                closePopupBtn.addEventListener("click", function() {
+                    popup.classList.remove("show");
+                });
+                document.addEventListener("click", function(event) {
+                    if (event.target === popup) {
+                        popup.classList.remove("show");
+                    }
+                });
             }
-        });
-    }
+
+            // Toggle switch and icon
+            if (switchElement && unlockedIcon && lockedIcon) {
+                switchElement.addEventListener("click", function() {
+                    switchElement.classList.toggle("on");
+                    updateIcons();
+                });
+            }
+
+           // Add tile popup functionality
+            if (addTileBtn) {
+                addTileBtn.addEventListener("click", function() {
+                    if (!switchElement.classList.contains("on")) {
+                        tilePopup.classList.add("show");
+                    }
+                });
+            }
+
+            // Close tile popup
+            if (closeTilePopupBtn) {
+                closeTilePopupBtn.addEventListener("click", function() {
+                    tilePopup.classList.remove("show");
+                });
+                document.addEventListener("click", function(event) {
+                    if (event.target === tilePopup) {
+                        tilePopup.classList.remove("show");
+                    }
+                });
+            }
 
     // Funkcja do konfiguracji sortowalnych kontenerów
     function setupSortableContainers() {
