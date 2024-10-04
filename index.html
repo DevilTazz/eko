@@ -4,10 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
-        * {
-    box-sizing: border-box;
-}
-
         body {
             margin: 0;
             background-color: #f0f0f0;
@@ -138,7 +134,7 @@
             padding: 10px;
             border-radius: 10px;
             position: relative;
-            
+
         }
          .switch-icon {            
             top: -7px;
@@ -227,10 +223,12 @@
             padding: 10px;
             border: 2px solid black;
             border-radius: 50%;
+           
         }
         .switch-icon.trash-icon img {
             width: 24px; /* Ustaw rozmiar ikony */
             height: 24px; /* Ustaw rozmiar ikony */
+             display: block; /* Zapobiega domyślnemu marginesowi */
         }       
         .grayscale {
             filter: grayscale(100%);
@@ -325,7 +323,7 @@
             color: #888;           
         }
 
-        
+
          /* Stylizacja kontenera przełącznika */
         .switch-container1 {
             position: relative;
@@ -381,17 +379,17 @@
             border: 1px solid #ccc;
             border-radius: 4px;
         }
-        
+
     </style>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.15.0/Sortable.min.js"></script>
 </head>
 <body>
     <div class="blur-background"></div>
-    
-    
-    
+
+
+
     <div class="container">
-        
+
         <!-- Switch container -->
         <div class="switch-container">
 
@@ -420,7 +418,7 @@
                     <div class="menu-item">Privacy</div>
                 </div>               
             </div>
-            
+
             <div id="icon-unlocked" class="switch-icon unlocked">
                 <img src="graphic/unlock_1.png" alt="Unlocked">
             </div>
@@ -431,9 +429,9 @@
             <div id="trash" class="switch-icon trash-icon">
                 <img src="graphic/open_trash_test.svg" alt="Trash">
             </div>
-            
+
         </div>
-        
+
         <div class="opis">
             <button id="open-popup-btn" class="button">Zobacz info</button>
         </div>
@@ -448,9 +446,9 @@
             <!-- Ikony zostaną dodane dynamicznie -->
             <div id="add-tile">+</div>            
         </div>
-        
+
     </div>
-    
+
     <!-- Dymek do wybierania kafelków -->
     <div id="tile-popup" class="popup hidden">
         <div class="popup-content-tiles">
@@ -473,13 +471,12 @@
             const availableTilesContainer = document.getElementById("available-tiles");
             const sortableContainer = document.getElementById("sortable-container");
             const trashIcon = document.getElementById("trash");
-           console.log("trashIcon:", trashIcon); // Dodaj ten log
             const addTileId = document.getElementById("add-tile"); // Zdefiniuj id kafelka z plusem
             const saveTilesBtn = document.getElementById('save-tiles');              
             const addedTiles = new Set(); // Zmienna do śledzenia dodanych kafelków
-    
+
   /*  loadTilesFromLocalStorage(); <--- Tą funkcję włączyć gdy będzie działać jej kod napisany tam na dole. Bez tego wysypuje stronę */
-           
+
             // Toggle popup visibility
             if (popup && openPopupBtn && closePopupBtn) {
                 openPopupBtn.addEventListener("click", function() {
@@ -549,13 +546,13 @@
             }
         });
     }
- 
+
 
             // Funkcja aktualizująca ikony
             function updateIcons() {
                 const isSwitchOn = switchElement.classList.contains("on");
                 console.log("Switch is", isSwitchOn); // Loguj stan przełącznika
-                
+
                 unlockedIcon.classList.toggle("grayscale", isSwitchOn);
                 lockedIcon.classList.toggle("grayscale", !isSwitchOn);
                 addTileBtn.classList.toggle("grayscale", isSwitchOn);
@@ -564,10 +561,49 @@
                 const trashImg = trashIcon.querySelector('img');
                  if (trashImg) {
                      trashImg.src = !isSwitchOn ? "graphic/open_trash_test.svg" : "graphic/trash_svgrepo_com.svg"; 
-                     console.log("Trash icon changed to", trashImg.src); // Loguj zmianę ikony
-                     console.log("Adding class to trashImg:", 'switch-icon');
-                    trashImg.classList.add('switch-icon'); // Dodaj klasę osobno
-        trashImg.classList.add('trash-icon'); // Dodaj klasę osobno
+                     
+Rozumiem, że po dodaniu klas do ikony kosza występują problemy z jej pozycjonowaniem. Oto kilka kroków, które mogą pomóc w rozwiązaniu tego problemu:
+
+1. Sprawdź style CSS
+Upewnij się, że dodawane klasy (switch-icon, trash-icon) nie zmieniają położenia ikony kosza. Sprawdź, czy w CSS nie ma reguł, które mogą wpływać na pozycjonowanie. Oto przykładowa reguła, którą możesz rozważyć:
+
+css
+Skopiuj kod
+.switch-icon {
+    display: inline-flex; /* lub inline-block */
+    align-items: center; /* Wyśrodkowanie ikony w pionie */
+}
+
+.trash-icon img {
+    width: 24px; /* Ustal odpowiednią szerokość */
+    height: auto; /* Zachowaj proporcje */
+}
+2. Debugowanie stylów
+Użyj narzędzi deweloperskich, aby sprawdzić, jakie style są stosowane do trashIcon. Możesz to zrobić, klikając prawym przyciskiem myszy na ikonę kosza i wybierając „Zbadaj” (Inspect).
+
+3. Zmiana klasy w funkcji updateIcons
+Jeśli dodawanie klas do trashImg powoduje problemy, spróbuj dodać je do trashIcon, a nie do trashImg. Upewnij się, że klasy są dodawane tylko raz, aby uniknąć problemów z pozycjonowaniem.
+
+Oto zmodyfikowany kod:
+
+javascript
+Skopiuj kod
+// Funkcja aktualizująca ikony
+function updateIcons() {
+    const isSwitchOn = switchElement.classList.contains("on");
+    console.log("Switch is", isSwitchOn); // Loguj stan przełącznika
+    
+    unlockedIcon.classList.toggle("grayscale", isSwitchOn);
+    lockedIcon.classList.toggle("grayscale", !isSwitchOn);
+    addTileBtn.classList.toggle("grayscale", isSwitchOn);
+
+    // Zmiana ikony kosza
+    const trashImg = trashIcon.querySelector('img');
+    if (trashImg) {
+        trashImg.src = !isSwitchOn ? "graphic/open_trash_test.svg" : "graphic/trash_svgrepo_com.svg"; 
+        console.log("Trash icon changed to", trashImg.src); // Loguj zmianę ikony
+        trashIcon.classList.toggle('switch-icon', !isSwitchOn); // Dodaj klasę do kontenera
+        trashIcon.classList.toggle('trash-icon', !isSwitchOn); // Dodaj klasę do kontenera
                  } else {
                      console.error("Trash image not found!"); // Loguj, jeśli obrazek kosza nie został znaleziony
                  }
@@ -600,7 +636,7 @@
                                     addedTiles.add(tile.id);
                                     const newTile = createTileForMainScreen(tile.iconUrl, tile.id, tile.name, tile.link);
                                     sortableContainer.appendChild(newTile);
-                                    
+
                                     // Pokazanie ikony check na elemencie listy
                                     const checkIcon = tileElement.querySelector('.fa-check');
                                     if (checkIcon) {
@@ -614,7 +650,7 @@
                         console.error('Błąd podczas pobierania kafelków:', error);
                     });
             }
-        
+
             // Funkcja tworząca kafelek w dymku
             function createTileForPopup(iconSrc, tileId, tileName, tileDescription) {
                 const tile = document.createElement("div");
@@ -626,7 +662,7 @@
                     </div>
                     <i class="fa-check" style="display: none;">&#10003;</i>`;
                 tile.id = tileId;
-            
+
                tile.addEventListener('click', () => {
                     // Dodawanie kafelka do głównego ekranu, jeśli switch jest wyłączony i kafelek nie został dodany
                     if (!switchElement.classList.contains("on") && !addedTiles.has(tileId)) {
@@ -641,7 +677,7 @@
                     }
                     tilePopup.classList.remove("show");
                 });
-                
+
                 return tile;
             }
 
@@ -652,29 +688,24 @@
                     console.log(`Kafelek o ID ${tileId} już istnieje na ekranie głównym.`);
                     return null; // Jeśli kafelek już istnieje, nic nie rób
                 }
-            
+
                 // Tworzenie kafelka
                 const tile = document.createElement("div");
                 tile.className = "icon";
                 tile.innerHTML = `<a href="${tileLink}"><img src="${iconSrc}" alt="Tile"><div class="name">${tileName}</a></div>`;
                 tile.id = tileId;
-            
+
                 // Dodanie kafelka do zestawu `addedTiles`
                 addedTiles.add(tileId);
                 console.log(`Dodano kafelek: ${tileName} (ID: ${tileId}) do zestawu.`);                
-                
+
                 return tile;
             }
 
-        
-            
+
+
 
 /*
-
-
-
-
-
             
             // Toggle popup visibility
             if (popup && openPopupBtn && closePopupBtn) {
@@ -691,27 +722,23 @@
                     }
                 });
             }
-
            
             addTileBtn.addEventListener("click", function(event) {
                 event.preventDefault();
                 tilePopup.classList.add("show");
                 loadAvailableTiles();
             });
-
             // Zamknij popup po kliknięciu przycisku "Zamknij"
             closePopupBtn.addEventListener("click", function(event) {
                 event.preventDefault();
                 tilePopup.classList.remove("show");
             });
-
             // Zamknij popup po kliknięciu poza jego obszarem
             window.addEventListener('click', function(event) {
                 if (tilePopup.classList.contains("show") && !tilePopup.contains(event.target) && event.target !== addTileBtn) {
                     tilePopup.classList.remove("show");
                 }
             });
-
             // Zapisz kafelki do LocalStorage
             saveTilesBtn.addEventListener('click', () => {
                 saveTilesToLocalStorage();
@@ -748,13 +775,11 @@
                     console.log(`Kafelek o ID ${tileId} już istnieje na ekranie głównym.`);
                     return null; // Jeśli kafelek już istnieje, nic nie rób
                 }
-
                 // Tworzenie kafelka
                 const tile = document.createElement("div");
                 tile.className = "icon";
                 tile.innerHTML = `<a href="${tileLink}"><img src="${iconSrc}" alt="Tile"><div class="name">${tileName}</a></div>`;
                 tile.id = tileId;
-
                 // Dodanie kafelka do zestawu `addedTiles`
                 addedTiles.add(tileId);
                 console.log(`Dodano kafelek: ${tileName} (ID: ${tileId}) do zestawu.`);                
@@ -774,7 +799,6 @@
                     console.error(`Tile with ID ${tileId} not found on the main screen.`);
                 }
             }
-
             *?
           
             function createTileForPopup(iconSrc, tileId, tileName, tileDescription) {
@@ -814,7 +838,6 @@
                     data.forEach(tile => {
                         const tileElement = createTileForPopup(tile.iconUrl, tile.id, tile.name, tile.description);
                         availableTilesContainer.appendChild(tileElement);
-
                         // Dodaj nasłuchiwacz kliknięcia
                         tileElement.addEventListener("click", function() {
                             // Sprawdź, czy przełącznik jest wyłączony i kafelek nie został dodany
@@ -839,32 +862,21 @@
                 .catch(error => {
                 console.error('Błąd podczas pobierania kafelków:', error);
                 });
-
-
-
-
-
-
             
 /* CHYBA NIE POTRZEBNE....
-
-
             
            // Trash icon functionality
     trashIcon.addEventListener("dragover", function(event) {
         event.preventDefault(); // Pozwól na upuszczenie
     });
-
     trashIcon.addEventListener("drop", function(event) {
         event.preventDefault(); // Zapobiegaj domyślnemu zachowaniu
         const tileId = event.dataTransfer.getData("text/plain");
-
         const tileToRemove = document.getElementById(tileId);
         if (tileToRemove) {
             // Usuń kafelek z głównego ekranu
             sortableContainer.removeChild(tileToRemove);
             addedTiles.delete(tileId); // Usuń kafelek z zestawu dodanych kafelków
-
             // Przywróć kafelek na liście dostępnych kafelków
             const tileElement = document.querySelector(`.tile-item[id="${tileId}"]`);
             if (tileElement) {
@@ -878,10 +890,7 @@
             }
         }
     });
-
     *?
-
-
                         // Funkcja zapisująca wszystkie kafelki do LocalStorage
             function saveTilesToLocalStorage() {
                 const tiles = Array.from(sortableContainer.querySelectorAll('.icon'));
@@ -892,19 +901,15 @@
                 }));
                 localStorage.setItem('tiles', JSON.stringify(tileData));
             }
-
             // Funkcja usuwająca kafelek i aktualizująca LocalStorage
             function removeTile(tileElement, id) {
                 tileElement.remove(); // Usuń kafelek z interfejsu
-
                 // Usuń kafelek z LocalStorage
                 let savedTiles = JSON.parse(localStorage.getItem('tiles')) || [];
                 savedTiles = savedTiles.filter(tile => tile.id !== id); // Usuń kafelek o podanym id
                 localStorage.setItem('tiles', JSON.stringify(savedTiles));
-
                 console.log(`Kafelek o id ${id} został usunięty.`);
             }
-
             // Funkcja ładująca kafelki z LocalStorage
             function loadTilesFromLocalStorage() {
                 const savedTiles = JSON.parse(localStorage.getItem('tiles'));
@@ -914,21 +919,17 @@
                     });
                 }
             }
-
             // Eksport kafelków do pliku JSON
             document.getElementById("export-tiles").addEventListener("click", function() {
                 const tilesData = JSON.stringify(localStorage.getItem('tiles'));
-
                 const element = document.createElement("a");
                 const file = new Blob([tilesData], {type: 'application/json'});
-
                 element.href = URL.createObjectURL(file);
                 element.download = "EcoSetup.json";
                 document.body.appendChild(element);
                 element.click();
                 document.body.removeChild(element);
             });
-
              // Import kafelków z pliku JSON
             document.getElementById("import-tiles").addEventListener("change", function(event) {
                 const file = event.target.files[0];
@@ -936,14 +937,11 @@
                     console.error("Wybrałeś nieprawidłowy plik");
                     return;
                 }
-
                 const reader = new FileReader(); /* wprowadzić tu później sprawdzanie poprawnej struktury wczytywanego pliku *?
                 reader.onload = function(e) {
                     try {
                         const importedData = JSON.parse(e.target.result);
-
                         localStorage.setItem('tiles', JSON.stringify(importedData)); // Upewnij się, że dane są zapisywane jako string
-
                         console.log("Kafelki zaimportowane!");
                     } catch (error) {
                         console.error("Błąd podczas importu kafelków:", error);
@@ -951,18 +949,16 @@
                 };
                 reader.readAsText(file);
             });
-
             
            
         });  */
     </script>
-    
+
     <!-- nie wiem czy tak zadziała ukrywani "Zobacz info"
     
     <script>
         const toggleSwitch = document.getElementById('toggleSwitch');
         const opisDiv = document.querySelector('.opis'); // Znajduje element opis
-
         toggleSwitch.addEventListener('change', function() {
         if (toggleSwitch.checked) {
         opisDiv.style.display = 'flex'; // Pokaż opis
@@ -979,13 +975,11 @@
       document.addEventListener("DOMContentLoaded", function() {
             const menu = document.getElementById("menu");
             const menuDropdown = document.getElementById("menu-dropdown");
-
             // Obsługa kliknięcia w menu
             menu.addEventListener("click", function() {
                 event.stopPropagation(); // Zapobiega propagacji kliknięcia, aby nie ukrywać menu od razu
                 menuDropdown.classList.toggle("show");
             });
-
             // Ukrywanie menu, jeśli kliknięto poza nim
             document.addEventListener("click", function(event) {
                 if (!menu.contains(event.target) && !menuDropdown.contains(event.target)) {
@@ -993,12 +987,8 @@
                 }
             });
         });
-
         /* LOCAL STORAGE .... chyba
-
-
         
-
         // Funkcja do dodania kafelka do kontenera oraz zapisania w LocalStorage
 function addTileToContainer(iconUrl, name) {
     const newTile = document.createElement('div');
@@ -1016,9 +1006,6 @@ function addTileToContainer(iconUrl, name) {
     
     saveTilesToLocalStorage(); // Zapis do LocalStorage po dodaniu kafelka
 }
-
-
-
 // Funkcja do wczytywania kafelków z LocalStorage
 function loadTilesFromLocalStorage() {
     const savedTiles = JSON.parse(localStorage.getItem('savedTiles'));
@@ -1028,18 +1015,13 @@ function loadTilesFromLocalStorage() {
         });
     }
 }
-
 // Wczytanie kafelków po załadowaniu strony
 document.addEventListener("DOMContentLoaded", function() {
     loadTilesFromLocalStorage();
 });
-
-
-
 */
 </script>
-
 -->
-    
+
 </body>
 </html>
