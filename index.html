@@ -524,7 +524,7 @@
                  if (trashImg) {
                      trashImg.src = !isSwitchOn ? "graphic/open_trash_test.svg" : "graphic/trash_svgrepo_com.svg"; 
                      console.log("Trash icon changed to", trashImg.src); // Loguj zmianę ikony
-                     trashImg.classList.add('switch-icon trash-icon'); // Dodaj swoją klasę
+                     trashImg.classList.add('switch-icon', 'trash-icon'); // Dodaj swoją klasę
                  } else {
                      console.error("Trash image not found!"); // Loguj, jeśli obrazek kosza nie został znaleziony
                  }
