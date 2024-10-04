@@ -8,7 +8,7 @@
             margin: 0;
             background-color: #f0f0f0;
             font-family: Arial, sans-serif;
-        }
+        }        
         .container {
             margin: 0 auto;
             padding: 20px;
@@ -20,8 +20,7 @@
             border-radius: 8px;
             padding: 15px 32px;
             display: inline-block;
-        }
-        
+        }        
         .popup {
             position: fixed;
             top: 0;
@@ -35,6 +34,7 @@
             z-index: 1000; /* Pozostaw wysoki z-index */
             visibility: hidden;
             opacity: 0;
+            transition: visibility 0.3s, opacity 0.3s ease;
         }
         .popup.show {
             visibility: visible;
@@ -103,8 +103,7 @@
             align-items: center;
             cursor: pointer;
             text-align: center;
-            position: relative;
-           
+            position: relative;           
         }
         .icon img {
             max-width: 32px;
@@ -122,11 +121,11 @@
             border-radius: 0 0 50% 50%;
             box-sizing: border-box;
             margin: 0;
-        }
+        }        
         .sortable-ghost {
             opacity: 0.4;
             background-color: #3498db;
-        }
+        }        
         .switch-container {
             display: flex;
             align-items: center; /* Wyrównanie pionowe */
@@ -144,20 +143,18 @@
             display: flex;
             align-items: center;
             justify-content: center;
-        }
-        
+        }        
         /* Menu będzie ustawione na lewo */
         .switch-icon.menu-icon {
             order: 0; /* Kolejność elementów w kontenerze flex */
             margin-right: 50px; /* Zmniejszone marginesy */
-            width: 24px;
-            height: 24px;
+            width: 24px; /* czat pisze kod bez tego... na pewno nie potrzeba? */
+            height: 24px; /* czat pisze kod bez tego... na pewno nie potrzeba? */
             padding: 10px;
             padding-right: 35px;
             border: 2px solid black;
             border-radius: 5px;
         }
-
         .menu-dropdown {
             display: none;
             position: absolute; /* Ustawia pozycję menu jako absolutną */
@@ -167,32 +164,22 @@
             background-color: white; /* Kolor tła menu */
             box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Efekt cienia dla menu */
             width: 250px; /* Możesz dostosować szerokość menu */
-            z-index: 10; /* Aby menu było wyżej od innych elementów */
-            
-            border-radius: 0 0 5px 5px; /* Zaokrąglenie tylko dolnych rogów */
-            
+            z-index: 10; /* Aby menu było wyżej od innych elementów */            
+            border-radius: 0 0 5px 5px; /* Zaokrąglenie tylko dolnych rogów */            
         }
-
         .menu-dropdown.show {
             display: block; /* Pokazuje menu, gdy ma klasę 'show' */
-        }
+        }        
         .menu-item {
             margin: 20px;
-        }
+        }        
         .menu-item:last-child {
-    border-bottom: none; /* Usuwa dolną granicę dla ostatniego elementu */
-            
-        }
-
-
-          
-
-        
-        
-        /* Ikona odblokowanej kłódki 50px na lewo od suwaka */
+            border-bottom: none; /* Usuwa dolną granicę dla ostatniego elementu */            
+        }        
+        /* Ikona odblokowanej kłódki 50px ? na lewo od suwaka - chyba nie i chyba może być tak jak tu jest */
         .switch-icon.unlocked {
             order: 1;
-            margin-right: 12px; /* Ustawienie ikony 10px od suwaka */
+            margin-right: 12px; /* Ustawienie ikony 10px ? od suwaka */
         }
         .switch {            
             --switch-width: 10vw; /* Definiowanie zmiennej */
@@ -224,18 +211,15 @@
         .switch.on::before {
             transform: translateX(calc(var(--switch-width) - var(--circle-width) + 10px));
         }
-
-        /* Ikona zablokowanej kłódki 50px na prawo od suwaka */
+        /* Ikona zablokowanej kłódki 50px ? na prawo od suwaka */
         .switch-icon.locked {
             order: 3;
             margin-left: 12px; /* Zmniejszone marginesy */
         }
-
         /* Kosz wyrównany maksymalnie po prawej */
         .switch-icon.trash-icon {
             order: 4;
-            margin-left: 50px; /* Zmniejszone marginesy */
-             
+            margin-left: 50px; /* Zmniejszone marginesy */             
             padding: 10px;
             border: 2px solid black;
             border-radius: 50%;
@@ -243,9 +227,7 @@
         .switch-icon.trash-icon img {
             width: 24px; /* Ustaw rozmiar ikony */
             height: 24px; /* Ustaw rozmiar ikony */
-        }
-
-       
+        }       
         .grayscale {
             filter: grayscale(100%);
             opacity: 0.5;
@@ -284,7 +266,7 @@
         box-sizing: border-box; /* Uwzględnia padding i border w szerokości */
         max-width: 100%; /* Maksymalna szerokość kontenera dopasowuje się do szerokości popupu */
         overflow-y: auto; /* Dodaje pasek przewijania, jeśli zawartość przekracza wysokość */
-    }
+        }
         .tile-item {
             display: flex;
             align-items: center;
@@ -299,19 +281,14 @@
             justify-content: center; /* Wyśrodkowanie zawartości */
             text-align: center; /* Wyśrodkowanie tekstu */
             box-sizing: border-box; /* Uwzględnia padding i border w szerokości */
-            position: relative; /* Umożliwia pozycjonowanie absolutnych elementów wewnątrz */
-     
-        }
-        
-    
+            position: relative; /* Umożliwia pozycjonowanie absolutnych elementów wewnątrz */     
+        }    
         .tile-icon {
             width: 24px;
             height: 24px;
             margin-left: 10px;
-            margin-right: 10px;
-            
-        }
-        
+            margin-right: 10px;            
+        }        
         /* Ogólne stylowanie ikony check */
         .fa-check {
             top: 0; /* Możesz dostosować pozycję */
@@ -337,16 +314,14 @@
         }
         .tile-name {
             font-size: 16px;
-            font-weight: bold;
-            
-            
+            font-weight: bold;            
         }
         .tile-description {
             font-size: 12px;
-            color: #888;
-            
-           
+            color: #888;           
         }
+
+        
          /* Stylizacja kontenera przełącznika */
         .switch-container1 {
             position: relative;
@@ -360,13 +335,11 @@
             width: 60px;
             height: 34px;
         }
-
         .switch1 input {
             opacity: 0;
             width: 0;
             height: 0;
         }
-
         .slider1 {
             position: absolute;
             cursor: pointer;
@@ -378,7 +351,6 @@
             transition: .4s;
             border-radius: 34px;
         }
-
         .slider1:before {
             position: absolute;
             content: "";
@@ -390,15 +362,12 @@
             transition: .4s;
             border-radius: 50%;
         }
-
         input:checked + .slider1 {
             background-color: #4CAF50;
         }
-
         input:checked + .slider1:before {
             transform: translateX(26px);
         }
-
         /* Stylizacja dodatkowego elementu */
         .extra-content {
             display: none;
@@ -419,20 +388,19 @@
     
     <div class="container">
         
-       
-        
         <!-- Switch container -->
         <div class="switch-container">
 
              <!-- tu jest przełącznik ukrywający przycisk info
-              <div class="switch-container1">
             
+             <div class="switch-container1">
                 <label class="switch1">
                 <input type="checkbox" id="toggleSwitch">
                 <span class="slider1"></span>
                 </label>
-             </div>  
-        -->
+             </div> 
+            
+            -->
             <div id="menu" class="switch-icon menu-icon">
                 <img src="graphic/menu_svgrepo_com1.svg" alt="Menu">MENU
                  <!-- Rozwijane menu wewnątrz div menu -->
@@ -446,9 +414,9 @@
                     <!-- <div class="menu-item">to później</div> -->
                     <div class="menu-item">TOS</div>
                     <div class="menu-item">Privacy</div>
-                </div>
-               
+                </div>               
             </div>
+            
             <div id="icon-unlocked" class="switch-icon unlocked">
                 <img src="graphic/unlock_1.png" alt="Unlocked">
             </div>
@@ -461,11 +429,6 @@
             </div>
             
         </div>
-
-        
-        
-
-
         
         <div class="opis">
             <button id="open-popup-btn" class="button">Zobacz info</button>
@@ -479,10 +442,11 @@
         </div>
         <div class="icon-container" id="sortable-container">
             <!-- Ikony zostaną dodane dynamicznie -->
-            <div id="add-tile">+</div>
-            
+            <div id="add-tile">+</div>            
         </div>
+        
     </div>
+    
     <!-- Dymek do wybierania kafelków -->
     <div id="tile-popup" class="popup hidden">
         <div class="popup-content-tiles">
@@ -506,15 +470,10 @@
             const sortableContainer = document.getElementById("sortable-container");
             const trashIcon = document.getElementById("trash");
             const addTileId = document.getElementById("add-tile"); // Zdefiniuj id kafelka z plusem
-            const saveTilesBtn = document.getElementById('save-tiles'); 
-            
-
-
- 
-            // Zmienna do śledzenia dodanych kafelków
-           const addedTiles = new Set(); 
+            const saveTilesBtn = document.getElementById('save-tiles');              
+            const addedTiles = new Set(); // Zmienna do śledzenia dodanych kafelków
     
-  /*  loadTilesFromLocalStorage(); */
+  /*  loadTilesFromLocalStorage(); <--- Tą funkcję włączyć gdy będzie działać jej kod napisany tam na dole. Bez tego wysypuje stronę */
            
              // Toggle switch and icon
             if (switchElement && unlockedIcon && lockedIcon) { 
@@ -523,7 +482,7 @@
                     updateIcons();              
 
                     // Sprawdzanie stanu switchElement
-                    if (switchElement.classList.contains("on")) { 
+                    if (!switchElement.classList.contains("on")) { 
                         // Sortowanie elementów w strefie draggable
                         Sortable.create(sortableContainer, {
                             group: { 
@@ -571,6 +530,79 @@
                  }
             } 
        });
+
+            // Ładowanie dostępnych kafelków z JSON
+            function loadAvailableTiles() {
+                fetch('assets/tiles.json')
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                       }
+                       return response.json(); // Konwertuje odpowiedź na obiekt JSON
+                    })
+                    .then(data => {
+                        availableTilesContainer.innerHTML = ''; // Czyścimy kontener przed dodaniem nowych kafelków
+                        data.forEach(tile => {
+                            const tileElement = createTileForPopup(tile.iconUrl, tile.id, tile.name, tile.description);
+                            availableTilesContainer.appendChild(tileElement);
+                        });
+                    })
+                    .catch(error => {
+                        console.error('Błąd podczas pobierania kafelków:', error);
+                    });
+            }
+        
+            // Funkcja tworząca kafelek w dymku
+            function createTileForPopup(iconSrc, tileId, tileName, tileDescription) {
+                const tile = document.createElement("div");
+                tile.className = "tile-item";
+                tile.innerHTML = `<img src="${iconSrc}" alt="Tile" class="tile-icon">
+                    <div class="tile-info">
+                        <div class="tile-name">${tileName}</div>
+                        <div class="tile-description">${tileDescription}</div>
+                    </div>
+                    <i class="fa-check" style="display: none;">&#10003;</i>`;
+                tile.id = tileId;
+            
+               tile.addEventListener('click', () => {
+                    // Dodawanie kafelka do głównego ekranu, jeśli switch jest wyłączony i kafelek nie został dodany
+                    if (!switchElement.classList.contains("on") && !addedTiles.has(tileId)) {
+                        const newTile = createTileForMainScreen(iconSrc, tileId, tileName, 'link'); // Podmień 'link' na rzeczywisty link
+                        if (newTile) {
+                            sortableContainer.appendChild(newTile);
+                        }
+                        const checkIcon = tile.querySelector('.fa-check');
+                        if (checkIcon) {
+                            checkIcon.style.display = 'block'; // Pokazuje ikonę check
+                        }
+                    }
+                    tilePopup.classList.remove("show");
+                });
+                
+                return tile;
+            }
+
+            // Funkcja tworząca kafelek na ekranie głównym
+            function createTileForMainScreen(iconSrc, tileId, tileName, tileLink) {
+                // Sprawdzenie, czy kafelek już został dodany
+                if (addedTiles.has(tileId)) {
+                    console.log(`Kafelek o ID ${tileId} już istnieje na ekranie głównym.`);
+                    return null; // Jeśli kafelek już istnieje, nic nie rób
+                }
+            
+                // Tworzenie kafelka
+                const tile = document.createElement("div");
+                tile.className = "icon";
+                tile.innerHTML = `<a href="${tileLink}"><img src="${iconSrc}" alt="Tile"><div class="name">${tileName}</a></div>`;
+                tile.id = tileId;
+            
+                // Dodanie kafelka do zestawu `addedTiles`
+                addedTiles.add(tileId);
+                console.log(`Dodano kafelek: ${tileName} (ID: ${tileId}) do zestawu.`);                
+                
+                return tile;
+            }
+
         
             
 
