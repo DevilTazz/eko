@@ -567,6 +567,11 @@
                      console.log("Adding class to trashImg:", 'switch-icon');
                     trashIcon.classList.toggle('switch-icon', isSwitchOn); // Dodaj klasę do kontenera
         trashIcon.classList.toggle('trash-icon', isSwitchOn); // Dodaj klasę do kontenera
+                 } else {
+                     console.error("Trash image not found!"); // Loguj, jeśli obrazek kosza nie został znaleziony
+                 }
+            }
+       
                      
 
 
