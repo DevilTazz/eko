@@ -589,9 +589,11 @@
                         return response.json();
                     })
                     .then(data => {
+                        console.log("Dane z JSON:", data); // Logowanie danych
                         availableTilesContainer.innerHTML = ''; // Czyścimy kontener przed dodaniem nowych kafelków
                         data.forEach(tile => {
                             const tileElement = createTileForPopup(tile.iconUrl, tile.id, tile.name, tile.description);
+                            console.log("Dodano kafelek:", tileElement);
                             availableTilesContainer.appendChild(tileElement);
                             console.log("Available tiles container children:", availableTilesContainer.children);
 
