@@ -694,6 +694,28 @@
             }
            setupSortableContainers(); // Upewnij się, że wywołujesz tę funkcję
        });
+        // Funkcja usuwająca kafelek i aktualizująca LocalStorage
+            function removeTile(tileElement, id) {
+                tileElement.remove(); // Usuń kafelek z interfejsu
+                // Usuń kafelek z LocalStorage
+                /*
+                let savedTiles = JSON.parse(localStorage.getItem('tiles')) || [];
+                savedTiles = savedTiles.filter(tile => tile.id !== id); // Usuń kafelek o podanym id
+                localStorage.setItem('tiles', JSON.stringify(savedTiles));
+                */
+                console.log(`Kafelek o id ${id} został usunięty.`);
+            }
+
+        /*
+            // Funkcja ładująca kafelki z LocalStorage
+            function loadTilesFromLocalStorage() {
+                const savedTiles = JSON.parse(localStorage.getItem('tiles'));
+                if (savedTiles) {
+                    savedTiles.forEach(tile => {
+                        addTileToContainer(tile.iconUrl, tile.name, tile.id);
+                    });
+                }
+            } */
 
         
             
