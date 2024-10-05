@@ -665,38 +665,32 @@
             }
 
             // Funkcja tworząca kafelek na ekranie głównym
-            function createTileForMainScreen(iconSrc, tileId, tileName, tileLink) {
-                // Sprawdzenie, czy kafelek już został dodany
-                if (addedTiles.has(tileId)) {
-                    console.log(`Kafelek o ID ${tileId} już istnieje na ekranie głównym.`);
-                    return null; // Jeśli kafelek już istnieje, nic nie rób
-                }
-            
-                // Tworzenie kafelka
-                const tile = document.createElement("div");
-                tile.className = "icon";
-                tile.innerHTML = `<a href="${tileLink}"><img src="${iconSrc}" alt="Tile"><div class="name">${tileName}</a></div>`;
-                tile.id = tileId;
-            
-                // Dodanie kafelka do zestawu `addedTiles`
-                addedTiles.add(tileId);
-                console.log(`Dodano kafelek: ${tileName} (ID: ${tileId}) do zestawu.`);                
+function createTileForMainScreen(iconSrc, tileId, tileName, tileLink) {
+    // Tworzenie kafelka
+    const tile = document.createElement("div");
+    tile.className = "icon";
+    tile.innerHTML = `<a href="${tileLink}"><img src="${iconSrc}" alt="Tile"><div class="name">${tileName}</div></a>`;
+    tile.id = tileId;
 
-                // Dodaj kafelek do kontenera
-                    sortableContainer.appendChild(tile);
-                
-                    // Przenieś kafelek z plusem na koniec
-                    const addTileElement = document.getElementById("add-tile");
-                    if (addTileElement) {
-                        sortableContainer.appendChild(addTileElement); // Przenosi kafelek z plusem na koniec
-                    }
-                
-                    // Ustaw ponownie kontenery sortowalne
-                    setupSortableContainers();
-                
-                    console.log("createTileForMainScreen"); // Logowanie
-                    return tile;
-                }
+    // Dodanie kafelka do zestawu `addedTiles`
+    addedTiles.add(tileId);
+    console.log(`Dodano kafelek: ${tileName} (ID: ${tileId}) do zestawu.`);
+
+    // Dodaj kafelek do kontenera
+    sortableContainer.appendChild(tile);
+
+    // Przenieś kafelek z plusem na koniec
+    const addTileElement = document.getElementById("add-tile");
+    if (addTileElement) {
+        sortableContainer.appendChild(addTileElement); // Przenosi kafelek z plusem na koniec
+    }
+
+    // Ustaw ponownie kontenery sortowalne
+    setupSortableContainers();
+
+    console.log("createTileForMainScreen"); // Logowanie
+    return tile;
+}
 
            // Funkcja usuwająca kafelek i aktualizująca LocalStorage
             function removeTile(tileElement, id) {
