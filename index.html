@@ -269,6 +269,7 @@
         box-sizing: border-box; /* Uwzględnia padding i border w szerokości */
         max-width: 100%; /* Maksymalna szerokość kontenera dopasowuje się do szerokości popupu */
         overflow-y: auto; /* Dodaje pasek przewijania, jeśli zawartość przekracza wysokość */
+            z-index: 1000;
         }
         .tile-item {
             display: flex;
@@ -482,6 +483,7 @@
             // Toggle popup visibility
             if (popup && openPopupBtn && closePopupBtn) {
                 openPopupBtn.addEventListener("click", function() {
+                    console.log("Otwieram popup, ładuję kafelki...");
                     popup.classList.add("show");
                     loadAvailableTiles(); // Ładuj kafelki przy otwieraniu popupu
                 });
@@ -581,6 +583,7 @@
 
              // Funkcja ładowania dostępnych kafelków z JSON
             function loadAvailableTiles() {
+                console.log("Ładowanie dostępnych kafelków...");
                 fetch('assets/tiles.json')
                     .then(response => {
                         if (!response.ok) {
