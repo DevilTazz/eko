@@ -547,6 +547,7 @@
                 console.log('Kafelek usunięty do kosza'); 
             }
         });
+        console.log("setupSortableContainers"); // Dodaj to
     }
  
 
@@ -570,6 +571,7 @@
                  } else {
                      console.error("Trash image not found!"); // Loguj, jeśli obrazek kosza nie został znaleziony
                  }
+                console.log("updateIcons"); // Dodaj to
             }
        
                      
@@ -615,6 +617,7 @@
                     .catch(error => {
                         console.error('Błąd podczas pobierania kafelków:', error);
                     });
+                console.log("loadAvailableTiles"); // Dodaj to
             }
         
             // Funkcja tworząca kafelek w dymku
@@ -643,8 +646,10 @@
                     }
                     tilePopup.classList.remove("show");
                 });
-                
+
+                console.log("createTileForPopup"); // Dodaj to
                 return tile;
+                
             }
 
             // Funkcja tworząca kafelek na ekranie głównym
@@ -664,8 +669,10 @@
                 // Dodanie kafelka do zestawu `addedTiles`
                 addedTiles.add(tileId);
                 console.log(`Dodano kafelek: ${tileName} (ID: ${tileId}) do zestawu.`);                
-                
+
+                console.log("createTileForMainScreen"); // Dodaj to
                 return tile;
+                
             }
 
         
