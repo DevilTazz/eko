@@ -586,6 +586,7 @@
              // Funkcja ładowania dostępnych kafelków z JSON
             function loadAvailableTiles() {
                 alert("Funkcja loadAvailableTiles została wywołana!"); // Prosty test
+                console.log("Funkcja loadAvailableTiles została wywołana!");
                 console.log("Ładowanie dostępnych kafelków...");
                 fetch('assets/tiles.json')
                     .then(response => {
