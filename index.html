@@ -601,51 +601,34 @@
 
 
              // Funkcja ładowania dostępnych kafelków z JSON
-            function loadAvailableTiles() {
-                
-                console.log("Funkcja loadAvailableTiles została wywołana!");
-                console.log("Ładowanie dostępnych kafelków...");
-                fetch('assets/tiles.json')
-                    .then(response => {
-                        if (!response.ok) {
-                            throw new Error('Network response was not ok');
-                        }
-                        return response.json();
-                    })
-                    .then(data => {
-                        console.log("Dane z JSON:", data); // Logowanie danych
-                        availableTilesContainer.innerHTML = ''; // Czyścimy kontener przed dodaniem nowych kafelków
-                        data.forEach(tile => {
-                            const tileElement = createTileForPopup(tile.iconUrl, tile.id, tile.name, tile.description);
-                            console.log("Dodano kafelek:", tileElement);
-                            availableTilesContainer.appendChild(tileElement);
-                            console.log("Available tiles container children:", availableTilesContainer.children);
-
-                            // Dodaj nasłuchiwacz kliknięcia
-                            tileElement.addEventListener("click", function() {
-                                console.log("Switch ON?", switchElement.classList.contains("on"));
-                                console.log("Tile ID?", tile.id);
-                                console.log("Tile already added?", addedTiles.has(tile.id));
-
-                                if (!switchElement.classList.contains("on") && !addedTiles.has(tile.id)) {
-                                    addedTiles.add(tile.id);
-                                    const newTile = createTileForMainScreen(tile.iconUrl, tile.id, tile.name, tile.link);
-                                    sortableContainer.appendChild(newTile);
-                                    
-                                    // Pokazanie ikony check na elemencie listy
-                                    const checkIcon = tileElement.querySelector('.fa-check');
-                                    if (checkIcon) {
-                                        checkIcon.style.display = 'block'; // Pokazuje ikonę check
-                                    } 
-                                }
+                function loadAvailableTiles() {
+                    console.log("Funkcja loadAvailableTiles została wywołana!");
+                    console.log("Ładowanie dostępnych kafelków...");
+                    
+                    fetch('assets/tiles.json')
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error('Network response was not ok');
+                            }
+                            return response.json();
+                        })
+                        .then(data => {
+                            console.log("Dane z JSON:", data); // Logowanie danych
+                            availableTilesContainer.innerHTML = ''; // Czyścimy kontener przed dodaniem nowych kafelków
+                            
+                            data.forEach(tile => {
+                                const tileElement = createTileForPopup(tile.iconUrl, tile.id, tile.name, tile.description);
+                                console.log("Dodano kafelek:", tileElement);
+                                availableTilesContainer.appendChild(tileElement);
+                                console.log("Available tiles container children:", availableTilesContainer.children);
                             });
+                        })
+                        .catch(error => {
+                            console.error('Błąd podczas pobierania kafelków:', error);
                         });
-                    })
-                    .catch(error => {
-                        console.error('Błąd podczas pobierania kafelków:', error);
-                    });
-                console.log("loadAvailableTiles"); // Dodaj to
-            }
+                    
+                    console.log("loadAvailableTiles"); // Logowanie
+                }
         
             // Funkcja tworząca kafelek w dymku
             function createTileForPopup(iconSrc, tileId, tileName, tileDescription) {
@@ -660,17 +643,19 @@
                 tile.id = tileId;
             
                tile.addEventListener('click', () => {
-                    // Dodawanie kafelka do głównego ekranu, jeśli switch jest wyłączony i kafelek nie został dodany
-                    if (!switchElement.classList.contains("on") && !addedTiles.has(tileId)) {
-                        const newTile = createTileForMainScreen(iconSrc, tileId, tileName, 'link'); // Podmień 'link' na rzeczywisty link
-                        if (newTile) {
-                            sortableContainer.appendChild(newTile);
-                        }
-                        const checkIcon = tile.querySelector('.fa-check');
-                        if (checkIcon) {
-                            checkIcon.style.display = 'block'; // Pokazuje ikonę check
-                        }
-                    }
+        // Dodawanie kafelka do głównego ekranu
+        if (!switchElement.classList.contains("on") && !addedTiles.has(tileId)) {
+            addedTiles.add(tileId); // Dodaj kafelek do zestawu
+            const newTile = createTileForMainScreen(iconSrc, tileId, tileName, 'link'); // Podmień 'link' na rzeczywisty link
+            if (newTile) {
+                sortableContainer.appendChild(newTile);
+                // Pokazuje ikonę check
+                const checkIcon = tile.querySelector('.fa-check');
+                if (checkIcon) {
+                    checkIcon.style.display = 'block'; 
+                }
+            }
+        }
                     
                 });
 
