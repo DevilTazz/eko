@@ -485,7 +485,6 @@
             // Toggle popup visibility
             if (popup && openPopupBtn && closePopupBtn) {
                 openPopupBtn.addEventListener("click", function() {
-                    console.log("Otwieram popup, ładuję kafelki...");
                     popup.classList.add("show");
 
                 });
@@ -504,7 +503,6 @@
                 switchElement.addEventListener("click", function() {
                     switchElement.classList.toggle("on");
                     updateIcons();
-                    setupSortableContainers(); // Przeładuj sortowalne kontenery po zmianie stanu przełącznika
                 });
             }
 
@@ -513,7 +511,7 @@
                 addTileBtn.addEventListener("click", function() {
                     if (!switchElement.classList.contains("on")) {
                         tilePopup.classList.add("show");
-                        loadAvailableTiles(); // Ładuj kafelki przy otwieraniu popupu
+                        // loadAvailableTiles(); // Ładuj kafelki przy otwieraniu popupu
                     }
                 });
             }
@@ -561,7 +559,6 @@
                     onAdd: function(evt) {
                         if (!switchElement.classList.contains("on")) {
                             removeTile(evt.item); // Usunięcie kafelka
-                            console.log('Kafelek usunięty do kosza'); 
                         } else {
                             evt.from.appendChild(evt.item); // Przywróć kafelek do pierwotnego miejsca
                         }
@@ -575,7 +572,6 @@
             // Funkcja aktualizująca ikony
             function updateIcons() {
                 const isSwitchOn = switchElement.classList.contains("on");
-                console.log("Switch is", isSwitchOn); // Loguj stan przełącznika
 
                 unlockedIcon.classList.toggle("grayscale", isSwitchOn);
                 lockedIcon.classList.toggle("grayscale", !isSwitchOn);
@@ -585,15 +581,14 @@
                 const trashImg = trashIcon.querySelector('img');
                  if (trashImg) {
                      trashImg.src = !isSwitchOn ? "graphic/open_trash_test.svg" : "graphic/trash_svgrepo_com.svg"; 
-                     console.log("Trash icon changed to", trashImg.src); // Loguj zmianę ikony
-                     console.log("Adding class to trashImg:", 'switch-icon');
-                     trashIcon.classList.toggle('grayscale', isSwitchOn); // Dodaj klasę do kontenera
+                     
+                     trashImg..classList.add('switch-icon trash-icon'); // Dodaj klasę do kontenera
 
 
                  } else {
                      console.error("Trash image not found!"); // Loguj, jeśli obrazek kosza nie został znaleziony
                  }
-                console.log("updateIcons"); // Dodaj to
+                
             }
 
 
@@ -602,9 +597,6 @@
 
              // Funkcja ładowania dostępnych kafelków z JSON
             function loadAvailableTiles() {
-                
-                console.log("Funkcja loadAvailableTiles została wywołana!");
-                console.log("Ładowanie dostępnych kafelków...");
                 fetch('assets/tiles.json')
                     .then(response => {
                         if (!response.ok) {
@@ -613,20 +605,16 @@
                         return response.json();
                     })
                     .then(data => {
-                        console.log("Dane z JSON:", data); // Logowanie danych
                         availableTilesContainer.innerHTML = ''; // Czyścimy kontener przed dodaniem nowych kafelków
                         data.forEach(tile => {
                             const tileElement = createTileForPopup(tile.iconUrl, tile.id, tile.name, tile.description);
-                            console.log("Dodano kafelek:", tileElement);
                             availableTilesContainer.appendChild(tileElement);
-                            console.log("Available tiles container children:", availableTilesContainer.children);
+                
                             // Dodaj nasłuchiwacz kliknięcia
                             tileElement.addEventListener("click", function() {
-                                console.log("Switch ON?", switchElement.classList.contains("on"));
-                                console.log("Tile ID?", tile.id);
-                                console.log("Tile already added?", addedTiles.has(tile.id));
+                                
                                 if (!switchElement.classList.contains("on") && !addedTiles.has(tile.id)) {
-                                    addedTiles.add(tile.id);
+                                    // addedTiles.add(tile.id);
                                     const newTile = createTileForMainScreen(tile.iconUrl, tile.id, tile.name, tile.link);
                                     sortableContainer.appendChild(newTile);
                                     
@@ -635,6 +623,7 @@
                                     if (checkIcon) {
                                         checkIcon.style.display = 'block'; // Pokazuje ikonę check
                                     } 
+                                    addedTiles.add(tile.id); // Dodanie do zestawu
                                 }
                
                             });
@@ -686,7 +675,6 @@
             function createTileForMainScreen(iconSrc, tileId, tileName, tileLink) {
                 // Sprawdzenie, czy kafelek już został dodany
                 if (addedTiles.has(tileId)) {
-                    console.log(`Kafelek o ID ${tileId} już istnieje na ekranie głównym.`);
                     return null; // Jeśli kafelek już istnieje, nic nie rób
                 }
 
@@ -697,8 +685,8 @@
                 tile.id = tileId;
 
                 // Dodanie kafelka do zestawu `addedTiles`
-                addedTiles.add(tileId);
-                console.log(`Dodano kafelek: ${tileName} (ID: ${tileId}) do zestawu.`);                
+                // addedTiles.add(tileId);
+                               
 
                 // Dodaj kafelek do kontenera
                     sortableContainer.appendChild(tile);
