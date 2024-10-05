@@ -530,37 +530,46 @@
                 });
             }
 
-    // Funkcja do konfiguracji sortowalnych kontenerów
-    function setupSortableContainers() {
-        Sortable.create(sortableContainer, {
-            group: { 
-                name: "tiles",
-                pull: true,
-                put: true
-            },
-            animation: 150,
-            onEnd: evt => {
-                if (evt.from === trashIcon) {
-                    console.log('Kafelek usunięty do kosza'); 
-                }
-            },
-            sort: !switchElement.classList.contains("on") // Blokuje sortowanie, gdy przełącznik jest w pozycji "on"
-        });
-
-        Sortable.create(trashIcon, {
-            group: "tiles",
-                sort: false, // Zablokowane przeciąganie do kosza, gdy przełącznik jest w pozycji "on"
-            onAdd: function (evt) {
-                if (!switchElement.classList.contains("on")) {
-                    removeTile(evt.item); // Usunięcie kafelka
-                    console.log('Kafelek usunięty do kosza'); 
-                } else {
-                evt.from.appendChild(evt.item); // Przywróć kafelek do pierwotnego miejsca
-                }
+            // Funkcja do konfiguracji sortowalnych kontenerów
+            function setupSortableContainers() {
+                Sortable.create(sortableContainer, {
+                    group: { 
+                        name: "tiles",
+                        pull: true,
+                        put: true
+                    },
+                    animation: 150,
+                    sort: !switchElement.classList.contains("on"), // Blokuje sortowanie, gdy przełącznik jest w pozycji "on"
+                    onStart: function(evt) {
+                        if (switchElement.classList.contains("on")) {
+                            evt.from.classList.add('disabled'); // Dodaj klasę 'disabled' do kontenera
+                        }
+                    },
+                    onEnd: function(evt) {
+                        if (switchElement.classList.contains("on")) {
+                            evt.from.classList.remove('disabled'); // Usuń klasę 'disabled' po zakończeniu przeciągania
+                        }
+                        if (evt.from === trashIcon) {
+                            console.log('Kafelek usunięty do kosza'); 
+                        }
+                    }
+                });
+            
+                Sortable.create(trashIcon, {
+                    group: "tiles",
+                    sort: false, // Zablokowane przeciąganie do kosza, gdy przełącznik jest w pozycji "on"
+                    onAdd: function(evt) {
+                        if (!switchElement.classList.contains("on")) {
+                            removeTile(evt.item); // Usunięcie kafelka
+                            console.log('Kafelek usunięty do kosza'); 
+                        } else {
+                            evt.from.appendChild(evt.item); // Przywróć kafelek do pierwotnego miejsca
+                        }
+                    }
+                });
+            
+                console.log("setupSortableContainers"); // Dodaj to
             }
-        });
-        console.log("setupSortableContainers"); // Dodaj to
-    }
  
 
             // Funkcja aktualizująca ikony
