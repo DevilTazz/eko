@@ -461,8 +461,10 @@
     </div>
     <script>
        document.addEventListener("DOMContentLoaded", function() {
+           console.log("DOM jest załadowany"); // Dodaj ten log
             const popup = document.getElementById("popup");
             const openPopupBtn = document.getElementById("open-popup-btn");
+           console.log("openPopupBtn:", openPopupBtn); // Logowanie
             const closePopupBtn = document.getElementById("close-popup-btn");
             const switchElement = document.getElementById("switch");
             const unlockedIcon = document.getElementById("icon-unlocked");
@@ -583,6 +585,7 @@
 
              // Funkcja ładowania dostępnych kafelków z JSON
             function loadAvailableTiles() {
+                alert("Funkcja loadAvailableTiles została wywołana!"); // Prosty test
                 console.log("Ładowanie dostępnych kafelków...");
                 fetch('assets/tiles.json')
                     .then(response => {
