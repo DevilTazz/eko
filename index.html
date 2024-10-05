@@ -697,13 +697,23 @@
                 addedTiles.add(tileId);
                 console.log(`Dodano kafelek: ${tileName} (ID: ${tileId}) do zestawu.`);                
 
-                console.log("createTileForMainScreen"); // Dodaj to
-                return tile;
+                // Dodaj kafelek do kontenera
+                    sortableContainer.appendChild(tile);
                 
-            }
-           setupSortableContainers(); // Upewnij się, że wywołujesz tę funkcję
-       });
-        // Funkcja usuwająca kafelek i aktualizująca LocalStorage
+                    // Przenieś kafelek z plusem na koniec
+                    const addTileElement = document.getElementById("add-tile");
+                    if (addTileElement) {
+                        sortableContainer.appendChild(addTileElement); // Przenosi kafelek z plusem na koniec
+                    }
+                
+                    // Ustaw ponownie kontenery sortowalne
+                    setupSortableContainers();
+                
+                    console.log("createTileForMainScreen"); // Logowanie
+                    return tile;
+                }
+
+           // Funkcja usuwająca kafelek i aktualizująca LocalStorage
             function removeTile(tileElement, id) {
                 tileElement.remove(); // Usuń kafelek z interfejsu
                 // Usuń kafelek z LocalStorage
@@ -714,6 +724,8 @@
                 */
                 console.log(`Kafelek o id ${id} został usunięty.`);
             }
+       });
+        
 
         /*
             // Funkcja ładująca kafelki z LocalStorage
