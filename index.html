@@ -480,19 +480,6 @@
             const addedTiles = new Set(); // Zmienna do śledzenia dodanych kafelków
 
            // Funkcja do zapisywania stanu przełącznika
-function saveSwitchState() {
-    const isOn = switchElement.classList.contains("on");
-    localStorage.setItem("switchState", JSON.stringify(isOn));
-}
-
-// Funkcja do wczytywania stanu przełącznika
-function loadSwitchState() {
-    const savedState = JSON.parse(localStorage.getItem("switchState"));
-    if (savedState) {
-        switchElement.classList.add("on");
-        updateIcons();
-    }
-}
 
    
 
@@ -518,8 +505,13 @@ function loadSwitchState() {
                 switchElement.addEventListener("click", function() {
                     switchElement.classList.toggle("on");
                     updateIcons();
-                           saveSwitchState(); // Zapisz stan przełącznika
-        saveTilesToLocalStorage(); // Zapisz kafelki do localStorage po zmianie stanu
+                });
+                document.addEventListener("click", function() {
+                    // Automatyczne zapisywanie do localStorage, gdy switch jest w pozycji "on"
+                    if (switchElement.classList.contains("on")) {
+                        saveTilesToLocalStorage(); // Zapisz kafelki do localStorage
+                    }
+              
     
                 });
             }
@@ -546,6 +538,9 @@ function loadSwitchState() {
                 });
             }
 
+           // Wczytanie kafelków z LocalStorage
+loadTilesFromLocalStorage();
+
            
 
            // Funkcja aktualizująca ikony
@@ -569,12 +564,9 @@ function loadSwitchState() {
                  }
                 
             }
-// Wczytanie kafelków z LocalStorage
-loadTilesFromLocalStorage();
+
            
            
-           // Load the switch state on page load
-loadSwitchState();
 
             // Funkcja do konfiguracji sortowalnych kontenerów
             function setupSortableContainers() {
@@ -679,8 +671,9 @@ loadSwitchState();
                 // Tworzenie kafelka
                 const tile = document.createElement("div");
                 tile.className = "icon";
+                tile.dataset.id = tileId; // Dodaj data-id
                 tile.innerHTML = `<a href="${tileLink}"><img src="${iconSrc}" alt="Tile"><div class="name">${tileName}</a></div>`;
-                tile.id = tileId;
+                
         
                 // Dodaj kafelek do kontenera
                 sortableContainer.appendChild(tile);
@@ -700,11 +693,14 @@ loadSwitchState();
             function removeTile(tileElement) {
                 const id = tileElement.dataset.id; // Zakładamy, że id jest w data-id
                 tileElement.remove(); // Usuń kafelek z interfejsu
+                addedTiles.delete(id); // Usuń kafelek z zestawu
                 // Usuń kafelek z LocalStorage
                 let savedTiles = JSON.parse(localStorage.getItem('tiles')) || [];
                 savedTiles = savedTiles.filter(tile => tile.id !== id); // Usuń kafelek o podanym id
                 localStorage.setItem('tiles', JSON.stringify(savedTiles));
                 console.log(`Kafelek o id ${id} został usunięty.`);
+                // Aktualizacja LocalStorage po usunięciu
+    saveTilesToLocalStorage();
             }
 
            // Funkcja ładująca kafelki z LocalStorage
@@ -722,7 +718,10 @@ loadSwitchState();
             }
 
             // Funkcja do dodania kafelka do kontenera oraz zapisania w LocalStorage
-            function addTileToContainer(iconUrl, name, id) {
+            function addTileToContainer(iconUrl, name, id, link, description) {
+                if (addedTiles.has(id)) {
+        return; // Jeśli kafelek już istnieje, nic nie rób
+    }
                 const newTile = document.createElement('div');
                 newTile.className = 'icon';
                 newTile.dataset.id = id; // Dodaj id do data-id
@@ -735,7 +734,8 @@ loadSwitchState();
                     removeTile(newTile); // Usunięcie kafelka
                     saveTilesToLocalStorage(); // Aktualizacja LocalStorage po usunięciu
                 });
-                sortableContainer.appendChild(newTile);                
+                sortableContainer.appendChild(newTile);
+                addedTiles.add(id); // Dodaj kafelek do zestawu
                 saveTilesToLocalStorage(); // Zapis do LocalStorage po dodaniu kafelka
             }           
 
@@ -807,6 +807,10 @@ loadSwitchState();
                 reader.onload = function(e) {
                     try {
                         const importedData = JSON.parse(e.target.result);
+                        // Sprawdzenie formatu danych
+            if (!Array.isArray(importedData) || !importedData.every(tile => tile.id && tile.name && tile.link && tile.iconUrl && tile.description)) {
+                throw new Error("Nieprawidłowy format danych.");
+            }
                         localStorage.setItem('tiles', JSON.stringify(importedData)); // Upewnij się, że dane są zapisywane jako string
                         console.log("Kafelki zaimportowane!");
                         loadTilesFromLocalStorage(); // Załaduj kafelki po imporcie
