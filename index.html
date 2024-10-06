@@ -863,34 +863,7 @@
                 console.error('Błąd podczas pobierania kafelków:', error);
                 });
             
-/* CHYBA NIE POTRZEBNE....
-            
-           // Trash icon functionality
-    trashIcon.addEventListener("dragover", function(event) {
-        event.preventDefault(); // Pozwól na upuszczenie
-    });
-    trashIcon.addEventListener("drop", function(event) {
-        event.preventDefault(); // Zapobiegaj domyślnemu zachowaniu
-        const tileId = event.dataTransfer.getData("text/plain");
-        const tileToRemove = document.getElementById(tileId);
-        if (tileToRemove) {
-            // Usuń kafelek z głównego ekranu
-            sortableContainer.removeChild(tileToRemove);
-            addedTiles.delete(tileId); // Usuń kafelek z zestawu dodanych kafelków
-            // Przywróć kafelek na liście dostępnych kafelków
-            const tileElement = document.querySelector(`.tile-item[id="${tileId}"]`);
-            if (tileElement) {
-                const checkIcon = tileElement.querySelector('.fa-check');
-                if (checkIcon) {
-                    checkIcon.style.display = 'none'; // Ukryj ikonę check
-                }
-                availableTilesContainer.appendChild(tileElement.cloneNode(true)); // Skopiuj kafelek
-            } else {
-                console.error("Tile element not found in available tiles");
-            }
-        }
-    });
-    *?
+
                         // Funkcja zapisująca wszystkie kafelki do LocalStorage
             function saveTilesToLocalStorage() {
                 const tiles = Array.from(sortableContainer.querySelectorAll('.icon'));
@@ -968,7 +941,7 @@
         });
     </script> -->
 
-<!--    
+  
     
     <script>
     // Funkcja do obsługi kliknięcia menu
@@ -976,7 +949,7 @@
             const menu = document.getElementById("menu");
             const menuDropdown = document.getElementById("menu-dropdown");
             // Obsługa kliknięcia w menu
-            menu.addEventListener("click", function() {
+            menu.addEventListener("click", function(event) {
                 event.stopPropagation(); // Zapobiega propagacji kliknięcia, aby nie ukrywać menu od razu
                 menuDropdown.classList.toggle("show");
             });
@@ -1021,7 +994,7 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 */
 </script>
--->
+
 
 </body>
 </html>
