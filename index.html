@@ -730,7 +730,7 @@
             function saveTilesToLocalStorage() {
                 const tiles = Array.from(sortableContainer.querySelectorAll('.icon'));
                 const tileData = tiles.map(tile => ({
-                    id: parseInt(tileId), // Upewnij się, że id jest liczbą
+                    id: parseInt(tile.dataset.id), // Upewnij się, że id jest liczbą
                     name: tile.querySelector('.name').textContent, // Użyj odpowiedniego selektora dla nazwy
                     link: tile.querySelector('a').getAttribute('href'), // Pobierz link z a
                     iconUrl: tile.querySelector('img').src,
