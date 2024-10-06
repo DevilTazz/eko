@@ -730,10 +730,7 @@ loadTilesFromLocalStorage();
                      <span class="name">${name}</span>
                     <div class="tile-description">${description}</div> <!-- Dodaj opis -->
                 `;
-                newTile.querySelector('.remove-btn').addEventListener('click', function() {
-                    removeTile(newTile); // Usunięcie kafelka
-                    saveTilesToLocalStorage(); // Aktualizacja LocalStorage po usunięciu
-                });
+                // Dodaj kafelek do kontenera
                 sortableContainer.appendChild(newTile);
                 addedTiles.add(id); // Dodaj kafelek do zestawu
                 saveTilesToLocalStorage(); // Zapis do LocalStorage po dodaniu kafelka
