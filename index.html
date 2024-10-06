@@ -460,8 +460,7 @@
         </div>
     </div>
     <script>
-       document.addEventListener("DOMContentLoaded", function() {
-           
+       document.addEventListener("DOMContentLoaded", function() {           
             const popup = document.getElementById("popup");
             const openPopupBtn = document.getElementById("open-popup-btn");           
             const closePopupBtn = document.getElementById("close-popup-btn");
@@ -475,8 +474,9 @@
             const sortableContainer = document.getElementById("sortable-container");
             const trashIcon = document.getElementById("trash");
            
-            const addTileId = document.getElementById("add-tile"); // Zdefiniuj id kafelka z plusem
-            const saveTilesBtn = document.getElementById('save-tiles');              
+            // ? const addTileId = document.getElementById("add-tile"); // Zdefiniuj id kafelka z plusem
+            // ? const saveTilesBtn = document.getElementById('save-tiles');
+           
             const addedTiles = new Set(); // Zmienna do śledzenia dodanych kafelków
 
    
@@ -745,7 +745,6 @@
             }
 
             // Funkcja do obsługi kliknięcia menu
-      document.addEventListener("DOMContentLoaded", function() {
             const menu = document.getElementById("menu");
             const menuDropdown = document.getElementById("menu-dropdown");
             // Obsługa kliknięcia w menu
@@ -759,59 +758,44 @@
                     menuDropdown.classList.remove("show");
                 }
             });
-        });
-             }
-    });
 
-        // Eksport kafelków do pliku JSON
-document.getElementById("export-tiles").addEventListener("click", function() {
-    const tilesData = localStorage.getItem('tiles');
-    const element = document.createElement("a");
-    const file = new Blob([tilesData], {type: 'application/json'});
-    element.href = URL.createObjectURL(file);
-    element.download = "SetupEco.json"; // Zmiana nazwy pliku
-    document.body.appendChild(element);
-    element.click();
-    document.body.removeChild(element);
-});
+            // Eksport kafelków do pliku JSON
+            document.getElementById("export-tiles").addEventListener("click", function() {
+                const tilesData = localStorage.getItem('tiles');
+                const element = document.createElement("a");
+                const file = new Blob([tilesData], {type: 'application/json'});
+                element.href = URL.createObjectURL(file);
+                element.download = "SetupEco.json"; // Zmiana nazwy pliku
+                document.body.appendChild(element);
+                element.click();
+                document.body.removeChild(element);
+            });
         
 
-// Import kafelków z pliku JSON
-document.getElementById("import-tiles").addEventListener("change", function(event) {
-    const file = event.target.files[0];
-    if (!file || file.name !== "SetupEco.json") { // Zmiana na "SetupEco.json"
-        console.error("Wybrałeś nieprawidłowy plik");
-        return;
-    }
-    const reader = new FileReader();
-    reader.onload = function(e) {
-        try {
-            const importedData = JSON.parse(e.target.result);
-            localStorage.setItem('tiles', JSON.stringify(importedData)); // Upewnij się, że dane są zapisywane jako string
-            console.log("Kafelki zaimportowane!");
-            loadTilesFromLocalStorage(); // Załaduj kafelki po imporcie
-        } catch (error) {
-            console.error("Błąd podczas importu kafelków:", error);
-        }
-    };
-    reader.readAsText(file);
-});
-         
-           
-           
-           
+            // Import kafelków z pliku JSON
+            document.getElementById("import-tiles").addEventListener("change", function(event) {
+                const file = event.target.files[0];
+                if (!file || file.name !== "SetupEco.json") { // Zmiana na "SetupEco.json"
+                    console.error("Wybrałeś nieprawidłowy plik");
+                    return;
+                }
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    try {
+                        const importedData = JSON.parse(e.target.result);
+                        localStorage.setItem('tiles', JSON.stringify(importedData)); // Upewnij się, że dane są zapisywane jako string
+                        console.log("Kafelki zaimportowane!");
+                        loadTilesFromLocalStorage(); // Załaduj kafelki po imporcie
+                    } catch (error) {
+                        console.error("Błąd podczas importu kafelków:", error);
+                    }
+                };
+                reader.readAsText(file);
+            });
+       });           
             
             
-            
-            
-    </script>
-
-    
-    
-   
-
-
-
+</script>
 
 </body>
 </html>
