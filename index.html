@@ -710,7 +710,7 @@ loadTilesFromLocalStorage();
                     savedTiles.forEach(tile => {
                         // Sprawdzenie, czy kafelek już istnieje
                         if (!addedTiles.has(tile.id)) {
-                            addTileToContainer(tile.iconUrl, tile.name, tile.id, tile.link, tile.description);
+                            addTileToContainer(tile.iconUrl, tile.name, tile.id, tile.link);
                             addedTiles.add(tile.id); // Dodaj do zestawu, aby nie dodawać go ponownie
                         }
                     });
@@ -719,16 +719,15 @@ loadTilesFromLocalStorage();
             }
 
             // Funkcja do dodania kafelka do kontenera oraz zapisania w LocalStorage
-            function addTileToContainer(iconUrl, name, id, link, description) {
-                if (addedTiles.has(id)) {
-        return; // Jeśli kafelek już istnieje, nic nie rób
-    }
+            function addTileToContainer(iconUrl, name, id, link, description = '') {
+                if (addedTiles.has(id)) return; // Jeśli kafelek już istnieje, nic nie rób
+    
                 const newTile = document.createElement('div');
                 newTile.className = 'icon';
                 newTile.dataset.id = id; // Dodaj id do data-id
                 newTile.innerHTML = `
-                    <a href="${link}"><img src="${iconUrl}" alt="${name}"></div>
-                     <div class="name">${name}</a></div>
+                    <a href="${link}"><img src="${iconUrl}" alt="${name}"></a> <!-- div -->
+                     <div class="name">${name}</div>
                     <div class="tile-description">${description}</div> <!-- Dodaj opis -->
                 `;
                 // Dodaj kafelek do kontenera
