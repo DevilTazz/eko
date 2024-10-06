@@ -411,7 +411,14 @@
                 <div id="menu-dropdown" class="menu-dropdown">
                     <div class="menu-item">Ikonka</div>
                     <div class="menu-item">Profil?</div>
-                    <div class="menu-item">pstryczek pokaż/ukryj info</div>
+                    <div class="menu-item">
+                        <label for="toggleSwitch">
+                            <span style="margin-right: 10px;">ukryj</span>
+                            <input type="checkbox" id="toggleSwitch" style="display: inline-block;">
+                            <span style="margin-left: 10px;">pokaż</span>
+                        </label>
+                    </div>
+                    
                     <div class="menu-item">Wczytaj z pliku</div> <!-- <input type="file" id="import-tiles" accept=".json">  ---- Przycisk do importu --> 
                     <div id="export-tiles" class="menu-item">Eksportuj do pliku</div>
                     <!-- Nie zapomnij uwzględnić tego: " <button id="save-tiles">Zapisz do LocalStorage</button> - Przycisk do zapisu " w logice "suwaczka" --> 
@@ -480,7 +487,7 @@
             const saveTilesBtn = document.getElementById('save-tiles');              
             const addedTiles = new Set(); // Zmienna do śledzenia dodanych kafelków
 
-  /*  loadTilesFromLocalStorage(); <--- Tą funkcję włączyć gdy będzie działać jej kod napisany tam na dole. Bez tego wysypuje stronę */
+    loadTilesFromLocalStorage(); <--- Tą funkcję włączyć gdy będzie działać jej kod napisany tam na dole. Bez tego wysypuje stronę 
 
             // Toggle popup visibility
             if (popup && openPopupBtn && closePopupBtn) {
@@ -491,6 +498,7 @@
                 closePopupBtn.addEventListener("click", function() {
                     popup.classList.remove("show");
                 });
+                // Zamknij popup po kliknięciu poza jego obszarem
                 document.addEventListener("click", function(event) {
                     if (event.target === popup) {
                         popup.classList.remove("show");
@@ -681,11 +689,11 @@
             function removeTile(tileElement, id) {
                 tileElement.remove(); // Usuń kafelek z interfejsu
                 // Usuń kafelek z LocalStorage
-                /*
+                
                 let savedTiles = JSON.parse(localStorage.getItem('tiles')) || [];
                 savedTiles = savedTiles.filter(tile => tile.id !== id); // Usuń kafelek o podanym id
                 localStorage.setItem('tiles', JSON.stringify(savedTiles));
-                */
+                
                 console.log(`Kafelek o id ${id} został usunięty.`);
             }
        });
@@ -705,40 +713,9 @@
 
 
 /*
-/*
+
             
-            // Toggle popup visibility
-            if (popup && openPopupBtn && closePopupBtn) {
-                openPopupBtn.addEventListener("click", function() {
-                    popup.classList.add("show");
-                });
-                closePopupBtn.addEventListener("click", function() {
-                    popup.classList.remove("show");
-                });
-                // Zamknij popup po kliknięciu poza jego obszarem
-                document.addEventListener("click", function(event) { // czy tu nie powinien być taki kod? " tilePopup.addEventListener('click', function(event) { " 
-                    if (event.target === tilePopup) {
-                        popup.classList.remove("show");
-                    }
-                });
-            }
            
-            addTileBtn.addEventListener("click", function(event) {
-                event.preventDefault();
-                tilePopup.classList.add("show");
-                loadAvailableTiles();
-            });
-            // Zamknij popup po kliknięciu przycisku "Zamknij"
-            closePopupBtn.addEventListener("click", function(event) {
-                event.preventDefault();
-                tilePopup.classList.remove("show");
-            });
-            // Zamknij popup po kliknięciu poza jego obszarem
-            window.addEventListener('click', function(event) {
-                if (tilePopup.classList.contains("show") && !tilePopup.contains(event.target) && event.target !== addTileBtn) {
-                    tilePopup.classList.remove("show");
-                }
-            });
             // Zapisz kafelki do LocalStorage
             saveTilesBtn.addEventListener('click', () => {
                 saveTilesToLocalStorage();
@@ -747,26 +724,7 @@
             
            
            
-            // Add tile popup functionality
-            if (addTileBtn) {
-                addTileBtn.addEventListener("click", function() {
-                    if (!switchElement.classList.contains("on")) {
-                        tilePopup.classList.add("show");
-                    }
-                });
-            }
-            
-            // Close tile popup
-            if (closeTilePopupBtn) {
-                closeTilePopupBtn.addEventListener("click", function() {
-                    tilePopup.classList.remove("show");
-                });
-                document.addEventListener("click", function(event) {
-                    if (event.target === tilePopup) {
-                        tilePopup.classList.remove("show");
-                    }
-                });
-            }
+           
             
             // Function to create a tile
             function createTileForMainScreen(iconSrc, tileId, tileName, tileLink) {
@@ -927,19 +885,24 @@
         });  */
     </script>
 
-    <!-- nie wiem czy tak zadziała ukrywani "Zobacz info"
+    
     
     <script>
-        const toggleSwitch = document.getElementById('toggleSwitch');
-        const opisDiv = document.querySelector('.opis'); // Znajduje element opis
+    const toggleSwitch = document.getElementById('toggleSwitch');
+    const opisDiv = document.querySelector('.opis'); // Znajduje element opis
+    
+    if (toggleSwitch) { // Sprawdzenie, czy toggleSwitch istnieje
         toggleSwitch.addEventListener('change', function() {
-        if (toggleSwitch.checked) {
-        opisDiv.style.display = 'flex'; // Pokaż opis
-        } else {
-        opisDiv.style.display = 'none'; // Ukryj opis
-    }
+            if (toggleSwitch.checked) {
+                opisDiv.style.display = 'flex'; // Pokaż opis
+            } else {
+                opisDiv.style.display = 'none'; // Ukryj opis
+            }
         });
-    </script> -->
+    } else {
+        console.error("Element toggleSwitch nie został znaleziony!");
+    }
+</script>
 
   
     
