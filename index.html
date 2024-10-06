@@ -814,7 +814,7 @@ loadTilesFromLocalStorage();
                 throw new Error("Nieprawidłowy format danych.");
             }
                         localStorage.setItem('tiles', JSON.stringify(importedData)); // Upewnij się, że dane są zapisywane jako string
-                        alert(("Kafelki zaimportowane!");
+                        alert("Kafelki zaimportowane!");
                         loadTilesFromLocalStorage(); // Załaduj kafelki po imporcie
                     } catch (error) {
                         console.error("Błąd podczas importu kafelków:", error);
