@@ -620,7 +620,7 @@ loadTilesFromLocalStorage();
                     .then(data => {
                         availableTilesContainer.innerHTML = ''; // Czyścimy kontener przed dodaniem nowych kafelków
                         data.forEach(tile => {
-                            const tileElement = createTileForPopup(tile.iconUrl, tile.id, tile.name, tile.description);
+                            const tileElement = createTileForPopup(tile.iconUrl, tile.id, tile.name, tile.description, tile.link);
                             availableTilesContainer.appendChild(tileElement);
                         });
                     })
@@ -631,7 +631,7 @@ loadTilesFromLocalStorage();
                 
 
             // Funkcja tworząca kafelek w dymku
-            function createTileForPopup(iconSrc, tileId, tileName, tileDescription) {
+            function createTileForPopup(iconSrc, tileId, tileName, tileDescription, tileLink) {
                 const tile = document.createElement("div");
                 tile.className = "tile-item";
                 tile.innerHTML = `<img src="${iconSrc}" alt="Tile" class="tile-icon">
@@ -645,7 +645,7 @@ loadTilesFromLocalStorage();
                 tile.addEventListener('click', () => {
                     // Dodawanie kafelka do głównego ekranu, jeśli switch jest wyłączony i kafelek nie został dodany
                     if (!switchElement.classList.contains("on") && !addedTiles.has(tileId)) {
-                        const newTile = createTileForMainScreen(iconSrc, tileId, tileName, 'link'); // Podmień 'link' na rzeczywisty link
+                        const newTile = createTileForMainScreen(iconSrc, tileId, tileName, tileLink); 
                         if (newTile) {
                             addedTiles.add(tileId); // Dodaj do zestawu dopiero po dodaniu kafelka
         
