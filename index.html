@@ -714,6 +714,7 @@ loadTilesFromLocalStorage();
                             addedTiles.add(tile.id); // Dodaj do zestawu, aby nie dodawać go ponownie
                         }
                     });
+                    setupSortableContainers(); // Upewnij się, że sortowalne kontenery są ustawione po dodaniu kafelków
                 }
             }
 
@@ -791,7 +792,11 @@ loadTilesFromLocalStorage();
                 element.click();
                 document.body.removeChild(element);
             });
-        
+
+           // Nasłuchiwacz dla przycisku importu
+    document.getElementById("import-tiles-btn").addEventListener("click", function() {
+        document.getElementById("import-tiles").click(); // Programowo kliknij input file
+    });
 
             // Import kafelków z pliku JSON
             document.getElementById("import-tiles").addEventListener("change", function(event) {
@@ -809,7 +814,7 @@ loadTilesFromLocalStorage();
                 throw new Error("Nieprawidłowy format danych.");
             }
                         localStorage.setItem('tiles', JSON.stringify(importedData)); // Upewnij się, że dane są zapisywane jako string
-                        console.log("Kafelki zaimportowane!");
+                        alert(("Kafelki zaimportowane!");
                         loadTilesFromLocalStorage(); // Załaduj kafelki po imporcie
                     } catch (error) {
                         console.error("Błąd podczas importu kafelków:", error);
