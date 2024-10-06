@@ -634,7 +634,7 @@ loadTilesFromLocalStorage();
             function createTileForPopup(iconSrc, tileId, tileName, tileDescription, tileLink) {
                 const tile = document.createElement("div");
                 tile.className = "tile-item";
-                tile.innerHTML = `<img src="${iconSrc}" alt="Tile" class="tile-icon">
+                tile.innerHTML = `<img src="${iconSrc}" alt="${tileName}" class="tile-icon">
                     <div class="tile-info">
                         <div class="tile-name">${tileName}</div>
                         <div class="tile-description">${tileDescription}</div>
@@ -645,7 +645,7 @@ loadTilesFromLocalStorage();
                 tile.addEventListener('click', () => {
                     // Dodawanie kafelka do głównego ekranu, jeśli switch jest wyłączony i kafelek nie został dodany
                     if (!switchElement.classList.contains("on") && !addedTiles.has(tileId)) {
-                        const newTile = createTileForMainScreen(iconSrc, tileId, tileName, tileLink); 
+                        const newTile = createTileForMainScreen(iconSrc, tileId, tileName, tileDescription, tileLink); 
                         if (newTile) {
                             addedTiles.add(tileId); // Dodaj do zestawu dopiero po dodaniu kafelka
         
@@ -662,7 +662,7 @@ loadTilesFromLocalStorage();
             }
 
             // Funkcja tworząca kafelek na ekranie głównym
-            function createTileForMainScreen(iconSrc, tileId, tileName, tileLink) {
+            function createTileForMainScreen(iconSrc, tileId, tileName, tileDescription, tileLink) {
                 // Sprawdzenie, czy kafelek już został dodany
                 if (addedTiles.has(tileId)) {
                     return null; // Jeśli kafelek już istnieje, nic nie rób
@@ -672,7 +672,7 @@ loadTilesFromLocalStorage();
                 const tile = document.createElement("div");
                 tile.className = "icon";
                 tile.dataset.id = tileId; // Dodaj data-id
-                tile.innerHTML = `<a href="${tileLink}"><img src="${iconSrc}" alt="${name}"><div class="name">${tileName}</a></div>`; // ${name} = Tile
+                tile.innerHTML = `<a href="${tileLink}"><img src="${iconSrc}" alt="${tileName}"><div class="name">${tileName}</a></div>`; // ${name} = Tile
                 
         
                 // Dodaj kafelek do kontenera
