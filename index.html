@@ -473,15 +473,10 @@
             const availableTilesContainer = document.getElementById("available-tiles");
             const sortableContainer = document.getElementById("sortable-container");
             const trashIcon = document.getElementById("trash");
-           
-            // ? const addTileId = document.getElementById("add-tile"); // Zdefiniuj id kafelka z plusem
-            // ? const saveTilesBtn = document.getElementById('save-tiles');
-           
+                      
             const addedTiles = new Set(); // Zmienna do śledzenia dodanych kafelków
 
-           // Funkcja do zapisywania stanu przełącznika
-
-   
+             
 
             // Toggle popup visibility
             if (popup && openPopupBtn && closePopupBtn) {
@@ -538,15 +533,14 @@
                 });
             }
 
-           // Wczytanie kafelków z LocalStorage
-loadTilesFromLocalStorage();
+            // Wczytanie kafelków z LocalStorage
+            loadTilesFromLocalStorage();
 
            
 
            // Funkcja aktualizująca ikony
             function updateIcons() {
                 const isSwitchOn = switchElement.classList.contains("on");
-
                 unlockedIcon.classList.toggle("grayscale", isSwitchOn);
                 lockedIcon.classList.toggle("grayscale", !isSwitchOn);
                 addTileBtn.classList.toggle("grayscale", isSwitchOn);
@@ -558,14 +552,10 @@ loadTilesFromLocalStorage();
                      
                      trashIcon.classList.toggle('grayscale', isSwitchOn); // Dodaj klasę do kontenera
 
-
                  } else {
                      console.error("Trash image not found!"); // Loguj, jeśli obrazek kosza nie został znaleziony
-                 }
-                
-            }
-
-           
+                 }                
+            }           
            
 
             // Funkcja do konfiguracji sortowalnych kontenerów
@@ -700,7 +690,7 @@ loadTilesFromLocalStorage();
                 localStorage.setItem('tiles', JSON.stringify(savedTiles));
                 console.log(`Kafelek o id ${id} został usunięty.`);
                 // Aktualizacja LocalStorage po usunięciu
-    saveTilesToLocalStorage();
+                saveTilesToLocalStorage();
             }
 
            // Funkcja ładująca kafelki z LocalStorage
@@ -724,7 +714,7 @@ loadTilesFromLocalStorage();
     
                 const newTile = document.createElement('div');
                 newTile.className = 'icon';
-                newTile.dataset.id = id; // Dodaj id do data-id
+                newTile.dataset.id = tileId; // Dodaj id do data-id
                 newTile.innerHTML = `
                     <a href="${link}"><img src="${iconUrl}" alt="${name}"></a> <!-- div -->
                      <div class="name">${name}</div>
@@ -740,11 +730,11 @@ loadTilesFromLocalStorage();
             function saveTilesToLocalStorage() {
                 const tiles = Array.from(sortableContainer.querySelectorAll('.icon'));
                 const tileData = tiles.map(tile => ({
-                    id: parseInt(tile.dataset.id), // Upewnij się, że id jest liczbą
+                    id: parseInt(tileId), // Upewnij się, że id jest liczbą
                     name: tile.querySelector('.name').textContent, // Użyj odpowiedniego selektora dla nazwy
                     link: tile.querySelector('a').getAttribute('href'), // Pobierz link z a
                     iconUrl: tile.querySelector('img').src,
-                    description: tile.querySelector('.tile-description') ? tile.querySelector('.tile-description').textContent : tileDescription // Dodaj opis, jeśli istnieje
+                    description: tile.querySelector('.tile-description').textContent // Dodaj opis, jeśli istnieje
                 }));
                 localStorage.setItem('tiles', JSON.stringify(tileData));
             }
