@@ -710,7 +710,7 @@ loadTilesFromLocalStorage();
                     savedTiles.forEach(tile => {
                         // Sprawdzenie, czy kafelek już istnieje
                         if (!addedTiles.has(tile.id)) {
-                            addTileToContainer(tile.iconUrl, tile.name, tile.id, tile.link);
+                            addTileToContainer(tile.iconUrl, tile.id, tile.name, tile.description, tile.link);
                             addedTiles.add(tile.id); // Dodaj do zestawu, aby nie dodawać go ponownie
                         }
                     });
@@ -719,7 +719,7 @@ loadTilesFromLocalStorage();
             }
 
             // Funkcja do dodania kafelka do kontenera oraz zapisania w LocalStorage
-            function addTileToContainer(iconUrl, name, id, link, description = '') {
+            function addTileToContainer(iconSrc, tileId, tileName, tileDescription, tileLink) {
                 if (addedTiles.has(id)) return; // Jeśli kafelek już istnieje, nic nie rób
     
                 const newTile = document.createElement('div');
