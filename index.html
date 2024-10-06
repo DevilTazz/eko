@@ -503,7 +503,9 @@
                 switchElement.addEventListener("click", function() {
                     switchElement.classList.toggle("on");
                     updateIcons();
-                    
+                });
+
+                document.addEventListener("click", function() {
                     // Automatyczne zapisywanie do localStorage, gdy switch jest w pozycji "on"
                     if (switchElement.classList.contains("on")) {
                         saveTilesToLocalStorage(); // Zapisz kafelki do localStorage
