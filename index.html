@@ -672,7 +672,7 @@ loadTilesFromLocalStorage();
                 const tile = document.createElement("div");
                 tile.className = "icon";
                 tile.dataset.id = tileId; // Dodaj data-id
-                tile.innerHTML = `<a href="${tileLink}"><img src="${iconSrc}" alt="Tile"><div class="name">${tileName}</a></div>`;
+                tile.innerHTML = `<a href="${tileLink}"><img src="${iconSrc}" alt="${name}"><div class="name">${tileName}</a></div>`; // ${name} = Tile
                 
         
                 // Dodaj kafelek do kontenera
@@ -726,8 +726,8 @@ loadTilesFromLocalStorage();
                 newTile.className = 'icon';
                 newTile.dataset.id = id; // Dodaj id do data-id
                 newTile.innerHTML = `
-                    <a href="${link}"><img src="${iconUrl}" alt="${name}"></div>
-                     <span class="name">${name}</span>
+                    <a href="${link}"><img src="${iconUrl}" alt="${name}">
+                     <div class="name">${tileName}</a></div>
                     <div class="tile-description">${description}</div> <!-- Dodaj opis -->
                 `;
                 // Dodaj kafelek do kontenera
