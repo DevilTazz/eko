@@ -694,7 +694,11 @@
                 const savedTiles = JSON.parse(localStorage.getItem('tiles'));
                 if (savedTiles) {
                     savedTiles.forEach(tile => {
-                        addTileToContainer(tile.iconUrl, tile.name, tile.id);
+                        // Sprawdzenie, czy kafelek już istnieje
+                        if (!addedTiles.has(tile.id)) {
+                            addTileToContainer(tile.iconUrl, tile.name, tile.id);
+                            addedTiles.add(tile.id); // Dodaj do zestawu, aby nie dodawać go ponownie
+                        }
                     });
                 }
             }
@@ -707,7 +711,7 @@
                 newTile.innerHTML = `
                     <img src="${iconUrl}" alt="${name}">
                     <span>${name}</span>
-                    <button class="remove-btn">Usuń</button>
+                   
                 `;
                 newTile.querySelector('.remove-btn').addEventListener('click', function() {
                     removeTile(newTile); // Usunięcie kafelka
