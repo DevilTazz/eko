@@ -710,7 +710,7 @@ loadTilesFromLocalStorage();
                     savedTiles.forEach(tile => {
                         // Sprawdzenie, czy kafelek już istnieje
                         if (!addedTiles.has(tile.id)) {
-                            addTileToContainer(tile.iconUrl, tile.name, tile.id);
+                            addTileToContainer(tile.iconUrl, tile.name, tile.id, tile.link, tile.description);
                             addedTiles.add(tile.id); // Dodaj do zestawu, aby nie dodawać go ponownie
                         }
                     });
