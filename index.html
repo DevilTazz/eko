@@ -711,9 +711,9 @@
                 newTile.className = 'icon';
                 newTile.dataset.id = id; // Dodaj id do data-id
                 newTile.innerHTML = `
-                    <img src="${iconUrl}" alt="${name}">
-                    <span>${name}</span>
-                   
+                    <a href="${link}"><img src="${iconUrl}" alt="${name}"></div>
+                     <span class="name">${name}</span>
+                    <div class="tile-description">${description}</div> <!-- Dodaj opis -->
                 `;
                 newTile.querySelector('.remove-btn').addEventListener('click', function() {
                     removeTile(newTile); // Usunięcie kafelka
@@ -727,9 +727,11 @@
             function saveTilesToLocalStorage() {
                 const tiles = Array.from(sortableContainer.querySelectorAll('.icon'));
                 const tileData = tiles.map(tile => ({
-                    id: tile.dataset.id,
+                    id: parseInt(tile.dataset.id), // Upewnij się, że id jest liczbą
+                    name: tile.querySelector('.name').textContent, // Użyj odpowiedniego selektora dla nazwy
+                    link: tile.querySelector('a').getAttribute('href'), // Pobierz link z a
                     iconUrl: tile.querySelector('img').src,
-                    name: tile.querySelector('span').textContent
+                    description: tile.querySelector('.tile-description') ? tile.querySelector('.tile-description').textContent : '' // Dodaj opis, jeśli istnieje
                 }));
                 localStorage.setItem('tiles', JSON.stringify(tileData));
             }
