@@ -686,7 +686,7 @@
                 addedTiles.delete(id); // Usuń kafelek z zestawu
                 // Usuń kafelek z LocalStorage
                 let savedTiles = JSON.parse(localStorage.getItem('tiles')) || [];
-                savedTiles = savedTiles.filter(tile => tile.id !== id); // Usuń kafelek o podanym id
+                savedTiles = savedTiles.filter(tile => tile.id !== parseInt(id)); // Usuń kafelek o podanym id
                 localStorage.setItem('tiles', JSON.stringify(savedTiles));
                 console.log(`Kafelek o id ${id} został usunięty.`);
                 // Aktualizacja LocalStorage po usunięciu
@@ -716,9 +716,9 @@
                 newTile.className = 'icon';
                 newTile.dataset.id = tileId; // Dodaj id do data-id
                 newTile.innerHTML = `
-                    <a href="${link}"><img src="${iconUrl}" alt="${name}"></a> <!-- div -->
-                     <div class="name">${name}</div>
-                    <div class="tile-description">${description}</div> <!-- Dodaj opis -->
+                    <a href="${tileId}"><img src="${iconUrl}" alt="${tileName}"></a> <!-- div -->
+                     <div class="name">${tileName}</div>
+                    <div class="tile-description">${tileDescription}</div> <!-- Dodaj opis -->
                 `;
                 // Dodaj kafelek do kontenera
                 sortableContainer.appendChild(newTile);
