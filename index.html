@@ -610,7 +610,7 @@
                     // Dodawanie kafelka do głównego ekranu, jeśli switch jest wyłączony i kafelek nie został dodany
                     if (!switchElement.classList.contains("on") && !addedTiles.has(tileId)) {
                         // Pokazanie ikony check na elemencie kafelka
-                        createTileForMainScreen(iconUrl, tileName, tileId, tileLink, tileDescription);
+                        createTileForMainScreen(iconUrl, tileId, tileName, tileLink, tileDescription);
                         const checkIcon = tile.querySelector('.fa-check');
                         if (checkIcon) {
                             checkIcon.style.display = 'block';
@@ -641,6 +641,8 @@
                 if (addedTiles.has(tileId)) {
                     return null; // Jeśli kafelek już istnieje, nic nie rób
                 }
+
+                 addedTiles.add(tileId);
         
                 // Tworzenie kafelka
                 const tile = document.createElement("div");
@@ -650,6 +652,8 @@
 
                 // Przechowujemy opis w dataset, aby można było go później wykorzystać
                 tile.dataset.description = tileDescription;
+
+                
         
                 // Dodaj kafelek do kontenera
                 sortableContainer.appendChild(tile);
@@ -662,7 +666,10 @@
 
                 // Ustaw ponownie kontenery sortowalne
                 setupSortableContainers();
+                // Zapisz kafelki do LocalStorage
+                saveTilesToLocalStorage();
                 return tile;
+                
             }
 
                                   // Funkcja do konfiguracji sortowalnych kontenerów
