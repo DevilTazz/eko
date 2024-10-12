@@ -672,19 +672,18 @@
                         put: true
                     },
                     animation: 150,
-                    sort: isSortable, // Ustawienie sortowania
-
+                    sort: !switchElement.classList.contains("on"), // Ustaw sort na false, gdy switch jest "on"
 
                     // Funkcja wywoływana, gdy przeciąganie się zaczyna
                     onStart: function(evt) {
                         if (switchElement.classList.contains("on")) {
-                            evt.cancel(); // Zablokuj przeciąganie
+                            evt.preventDefault(); // Blokuje przeciąganie
                            
                         }
                     },
                     onEnd: function(evt) {
                         if (switchElement.classList.contains("on")) {
-                            evt.cancel(); // Zablokuj przeciąganie
+                            evt.preventDefault(); // Blokuje przeciąganie
                             
                         }
                         // Jeśli switch jest "off", nie ma potrzeby usuwania klasy 'disabled'
