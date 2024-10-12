@@ -663,6 +663,8 @@
 
                                   // Funkcja do konfiguracji sortowalnych kontenerów
             function setupSortableContainers() {
+                const isSortable = !switchElement.classList.contains("on");
+                
                 Sortable.create(sortableContainer, {
                     group: { 
                         name: "tiles",
@@ -670,7 +672,8 @@
                         put: true
                     },
                     animation: 150,
-                    sort: !switchElement.classList.contains("on"), // Blokuje sortowanie, gdy przełącznik jest w pozycji "on"
+                    sort: isSortable, // Ustawienie sortowania
+
 
                     // Funkcja wywoływana, gdy przeciąganie się zaczyna
                     onStart: function(evt) {
@@ -681,12 +684,12 @@
                     },
                     onEnd: function(evt) {
                         if (switchElement.classList.contains("on")) {
-                            // Nic nie rób, gdy przełącznik jest "on"
+                            evt.preventDefault(); // Blokuje przeciąganie
                             return; 
                         }
                         // Jeśli switch jest "off", nie ma potrzeby usuwania klasy 'disabled'
                         if (evt.from === trashIcon) {
-                            console.log('Kafelek usunięty do kosza'); 
+                            
                             removeTile(evt.item); // Wywołaj funkcję usuwania
                         }
                     }
