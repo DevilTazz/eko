@@ -678,13 +678,13 @@
                     // Funkcja wywoływana, gdy przeciąganie się zaczyna
                     onStart: function(evt) {
                         if (switchElement.classList.contains("on")) {
-                            evt.preventDefault(); // Blokuje przeciąganie
+                            evt.cancel(); // Zablokuj przeciąganie
                            
                         }
                     },
                     onEnd: function(evt) {
                         if (switchElement.classList.contains("on")) {
-                            evt.preventDefault(); // Blokuje przeciąganie
+                            evt.cancel(); // Zablokuj przeciąganie
                             
                         }
                         // Jeśli switch jest "off", nie ma potrzeby usuwania klasy 'disabled'
