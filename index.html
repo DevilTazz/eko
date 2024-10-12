@@ -662,9 +662,7 @@
             }
 
                                   // Funkcja do konfiguracji sortowalnych kontenerów
-            function setupSortableContainers() {
-                const isSortable = !switchElement.classList.contains("on");
-                
+            function setupSortableContainers() {                
                 Sortable.create(sortableContainer, {
                     group: { 
                         name: "tiles",
@@ -678,12 +676,14 @@
                     onStart: function(evt) {
                         if (switchElement.classList.contains("on")) {
                             evt.preventDefault(); // Blokuje przeciąganie
+                            // evt.cancel(); // Zablokuj przeciąganie
                            
                         }
                     },
                     onEnd: function(evt) {
                         if (switchElement.classList.contains("on")) {
                             evt.preventDefault(); // Blokuje przeciąganie
+                            // evt.cancel(); // Zablokuj przeciąganie
                             
                         }
                         // Jeśli switch jest "off", nie ma potrzeby usuwania klasy 'disabled'
@@ -705,8 +705,6 @@
                         }
                     }
                 });
-
-                console.log("setupSortableContainers"); // Dodaj to
             }
 
 
