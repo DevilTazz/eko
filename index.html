@@ -411,10 +411,10 @@
                     </div>
                     
                     <input type="file" id="import-tiles" accept=".json" class="menu-item" style="display: none;">
-                    <div class="menu-item" id="import-tiles-btn" style="cursor: pointer;">Wczytaj z pliku</div> <!-- <input type="file" id="import-tiles" accept=".json">  ---- Przycisk do importu --> 
+                    <div class="menu-item" id="import-tiles-btn" style="cursor: pointer;">Wczytaj z pliku</div>  
                     
                     <div id="export-tiles" class="menu-item">Eksportuj do pliku</div>
-                    <!-- Nie zapomnij uwzględnić tego: " <button id="save-tiles">Zapisz do LocalStorage</button> - Przycisk do zapisu " w logice "suwaczka" --> 
+                    
                     <!-- <div class="menu-item">to później</div> -->
                     <div class="menu-item">TOS</div>
                     <div class="menu-item">Privacy</div>
@@ -460,7 +460,7 @@
             <!-- Nowy element z opcją tworzenia własnego kafelka -->
             <div id="custom-tile-option" style="display: flex; align-items: center; cursor: pointer;">
                 <span>...lub stwórz własny</span>
-                <span style="margin-left: 8px;">➡️</span> <!-- Unicode strzałka w prawo -->
+                <span style="margin-right: 8px;">➡️</span> <!-- Unicode strzałka w prawo -->
             </div>
             
             <div id="available-tiles" class="tile-list"></div>
@@ -591,7 +591,7 @@
                     .then(data => {
                         availableTilesContainer.innerHTML = ''; // Czyścimy kontener przed dodaniem nowych kafelków
                         data.forEach(tile => {
-                            const tileElement = createTileForPopup(tile.iconUrl, tile.id, tile.name, tile.description, tile.link);
+                            const tileElement = createTileForPopup(tile.iconUrl, tile.id, tile.name, tile.link, tile.description);
                             // Sprawdzenie, czy kafelek został dodany do głównego ekranu
                             if (addedTiles.has(tile.id)) {
                                 const checkIcon = tileElement.querySelector('.fa-check');
@@ -608,11 +608,48 @@
                     });
             }
 
+           // Funkcja do wyświetlania formularza do stworzenia kafelka
+            function showCustomTileForm() {
+                const popupContent = document.querySelector(".popup-content-tiles");
+                popupContent.innerHTML = `
+                    <span id="close-tile-popup" class="close-btn">&times;</span>
+                    <h3>Stwórz niestandardowy kafelek</h3>
+                    <input type="text" id="custom-tile-name" placeholder="Nazwa kafelka" required>
+                    <input type="text" id="custom-tile-link" placeholder="Link" required>
+                    <input type="text" id="custom-tile-icon" placeholder="URL ikony" required>
+                    <input type="text" id="custom-tile-description" placeholder="Opis (opcjonalnie)">
+                    <button id="create-custom-tile">Stwórz kafelek</button>
+                    <br><br>
+                    <span id="back-to-tiles" style="cursor: pointer; color: blue;">← Powrót do kafelków</span>
+                `;
+                
+                // Dodaj event listener do przycisku
+                document.getElementById("create-custom-tile").addEventListener("click", function() {
+                    const tileName = document.getElementById("custom-tile-name").value;
+                    const tileLink = document.getElementById("custom-tile-link").value;
+                    const iconUrl = document.getElementById("custom-tile-icon").value;
+                    const tileDescription = document.getElementById("custom-tile-description").value;
+
+                    if (tileName && tileLink && iconUrl) {
+                        const tileId = 10000 + Date.now(); // Unikalne ID zaczynające się od 10000
+                        createTileForMainScreen(iconUrl, tileId, tileName, tileLink, (tileDescription || "")); // Możesz dodać opis
+                        
+                    } else {
+                        alert("Wypełnij wszystkie pola!");
+                    }
+                });
+                
+                // Dodaj event listener do powrotu
+                document.getElementById("back-to-tiles").addEventListener("click", function() {
+                    loadAvailableTiles(); // Przywróć listę kafelków
+                });
+            }
+
          
                 
 
             // Funkcja tworząca listę elementów w dymku
-            function createTileForPopup(iconUrl, tileId, tileName, tileDescription, tileLink) {
+            function createTileForPopup(iconUrl, tileId, tileName, tileLink, tileDescription) {
                 const tile = document.createElement("div");
                 tile.className = "tile-item";
                 tile.innerHTML = `<img src="${iconUrl}" alt="Tile" class="tile-icon">
@@ -624,12 +661,12 @@
                 tile.id = tileId;
 
                 // Sprawdzenie, czy kafelek został dodany do głównego ekranu
-    if (addedTiles.has(tileId)) {
-        const checkIcon = tile.querySelector('.fa-check');
-        if (checkIcon) {
-            checkIcon.style.display = 'block'; // Ustawienie ikony check jako widocznej
-        }
-    }
+                if (addedTiles.has(tileId)) {
+                    const checkIcon = tile.querySelector('.fa-check');
+                    if (checkIcon) {
+                        checkIcon.style.display = 'block'; // Ustawienie ikony check jako widocznej
+                    }
+                }
         
                 tile.addEventListener('click', () => {
                     // Dodawanie kafelka do głównego ekranu, jeśli switch jest wyłączony i kafelek nie został dodany
@@ -637,13 +674,32 @@
                         
                         // Pokazanie ikony check na elemencie kafelka
                         createTileForMainScreen(iconUrl, tileId, tileName, tileLink, tileDescription);
-                        
+                        // Pokazanie ikony check na elemencie kafelka
+                        const checkIcon = tile.querySelector('.fa-check');
+                        if (checkIcon) {
+                            checkIcon.style.display = 'block'; // Ustawienie ikony check jako widocznej
+                        }
+
+                        // Dodaj kafelek do zestawu dodanych kafelków
+                        addedTiles.add(tileId);
                        
                     }
                 });
+                
+                // Dodaj opcję "stwórz własny"
+                const customTileLink = document.createElement("div");
+                customTileLink.innerHTML = `<span style="cursor: pointer; color: blue;">...lub stwórz własny ➔</span>`;
+                customTileLink.addEventListener("click", function() {
+                    showCustomTileForm();
+                });
+
+                const availableTilesContainer = document.getElementById("available-tiles");
+                availableTilesContainer.appendChild(customTileLink);
         
                 return tile; // Zwracamy kafelek, aby był dodany do kontenera dymku
             }
+
+           
 
             
             // Funkcja tworząca kafelek na ekranie głównym
