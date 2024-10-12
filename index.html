@@ -473,10 +473,18 @@
             const availableTilesContainer = document.getElementById("available-tiles");
             const sortableContainer = document.getElementById("sortable-container");
             const trashIcon = document.getElementById("trash");
-                      
+           
+            // ? const addTileId = document.getElementById("add-tile"); // Zdefiniuj id kafelka z plusem
+            // ? const saveTilesBtn = document.getElementById('save-tiles');
+           
             const addedTiles = new Set(); // Zmienna do śledzenia dodanych kafelków
 
-             
+           // Funkcja do zapisywania stanu przełącznika
+
+           // Wczytanie kafelków z LocalStorage
+            loadTilesFromLocalStorage();
+
+   
 
             // Toggle popup visibility
             if (popup && openPopupBtn && closePopupBtn) {
@@ -533,14 +541,14 @@
                 });
             }
 
-            // Wczytanie kafelków z LocalStorage
-            loadTilesFromLocalStorage();
+            
 
            
 
            // Funkcja aktualizująca ikony
             function updateIcons() {
                 const isSwitchOn = switchElement.classList.contains("on");
+
                 unlockedIcon.classList.toggle("grayscale", isSwitchOn);
                 lockedIcon.classList.toggle("grayscale", !isSwitchOn);
                 addTileBtn.classList.toggle("grayscale", isSwitchOn);
@@ -552,51 +560,17 @@
                      
                      trashIcon.classList.toggle('grayscale', isSwitchOn); // Dodaj klasę do kontenera
 
+
                  } else {
                      console.error("Trash image not found!"); // Loguj, jeśli obrazek kosza nie został znaleziony
-                 }                
-            }           
+                 }
+                
+            }
+
+           
            
 
-            // Funkcja do konfiguracji sortowalnych kontenerów
-            function setupSortableContainers() {
-                Sortable.create(sortableContainer, {
-                    group: { 
-                        name: "tiles",
-                        pull: true,
-                        put: true
-                    },
-                    animation: 150,
-                    sort: !switchElement.classList.contains("on"), // Blokuje sortowanie, gdy przełącznik jest w pozycji "on"
-                    onStart: function(evt) {
-                        if (switchElement.classList.contains("on")) {
-                            evt.from.classList.add('disabled'); // Dodaj klasę 'disabled' do kontenera
-                        }
-                    },
-                    onEnd: function(evt) {
-                        if (switchElement.classList.contains("on")) {
-                            evt.from.classList.remove('disabled'); // Usuń klasę 'disabled' po zakończeniu przeciągania
-                        }
-                        if (evt.from === trashIcon) {
-                            console.log('Kafelek usunięty do kosza'); 
-                        }
-                    }
-                });
-
-                Sortable.create(trashIcon, {
-                    group: "tiles",
-                    sort: false, // Zablokowane przeciąganie do kosza, gdy przełącznik jest w pozycji "on"
-                    onAdd: function(evt) {
-                        if (!switchElement.classList.contains("on")) {
-                            removeTile(evt.item); // Usunięcie kafelka
-                        } else {
-                            evt.from.appendChild(evt.item); // Przywróć kafelek do pierwotnego miejsca
-                        }
-                    }
-                });
-
-                console.log("setupSortableContainers"); // Dodaj to
-            }
+           
 
             // Funkcja ładowania dostępnych kafelków z JSON
             function loadAvailableTiles() {
@@ -620,39 +594,45 @@
             }
                 
 
-            // Funkcja tworząca kafelek w dymku
-            function createTileForPopup(iconSrc, tileId, tileName, tileDescription, tileLink) {
+            // Funkcja tworząca listę elementów w dymku
+            function createTileForPopup(iconUrl, tileId, tileName, tileDescription, tileLink) {
                 const tile = document.createElement("div");
                 tile.className = "tile-item";
-                tile.innerHTML = `<img src="${iconSrc}" alt="${tileName}" class="tile-icon">
-                    <div class="tile-info">
-                        <div class="tile-name">${tileName}</div>
-                        <div class="tile-description">${tileDescription}</div>
-                    </div>
-                    <i class="fa-check" style="display: none;">&#10003;</i>`;
+                tile.innerHTML = `<img src="${iconUrl}" alt="Tile" class="tile-icon">
+                          <div class="tile-info">
+                              <div class="tile-name">${tileName}</div>
+                              <div class="tile-description">${tileDescription}</div>
+                          </div>
+                          <i class="fa-check" style="display: none;">&#10003;</i>`;
                 tile.id = tileId;
         
                 tile.addEventListener('click', () => {
                     // Dodawanie kafelka do głównego ekranu, jeśli switch jest wyłączony i kafelek nie został dodany
                     if (!switchElement.classList.contains("on") && !addedTiles.has(tileId)) {
-                        const newTile = createTileForMainScreen(iconSrc, tileId, tileName, tileDescription, tileLink); 
-                        if (newTile) {
-                            addedTiles.add(tileId); // Dodaj do zestawu dopiero po dodaniu kafelka
-        
-                            // Pokazanie ikony check na elemencie kafelka
-                            const checkIcon = tile.querySelector('.fa-check');
-                            if (checkIcon) {
-                                checkIcon.style.display = 'block'; // Pokazuje ikonę check
-                            }
+                        // Pokazanie ikony check na elemencie kafelka
+                        addTileToContainer(iconUrl, tileName, tileId, tileLink, tileDescription);
+                        const checkIcon = tile.querySelector('.fa-check');
+                        if (checkIcon) {
+                            checkIcon.style.display = 'block';
                         }
+                        
                     }
                 });
         
-                return tile;
+                return tile; // Zwracamy kafelek, aby był dodany do kontenera dymku
+            }
+
+            // Funkcja dodająca kafelek do kontenera
+            function addTileToContainer(iconUrl, tileName, tileId, tileLink, tileDescription) {
+                if (addedTiles.has(tileId)) return;
+
+                createTileForMainScreen(iconUrl, tileId, tileName, tileLink);
+                addedTiles.add(tileId);
+                saveTilesToLocalStorage();
             }
 
             // Funkcja tworząca kafelek na ekranie głównym
-            function createTileForMainScreen(iconSrc, tileId, tileName, tileDescription, tileLink) {
+            function createTileForMainScreen(iconUrl, tileId, tileName, tileLink) {
                 // Sprawdzenie, czy kafelek już został dodany
                 if (addedTiles.has(tileId)) {
                     return null; // Jeśli kafelek już istnieje, nic nie rób
@@ -661,9 +641,10 @@
                 // Tworzenie kafelka
                 const tile = document.createElement("div");
                 tile.className = "icon";
-                tile.dataset.id = tileId; // Dodaj data-id
-                tile.innerHTML = `<a href="${tileLink}"><img src="${iconSrc}" alt="${tileName}"><div class="name">${tileName}</a></div>`; // ${name} = Tile
-                
+                tile.dataset.id = tileId;
+                tile.innerHTML = `<a href="${tileLink}"><img src="${iconUrl}" alt="${tileName}"><div class="name">${tileName}</a></div>`; 
+
+           
         
                 // Dodaj kafelek do kontenera
                 sortableContainer.appendChild(tile);
@@ -679,6 +660,55 @@
                 return tile;
             }
 
+                                  // Funkcja do konfiguracji sortowalnych kontenerów
+            function setupSortableContainers() {
+                Sortable.create(sortableContainer, {
+                    group: { 
+                        name: "tiles",
+                        pull: true,
+                        put: true
+                    },
+                    animation: 150,
+                    sort: !switchElement.classList.contains("on"), // Blokuje sortowanie, gdy przełącznik jest w pozycji "on"
+
+                    // Funkcja wywoływana, gdy przeciąganie się zaczyna
+                    onStart: function(evt) {
+                        if (switchElement.classList.contains("on")) {
+                            evt.from.classList.add('disabled'); // Dodaj klasę 'disabled' do kontenera
+                            return; // Przerywamy dalsze przetwarzanie, gdy przełącznik jest "on"
+                        }
+                    },
+                    onEnd: function(evt) {
+                        if (switchElement.classList.contains("on")) {
+                            // Nic nie rób, gdy przełącznik jest "on"
+                            return; 
+                        }
+                        // Jeśli switch jest "off", nie ma potrzeby usuwania klasy 'disabled'
+                        if (evt.from === trashIcon) {
+                            console.log('Kafelek usunięty do kosza'); 
+                            removeTile(evt.item); // Wywołaj funkcję usuwania
+                        }
+                    }
+                });
+
+                Sortable.create(trashIcon, {
+                    group: "tiles",
+                    sort: false, // Zablokowane przeciąganie do kosza, gdy przełącznik jest w pozycji "on"
+                    onAdd: function(evt) {
+                        if (!switchElement.classList.contains("on")) {
+                            removeTile(evt.item); // Usunięcie kafelka
+                        } else {
+                            evt.from.appendChild(evt.item); // Przywróć kafelek do pierwotnego miejsca
+                        }
+                    }
+                });
+
+                console.log("setupSortableContainers"); // Dodaj to
+            }
+
+
+          
+
            // Funkcja usuwająca kafelek i aktualizująca LocalStorage
             function removeTile(tileElement) {
                 const id = tileElement.dataset.id; // Zakładamy, że id jest w data-id
@@ -686,9 +716,9 @@
                 addedTiles.delete(id); // Usuń kafelek z zestawu
                 // Usuń kafelek z LocalStorage
                 let savedTiles = JSON.parse(localStorage.getItem('tiles')) || [];
-                savedTiles = savedTiles.filter(tile => tile.id !== parseInt(id)); // Usuń kafelek o podanym id
+                savedTiles = savedTiles.filter(tile => tile.id !== id); // Usuń kafelek o podanym id
                 localStorage.setItem('tiles', JSON.stringify(savedTiles));
-                console.log(`Kafelek o id ${id} został usunięty.`);
+                console.log(Kafelek o id ${id} został usunięty.);
                 // Aktualizacja LocalStorage po usunięciu
                 saveTilesToLocalStorage();
             }
@@ -700,7 +730,7 @@
                     savedTiles.forEach(tile => {
                         // Sprawdzenie, czy kafelek już istnieje
                         if (!addedTiles.has(tile.id)) {
-                            addTileToContainer(tile.iconUrl, tile.id, tile.name, tile.description, tile.link);
+                            addTileToContainer(tile.iconUrl, tile.name, tile.id, tile.link, tile.description);
                             addedTiles.add(tile.id); // Dodaj do zestawu, aby nie dodawać go ponownie
                         }
                     });
@@ -708,23 +738,7 @@
                 }
             }
 
-            // Funkcja do dodania kafelka do kontenera oraz zapisania w LocalStorage
-            function addTileToContainer(iconSrc, tileId, tileName, tileDescription, tileLink) {
-                if (addedTiles.has(id)) return; // Jeśli kafelek już istnieje, nic nie rób
-    
-                const newTile = document.createElement('div');
-                newTile.className = 'icon';
-                newTile.dataset.id = tileId; // Dodaj id do data-id
-                newTile.innerHTML = `
-                    <a href="${tileLink}"><img src="${iconUrl}" alt="${tileName}"></a> <!-- div -->
-                     <div class="name">${tileName}</div>
-                    <div class="tile-description">${tileDescription}</div> <!-- Dodaj opis -->
-                `;
-                // Dodaj kafelek do kontenera
-                sortableContainer.appendChild(newTile);
-                addedTiles.add(id); // Dodaj kafelek do zestawu
-                saveTilesToLocalStorage(); // Zapis do LocalStorage po dodaniu kafelka
-            }           
+                    
 
             // Funkcja zapisująca wszystkie kafelki do LocalStorage
             function saveTilesToLocalStorage() {
@@ -734,13 +748,12 @@
                     name: tile.querySelector('.name').textContent, // Użyj odpowiedniego selektora dla nazwy
                     link: tile.querySelector('a').getAttribute('href'), // Pobierz link z a
                     iconUrl: tile.querySelector('img').src,
-                    description: tile.querySelector('.tile-description').textContent // Dodaj opis, jeśli istnieje
+                    description: tile.querySelector('.tile-description') ? tile.querySelector('.tile-description').textContent : '' // Dodaj opis, jeśli istnieje
                 }));
                 localStorage.setItem('tiles', JSON.stringify(tileData));
             }
           
-            // Load tiles on page load
-            loadTilesFromLocalStorage();
+        
 
 
 
@@ -782,15 +795,16 @@
                 document.body.removeChild(element);
             });
 
-           // Nasłuchiwacz dla przycisku importu
-    document.getElementById("import-tiles-btn").addEventListener("click", function() {
-        document.getElementById("import-tiles").click(); // Programowo kliknij input file
-    });
+            // Nasłuchiwacz dla przycisku importu
+            document.getElementById("import-tiles-btn").addEventListener("click", function() {
+                document.getElementById("import-tiles").click(); // Programowo kliknij input file
+            });
 
             // Import kafelków z pliku JSON
             document.getElementById("import-tiles").addEventListener("change", function(event) {
                 const file = event.target.files[0];
                 if (!file || file.name !== "SetupEco.json") { // Zmiana na "SetupEco.json"
+                    alert("Proszę wybrać prawdłowy plik.");
                     console.error("Wybrałeś nieprawidłowy plik");
                     return;
                 }
@@ -811,7 +825,7 @@
                 };
                 reader.readAsText(file);
             });
-       });           
+       });         
             
             
 </script>
