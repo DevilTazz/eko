@@ -674,7 +674,7 @@
                     // Funkcja wywoływana, gdy przeciąganie się zaczyna
                     onStart: function(evt) {
                         if (switchElement.classList.contains("on")) {
-                            evt.from.classList.add('disabled'); // Dodaj klasę 'disabled' do kontenera
+                            evt.preventDefault(); // Blokuje przeciąganie
                             return; // Przerywamy dalsze przetwarzanie, gdy przełącznik jest "on"
                         }
                     },
@@ -825,7 +825,7 @@
                 };
                 reader.readAsText(file);
             });
-       });         
+       });
             
             
 </script>
