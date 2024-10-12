@@ -770,7 +770,7 @@
                     name: tile.querySelector('.name').textContent, // Użyj odpowiedniego selektora dla nazwy
                     link: tile.querySelector('a').getAttribute('href'), // Pobierz link z a
                     iconUrl: tile.querySelector('img').src,
-                    description: tile.querySelector('.description').textContent ? tile.querySelector('.description').textContent : '' // Dodaj opis, jeśli istnieje
+                    description: tile.querySelector('.description') ? tile.querySelector('.description').textContent : '' // Dodaj opis, jeśli istnieje
                 }));
                 localStorage.setItem('tiles', JSON.stringify(tileData));
             }
