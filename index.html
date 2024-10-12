@@ -587,23 +587,14 @@
                             const tileElement = createTileForPopup(tile.iconUrl, tile.id, tile.name, tile.description, tile.link);
                             availableTilesContainer.appendChild(tileElement);
                         });
-                        setupDynamicUpdates(); // Dodane: Ustaw dynamiczne aktualizacje po załadowaniu kafelków
+                      
                     })
                     .catch(error => {
                         console.error('Błąd podczas pobierania kafelków:', error);
                     });
             }
 
-           // Nowa funkcja do aktualizacji kafelków na stronie
-    function setupDynamicUpdates() {
-        const tiles = Array.from(sortableContainer.querySelectorAll('.icon'));
-        tiles.forEach(tile => {
-            tile.addEventListener('DOMNodeRemoved', () => {
-                console.log(`Tile removed: ${tile.dataset.id}`);
-                saveTilesToLocalStorage(); // Zapisz po usunięciu
-            });
-        });
-    }
+         
                 
 
             // Funkcja tworząca listę elementów w dymku
@@ -621,13 +612,14 @@
                 tile.addEventListener('click', () => {
                     // Dodawanie kafelka do głównego ekranu, jeśli switch jest wyłączony i kafelek nie został dodany
                     if (!switchElement.classList.contains("on") && !addedTiles.has(tileId)) {
+                        addedTiles.add(tileId); // Upewnij się, że kafelek jest dodany do zestawu
                         // Pokazanie ikony check na elemencie kafelka
                         createTileForMainScreen(iconUrl, tileId, tileName, tileLink, tileDescription);
                         const checkIcon = tile.querySelector('.fa-check');
                         if (checkIcon) {
                             checkIcon.style.display = 'block';
                         }
-                        
+                       loadAvailableTiles(); // Możesz tu dodać, aby zaktualizować listę kafelków 
                     }
                 });
         
@@ -748,8 +740,7 @@
 
                 
               
-                // Aktualizacja LocalStorage po usunięciu
-                saveTilesToLocalStorage();
+               
                 loadAvailableTiles(); // Przeładuj dostępne kafelki
                 
 
