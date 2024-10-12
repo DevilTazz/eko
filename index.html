@@ -585,6 +585,13 @@
                         availableTilesContainer.innerHTML = ''; // Czyścimy kontener przed dodaniem nowych kafelków
                         data.forEach(tile => {
                             const tileElement = createTileForPopup(tile.iconUrl, tile.id, tile.name, tile.description, tile.link);
+                            // Sprawdzenie, czy kafelek został dodany do głównego ekranu
+                            if (addedTiles.has(tile.id)) {
+                                const checkIcon = tileElement.querySelector('.fa-check');
+                                if (checkIcon) {
+                                    checkIcon.style.display = 'block'; // Ustawienie ikony check jako widocznej
+                                }
+                            }
                             availableTilesContainer.appendChild(tileElement);
                         });
                       
@@ -615,10 +622,7 @@
                         
                         // Pokazanie ikony check na elemencie kafelka
                         createTileForMainScreen(iconUrl, tileId, tileName, tileLink, tileDescription);
-                        const checkIcon = tile.querySelector('.fa-check');
-                        if (checkIcon) {
-                            checkIcon.style.display = 'block';
-                        }
+                        
                        
                     }
                 });
@@ -737,11 +741,17 @@
 
                 // Uaktualnij sortowanie po usunięciu
                 setupSortableContainers(); // Upewnij się, że kontener jest aktualny
-
                 
-              
-               
                 loadAvailableTiles(); // Przeładuj dostępne kafelki
+
+                // Zaktualizuj ikonę check w dymku
+                const tileInPopup = document.getElementById(id); // Znajdź kafelek w dymku
+                if (tileInPopup) {
+                    const checkIcon = tileInPopup.querySelector('.fa-check');
+                    if (checkIcon) {
+                        checkIcon.style.display = 'none'; // Ukryj ikonę check
+                    }
+                }
                 
 
             }
@@ -751,16 +761,15 @@
            // Funkcja ładująca kafelki z LocalStorage
             function loadTilesFromLocalStorage() {
                 const savedTiles = JSON.parse(localStorage.getItem('tiles')) || []; // Bezpieczne wczytywanie danyc
-                if (savedTiles) {
-                    savedTiles.forEach(tile => {
+                savedTiles.forEach(tile => {
                         // Sprawdzenie, czy kafelek już istnieje
                         if (!addedTiles.has(tile.id)) {
                             createTileForMainScreen(tile.iconUrl, tile.id, tile.name, tile.link, tile.description);
-                            addedTiles.add(tile.id); // Dodaj do zestawu, aby nie dodawać go ponownie
+                           
                         }
                     });
                     setupSortableContainers(); // Upewnij się, że sortowalne kontenery są ustawione po dodaniu kafelków
-                }
+                
             }
 
                     
