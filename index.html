@@ -566,10 +566,9 @@
                      console.error("Trash image not found!"); // Loguj, jeśli obrazek kosza nie został znaleziony
                  }
                 
+                
             }
-
-           
-           
+         
 
            
 
@@ -662,8 +661,15 @@
             }
 
                                   // Funkcja do konfiguracji sortowalnych kontenerów
-            function setupSortableContainers() {                
-                Sortable.create(sortableContainer, {
+            function setupSortableContainers() {
+                if (sortableContainer.sortable) {
+                    sortableContainer.sortable.destroy();
+                }
+                if (trashIcon.sortable) {
+                    trashIcon.sortable.destroy();
+                }
+                
+                sortableContainer.sortable = Sortable.create(sortableContainer, {
                     group: { 
                         name: "tiles",
                         pull: true,
@@ -749,7 +755,7 @@
                     name: tile.querySelector('.name').textContent, // Użyj odpowiedniego selektora dla nazwy
                     link: tile.querySelector('a').getAttribute('href'), // Pobierz link z a
                     iconUrl: tile.querySelector('img').src,
-                    description: tile.querySelector('.tile-description') ? tile.querySelector('.tile-description').textContent : '' // Dodaj opis, jeśli istnieje
+                    description: tile.querySelector('.tile-description').textContent // ? tile.querySelector('.tile-description').textContent : '' // Dodaj opis, jeśli istnieje
                 }));
                 localStorage.setItem('tiles', JSON.stringify(tileData));
             }
