@@ -679,13 +679,13 @@
                     onStart: function(evt) {
                         if (switchElement.classList.contains("on")) {
                             evt.preventDefault(); // Blokuje przeciąganie
-                            return; // Przerywamy dalsze przetwarzanie, gdy przełącznik jest "on"
+                           
                         }
                     },
                     onEnd: function(evt) {
                         if (switchElement.classList.contains("on")) {
                             evt.preventDefault(); // Blokuje przeciąganie
-                            return; 
+                            
                         }
                         // Jeśli switch jest "off", nie ma potrzeby usuwania klasy 'disabled'
                         if (evt.from === trashIcon) {
