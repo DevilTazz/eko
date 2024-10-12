@@ -615,6 +615,14 @@
                           </div>
                           <i class="fa-check" style="display: none;">&#10003;</i>`;
                 tile.id = tileId;
+
+                // Sprawdzenie, czy kafelek został dodany do głównego ekranu
+    if (addedTiles.has(tileId)) {
+        const checkIcon = tile.querySelector('.fa-check');
+        if (checkIcon) {
+            checkIcon.style.display = 'block'; // Ustawienie ikony check jako widocznej
+        }
+    }
         
                 tile.addEventListener('click', () => {
                     // Dodawanie kafelka do głównego ekranu, jeśli switch jest wyłączony i kafelek nie został dodany
