@@ -629,7 +629,7 @@
                 createTileForMainScreen(iconUrl, tileId, tileName, tileLink);
                 addedTiles.add(tileId);
                 // Wywołaj setupSortableContainers() po dodaniu kafelka
-                setupSortableContainers();
+                //setupSortableContainers();
                 saveTilesToLocalStorage();
             }
 
@@ -732,6 +732,9 @@
                 let savedTiles = JSON.parse(localStorage.getItem('tiles')) || [];
                 savedTiles = savedTiles.filter(tile => tile.id !== id); // Usuń kafelek o podanym id
                 localStorage.setItem('tiles', JSON.stringify(savedTiles));
+
+                // Uaktualnij sortowanie po usunięciu
+                setupSortableContainers(); // Upewnij się, że kontener jest aktualny
               
                 // Aktualizacja LocalStorage po usunięciu
                 saveTilesToLocalStorage();
