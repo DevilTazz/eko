@@ -587,11 +587,23 @@
                             const tileElement = createTileForPopup(tile.iconUrl, tile.id, tile.name, tile.description, tile.link);
                             availableTilesContainer.appendChild(tileElement);
                         });
+                        setupDynamicUpdates(); // Dodane: Ustaw dynamiczne aktualizacje po załadowaniu kafelków
                     })
                     .catch(error => {
                         console.error('Błąd podczas pobierania kafelków:', error);
                     });
             }
+
+           // Nowa funkcja do aktualizacji kafelków na stronie
+    function setupDynamicUpdates() {
+        const tiles = Array.from(sortableContainer.querySelectorAll('.icon'));
+        tiles.forEach(tile => {
+            tile.addEventListener('DOMNodeRemoved', () => {
+                console.log(`Tile removed: ${tile.dataset.id}`);
+                saveTilesToLocalStorage(); // Zapisz po usunięciu
+            });
+        });
+    }
                 
 
             // Funkcja tworząca listę elementów w dymku
@@ -622,19 +634,7 @@
                 return tile; // Zwracamy kafelek, aby był dodany do kontenera dymku
             }
 
-            // Funkcja dodająca kafelek do kontenera
-           /* function addTileToContainer(iconUrl, tileName, tileId, tileLink, tileDescription) {
-                if (addedTiles.has(tileId)) return;
-
-                createTileForMainScreen(iconUrl, tileId, tileName, tileLink);
-                addedTiles.add(tileId);
-                // Dodaj kafelek do kontenera
-    sortableContainer.appendChild(tile);
-                // Wywołaj setupSortableContainers() po dodaniu kafelka
-                //setupSortableContainers();
-                saveTilesToLocalStorage();
-            }
- */
+            
             // Funkcja tworząca kafelek na ekranie głównym
             function createTileForMainScreen(iconUrl, tileId, tileName, tileLink, tileDescription) {
                 // Sprawdzenie, czy kafelek już został dodany
@@ -745,6 +745,8 @@
 
                 // Uaktualnij sortowanie po usunięciu
                 setupSortableContainers(); // Upewnij się, że kontener jest aktualny
+
+                
               
                 // Aktualizacja LocalStorage po usunięciu
                 saveTilesToLocalStorage();
