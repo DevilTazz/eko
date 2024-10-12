@@ -757,7 +757,7 @@
 
            // Funkcja ładująca kafelki z LocalStorage
             function loadTilesFromLocalStorage() {
-                const savedTiles = JSON.parse(localStorage.getItem('tiles'));
+                const savedTiles = JSON.parse(localStorage.getItem('tiles')) || []; // Bezpieczne wczytywanie danyc
                 if (savedTiles) {
                     savedTiles.forEach(tile => {
                         // Sprawdzenie, czy kafelek już istnieje
