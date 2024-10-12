@@ -612,7 +612,7 @@
                 tile.addEventListener('click', () => {
                     // Dodawanie kafelka do głównego ekranu, jeśli switch jest wyłączony i kafelek nie został dodany
                     if (!switchElement.classList.contains("on") && !addedTiles.has(tileId)) {
-                        addedTiles.add(tileId); // Upewnij się, że kafelek jest dodany do zestawu
+                        
                         // Pokazanie ikony check na elemencie kafelka
                         createTileForMainScreen(iconUrl, tileId, tileName, tileLink, tileDescription);
                         const checkIcon = tile.querySelector('.fa-check');
