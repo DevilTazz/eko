@@ -705,6 +705,11 @@
                     sort:  false, // Zablokowane przeciąganie do kosza, gdy przełącznik jest w pozycji "on"
                     onAdd: function(evt) {
                         if (!switchElement.classList.contains("on")) {
+                            // Sprawdź, czy kafelek to kafelek z plusem
+                            if (evt.item.id === "add-tile") {
+                                evt.from.appendChild(evt.item); // Przywróć kafelek z plusem do pierwotnego miejsca
+                                return; // Nie usuwaj kafelka
+                            }
                             removeTile(evt.item); // Usunięcie kafelka
                         } else {
                            evt.from.appendChild(evt.item); // Przywróć kafelek do pierwotnego miejsca
