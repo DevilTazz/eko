@@ -702,12 +702,14 @@
 
                 Sortable.create(trashIcon, {
                     group: "tiles",
-                    sort: false, // Zablokowane przeciąganie do kosza, gdy przełącznik jest w pozycji "on"
+                    sort: !switchElement.classList.contains("on"), // Ustaw sort na false, gdy switch jest "on"
+ // false, // Zablokowane przeciąganie do kosza, gdy przełącznik jest w pozycji "on"
                     onAdd: function(evt) {
                         if (!switchElement.classList.contains("on")) {
                             removeTile(evt.item); // Usunięcie kafelka
                         } else {
-                            evt.from.appendChild(evt.item); // Przywróć kafelek do pierwotnego miejsca
+                            evt.cancel(); // Zablokuj przeciąganie
+                            //evt.from.appendChild(evt.item); // Przywróć kafelek do pierwotnego miejsca
                         }
                     }
                 });
