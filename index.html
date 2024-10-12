@@ -610,7 +610,7 @@
                     // Dodawanie kafelka do głównego ekranu, jeśli switch jest wyłączony i kafelek nie został dodany
                     if (!switchElement.classList.contains("on") && !addedTiles.has(tileId)) {
                         // Pokazanie ikony check na elemencie kafelka
-                        addTileToContainer(iconUrl, tileName, tileId, tileLink, tileDescription);
+                        createTileForMainScreen(iconUrl, tileName, tileId, tileLink, tileDescription);
                         const checkIcon = tile.querySelector('.fa-check');
                         if (checkIcon) {
                             checkIcon.style.display = 'block';
@@ -623,16 +623,18 @@
             }
 
             // Funkcja dodająca kafelek do kontenera
-            function addTileToContainer(iconUrl, tileName, tileId, tileLink, tileDescription) {
+           /* function addTileToContainer(iconUrl, tileName, tileId, tileLink, tileDescription) {
                 if (addedTiles.has(tileId)) return;
 
                 createTileForMainScreen(iconUrl, tileId, tileName, tileLink);
                 addedTiles.add(tileId);
+                // Dodaj kafelek do kontenera
+    sortableContainer.appendChild(tile);
                 // Wywołaj setupSortableContainers() po dodaniu kafelka
                 //setupSortableContainers();
                 saveTilesToLocalStorage();
             }
-
+ */
             // Funkcja tworząca kafelek na ekranie głównym
             function createTileForMainScreen(iconUrl, tileId, tileName, tileLink) {
                 // Sprawdzenie, czy kafelek już został dodany
@@ -646,7 +648,8 @@
                 tile.dataset.id = tileId;
                 tile.innerHTML = `<a href="${tileLink}"><img src="${iconUrl}" alt="${tileName}"><div class="name">${tileName}</a></div>`; 
 
-           
+                // Przechowujemy opis w dataset, aby można było go później wykorzystać
+                tile.dataset.description = tileDescription;
         
                 // Dodaj kafelek do kontenera
                 sortableContainer.appendChild(tile);
@@ -770,7 +773,7 @@
                     name: tile.querySelector('.name').textContent, // Użyj odpowiedniego selektora dla nazwy
                     link: tile.querySelector('a').getAttribute('href'), // Pobierz link z a
                     iconUrl: tile.querySelector('img').src,
-                    description: tile.querySelector('.description') ? tile.querySelector('.description').textContent : '' // Dodaj opis, jeśli istnieje
+                    description: tile.dataset.description || '' // Użyj opisu z dataset
                 }));
                 localStorage.setItem('tiles', JSON.stringify(tileData));
             }
