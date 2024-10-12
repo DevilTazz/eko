@@ -718,7 +718,7 @@
                 let savedTiles = JSON.parse(localStorage.getItem('tiles')) || [];
                 savedTiles = savedTiles.filter(tile => tile.id !== id); // Usuń kafelek o podanym id
                 localStorage.setItem('tiles', JSON.stringify(savedTiles));
-                console.log(Kafelek o id ${id} został usunięty.);
+              
                 // Aktualizacja LocalStorage po usunięciu
                 saveTilesToLocalStorage();
             }
