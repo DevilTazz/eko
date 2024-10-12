@@ -608,10 +608,16 @@
                     });
             }
 
-           // Funkcja do wyświetlania formularza do stworzenia kafelka
+            // Dodaj event listener do opcji "stwórz własny"
+            document.getElementById("custom-tile-option").addEventListener("click", showCustomTileForm);
+            
+            // Funkcja do wyświetlania formularza do stworzenia kafelka
             function showCustomTileForm() {
-                const popupContent = document.querySelector(".popup-content-tiles");
-                popupContent.innerHTML = `
+                const availableTilesContainer = document.getElementById("available-tiles");
+                availableTilesContainer.innerHTML = ""; // Wyczyść kontener
+            
+                // Dodaj formularz do kontenera
+                availableTilesContainer.innerHTML = `
                     <span id="close-tile-popup" class="close-btn">&times;</span>
                     <h3>Stwórz niestandardowy kafelek</h3>
                     <input type="text" id="custom-tile-name" placeholder="Nazwa kafelka" required>
@@ -622,28 +628,39 @@
                     <br><br>
                     <span id="back-to-tiles" style="cursor: pointer; color: blue;">← Powrót do kafelków</span>
                 `;
-                
-                // Dodaj event listener do przycisku
+            
+                // Dodaj event listener do przycisku stworzenia kafelka
                 document.getElementById("create-custom-tile").addEventListener("click", function() {
                     const tileName = document.getElementById("custom-tile-name").value;
                     const tileLink = document.getElementById("custom-tile-link").value;
                     const iconUrl = document.getElementById("custom-tile-icon").value;
                     const tileDescription = document.getElementById("custom-tile-description").value;
-
+            
                     if (tileName && tileLink && iconUrl) {
                         const tileId = 10000 + Date.now(); // Unikalne ID zaczynające się od 10000
-                        createTileForMainScreen(iconUrl, tileId, tileName, tileLink, (tileDescription || "")); // Możesz dodać opis
-                        
+                        createTileForMainScreen(iconUrl, tileId, tileName, tileLink, tileDescription || "");
                     } else {
                         alert("Wypełnij wszystkie pola!");
                     }
                 });
-                
-                // Dodaj event listener do powrotu
-                document.getElementById("back-to-tiles").addEventListener("click", function() {
-                    loadAvailableTiles(); // Przywróć listę kafelków
+            
+                // Dodaj event listener do powrotu do kafelków
+                document.getElementById("back-to-tiles").addEventListener("click", () => {
+                    const availableTilesContainer = document.getElementById("available-tiles");
+                    availableTilesContainer.innerHTML = ""; // Wyczyść kontener
+            
+                    // Przywróć kafelki
+                    tiles.forEach(tile => {
+                        const tileElement = createTileForPopup(tile.iconUrl, tile.id, tile.name, tile.link, tile.description);
+                        availableTilesContainer.appendChild(tileElement);
+                    });
+            
+                    // Przywróć opcję "stwórz własny"
+                    availableTilesContainer.appendChild(document.getElementById("custom-tile-option"));
                 });
             }
+
+           
 
          
                 
@@ -686,15 +703,7 @@
                     }
                 });
                 
-                // Dodaj opcję "stwórz własny"
-                const customTileLink = document.createElement("div");
-                customTileLink.innerHTML = `<span style="cursor: pointer; color: blue;">...lub stwórz własny ➔</span>`;
-                customTileLink.addEventListener("click", function() {
-                    showCustomTileForm();
-                });
-
-                const availableTilesContainer = document.getElementById("available-tiles");
-                availableTilesContainer.appendChild(customTileLink);
+                
         
                 return tile; // Zwracamy kafelek, aby był dodany do kontenera dymku
             }
