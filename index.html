@@ -7,9 +7,20 @@
 
         body {
             margin: 0;
-            background-color: #f0f0f0;
+            /* background-color: #f0f0f0; a dać to */
             font-family: Arial, sans-serif;
-        }        
+            position: relative; /* Ważne: zapewniamy, że body nie zasłania canvas */       /* jak obraz jest tłem to to wyrzucić */
+    background-color: #000012; /* Jeszcze ciemniejsze tło */      /* jak obraz jest tłem to to wyrzucić */
+        }
+        /* Styl dla canvas */
+canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1; /* Canvas w tle */
+}
         .container {
             margin: 0 auto;
             padding: 20px;
@@ -386,8 +397,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.15.0/Sortable.min.js"></script>
 </head>
 <body>
-    <div class="blur-background"></div>
-
+    <!-- <div class="blur-background"></div> to dla stałego obrazka w tle -->
+<canvas id="particlesCanvas"></canvas>
 
 
     <div class="container">
@@ -943,6 +954,8 @@
             
             
 </script>
+
+        <script src="assets/script.js"></script>
 
 </body>
 </html>
