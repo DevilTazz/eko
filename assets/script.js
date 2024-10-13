@@ -98,7 +98,7 @@ function init() {
   // Jeszcze szybszy ruch dla trzeciej warstwy
   particlesLayer3.push(new Particle(x, y, directionX, directionY, size, '#00ffff'));
 }
-}
+
 
 // Funkcja animująca cząsteczki
 function animate() {
