@@ -72,7 +72,7 @@ function init() {
   }
   
     // Warstwa 2 (środkowa): średnie cząsteczki, więcej cząsteczek, szybszy ruch
-  let numberOfParticlesLayer2 = (canvas.width * canvas.height) / 8000;
+  let numberOfParticlesLayer2 = (canvas.width * canvas.height) / 4000;
   for (let i = 0; i < numberOfParticlesLayer2; i++) {
     let size = (Math.random() * 2) + 0.7;
     let x = Math.random() * (innerWidth - size * 2) + size;
@@ -87,14 +87,15 @@ function init() {
   
     // Warstwa 3 (tylna): najmniejsze cząsteczki, najwięcej cząsteczek, jeszcze szybszy ruch
   let numberOfParticlesLayer3 = (canvas.width * canvas.height) / 1000;
-  // Więcej cząsteczek    for (let i = 0; i < numberOfParticlesLayer3; i++) {
+  // Więcej cząsteczek
+  for (let i = 0; i < numberOfParticlesLayer3; i++) {
   let size = (Math.random() * 1.5) + 0.3;
   let x = Math.random() * (innerWidth - size * 2) + size;
   let y = Math.random() * (innerHeight - size * 2) + size;
   // Jeszcze szybszy ruch (większe wartości prędkości)
-  let directionX = (Math.random() * 0.12) - 0.06;
+  let directionX = (Math.random() * 0.15) - 0.06;
   // Jeszcze szybszy ruch dla trzeciej warstwy
-  let directionY = (Math.random() * 0.12) - 0.06;
+  let directionY = (Math.random() * 0.15) - 0.06;
   // Jeszcze szybszy ruch dla trzeciej warstwy
   particlesLayer3.push(new Particle(x, y, directionX, directionY, size, '#00ffff'));
 }
