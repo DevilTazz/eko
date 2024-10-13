@@ -121,3 +121,28 @@ window.addEventListener('resize', function() {
 // Inicjalizacja cząsteczek i rozpoczęcie animacji
 init();
 animate();
+
+canvas.addEventListener('click', (event) => {
+    // Pobierz pozycję kliknięcia
+    const clickX = event.clientX;
+    const clickY = event.clientY;
+
+    // Przechodzimy przez wszystkie warstwy cząsteczek
+    const allParticles = [...particlesLayer1, ...particlesLayer2, ...particlesLayer3];
+
+    allParticles.forEach(particle => {
+        // Oblicz różnice w położeniu
+        const dx = particle.x - clickX;
+        const dy = particle.y - clickY;
+
+        // Oblicz odległość
+        const distance = Math.sqrt(dx * dx + dy * dy);
+
+        // Normalizuj kierunek
+        if (distance < 100) { // Jeśli cząsteczka jest w odległości 100 pikseli od kliknięcia
+            // Dodaj prędkość w kierunku przeciwnym do kliknięcia
+            particle.directionX += dx / distance * 2; // 2 to siła odganiania
+            particle.directionY += dy / distance * 2;
+        }
+    });
+});
